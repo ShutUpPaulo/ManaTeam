@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1427485485 source:/home/lucas/Desktop/UnB/Jogos/Demo/Demo/main.cpp
+	<cstdlib>
+	<stdlib.h>
+	<SDL/SDL.h>
+	<time.h>
+
