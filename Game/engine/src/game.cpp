@@ -27,19 +27,20 @@ Game::Game()
 // Game Destructor
 Game::~Game()
 {
-    // To make sure SDL cleans up before exit
-    atexit(SDL_Quit);	
 }
 
-void Game::run()
+int Game::run()
 {
 
 	// Initialize SDL video
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
     {
         printf( "Unable to init SDL: %s\n", SDL_GetError() );
-        return ;
+        return 1;
     }
+    
+    // To make sure SDL cleans up before exit
+    atexit(SDL_Quit);	
     
     // Create a new window
     SDL_Surface *screen = SDL_SetVideoMode(800, 600, 16,SDL_HWSURFACE|SDL_DOUBLEBUF);
@@ -47,7 +48,7 @@ void Game::run()
 	if ( !screen )
     {
         printf("Unable to set 800x600 video: %s\n", SDL_GetError());
-        return ;
+        return 1;
     }
     
 	// Program main loop
@@ -107,14 +108,8 @@ void Game::draw(SDL_Surface *screen)
 	// Clear screen
     SDL_FillRect(screen, nullptr, SDL_MapRGB(screen->format, 0, 0, 0));
     
-    SDL_Rect rect = {50, 50, 100, 100};
-    SDL_FillRect(screen, &rect, 0xF0F1F2);
-    if(rc == -1) {
-    	cout << "Error fill rect\n";
-    }
-    
-    
-  // Draw rectangle Example
+  	// Draw rectangle Example
   	FillRect(50,150,50,50,0xFFFFFF,screen); // White Rect
     FillRect(50+1,150+1,48,48,0x0,screen);	//Black Rect*/
+    SDL_Flip(screen);
 }

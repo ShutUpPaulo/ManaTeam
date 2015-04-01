@@ -19,7 +19,7 @@ public:
     Game();
     ~Game();
 
-    void run();
+    int run();
 
 private:
     void update_timestep();
