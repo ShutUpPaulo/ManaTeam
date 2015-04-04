@@ -1,2 +1,2 @@
-# IJE_Equipe_01
+# Mana Team
 Disciplina de Introdução aos Jogos Eletrônicos
