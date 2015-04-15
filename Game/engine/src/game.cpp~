@@ -13,7 +13,7 @@
 using namespace std;
 
 //Função para desenhar retangulos
-void FillRect(int x, int y, int w, int h, int color, SDL_Surface *screen) {
+void FillRect(Sint16 x, Sint16 y, Sint16 w, Sint16 h, int color, SDL_Surface *screen) {
 	
     SDL_Rect rect = {x,y,w,h};
     SDL_FillRect(screen, &rect, color);
@@ -63,6 +63,7 @@ int Game::run()
         done = process_input();
         draw(screen);
     }
+    return 0;
 }
 
 void Game::update_timestep()
@@ -108,11 +109,8 @@ void Game::draw(SDL_Surface *screen)
 	// Clear screen
     SDL_FillRect(screen, nullptr, SDL_MapRGB(screen->format, 0, 0, 0));
     
-    SDL_Rect rect = {50, 50, 100, 100};
-    SDL_FillRect(screen, &rect, 0xF0F1F2);
-    
-    SDL_Flip(screen);
-  /*/ Draw rectangle Example
+  	// Draw rectangle Example
   	FillRect(50,150,50,50,0xFFFFFF,screen); // White Rect
     FillRect(50+1,150+1,48,48,0x0,screen);	//Black Rect*/
+    SDL_Flip(screen);
 }

@@ -13,7 +13,7 @@
 using namespace std;
 
 //Função para desenhar retangulos
-void FillRect(int x, int y, int w, int h, int color, SDL_Surface *screen) {
+void FillRect(Sint16 x, Sint16 y, Uint16 w, Uint16 h, int color, SDL_Surface *screen) {
 	
     SDL_Rect rect = {x,y,w,h};
     SDL_FillRect(screen, &rect, color);
@@ -63,6 +63,7 @@ int Game::run()
         done = process_input();
         draw(screen);
     }
+    return 0;
 }
 
 void Game::update_timestep()

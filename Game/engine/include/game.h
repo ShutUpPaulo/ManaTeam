@@ -11,7 +11,7 @@
 #include <iostream>
 #include <SDL/SDL.h>
 
-void FillRect(int x, int y, int w, int h, int color, SDL_Surface *screen);
+void FillRect(Sint16 x, Sint16 y, Uint16 w, Uint16 h, int color, SDL_Surface *screen);
 
 class Game
 {
