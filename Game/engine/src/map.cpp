@@ -34,10 +34,11 @@ void Map::CreateRoom(room *rooms, int * id, int x, int y)
             {
 				rooms->left = InsertRoom(*id, NULL, NULL, rooms, NULL);
                 matriz[x-1][y] = true;
-                *id+=1;
+                //*id+=1;
             }
             else
             {
+                *id-=1;
                 return;
             }
 			break;
@@ -49,11 +50,11 @@ void Map::CreateRoom(room *rooms, int * id, int x, int y)
             {
 				rooms->right = InsertRoom(*id, rooms, NULL, NULL, NULL);
                 matriz[x+1][y] = true;
-                *id+=1;
+                //*id+=1;
             }
             else
             {   
-                
+                *id-=1;
                 return;
             }
 			break;
@@ -65,11 +66,11 @@ void Map::CreateRoom(room *rooms, int * id, int x, int y)
             {
 				rooms->top = InsertRoom(*id, NULL, NULL, NULL, rooms);
                 matriz[x][y-1] = true;
-                *id+=1;
+                //*id+=1;
             }
             else
             {   
-                
+                *id-=1;
                 return;
             }
 			break;
@@ -81,11 +82,11 @@ void Map::CreateRoom(room *rooms, int * id, int x, int y)
             {
 				rooms->bot = InsertRoom(*id, NULL, rooms, NULL, NULL);
                 matriz[x][y+1] = true;
-                *id+=1;
+                //*id+=1;
             }
             else
             {
-                
+                *id-=1;
                 return;
             }
 			break;
@@ -127,7 +128,7 @@ Map::room * Map::GenerateMap()
 	room *rooms = InsertRoom(id, NULL, NULL, NULL, NULL);
 	matriz[2][2] = true;
     id+=1;
-	for(int i = 1;i < MAX; i++)
+	for(id = 1;id < MAX; id++)
 	{	
 		CreateRoom(rooms, &id, x, y);
         printf("sala %d criada.\n", id);
