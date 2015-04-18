@@ -1,12 +1,11 @@
-#ifndef DRAW_H
-#define DRAW_H
-
+#pragma once
 #include <cstdlib>
 #include <iostream>
+#include <SDL/SDL.h>
+#include "map.h"
 
 class Draw
 {
 	public:
-		void drawMap(Map* salas);
+		void drawMap(Map::room*, SDL_Surface*);
 };
-#endif

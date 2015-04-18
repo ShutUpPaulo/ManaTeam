@@ -6,6 +6,8 @@
  * Licença: LGPL. Sem copyright.
  */
 #include "game.h"
+#include "map.h"
+#include "draw.h"
 
 #include <iostream>
 #include <SDL/SDL.h>
@@ -22,6 +24,7 @@ void FillRect(int x, int y, int w, int h, int color, SDL_Surface *screen) {
 // Game Constructor
 Game::Game()
 {
+    
 }
 
 // Game Destructor
@@ -50,6 +53,9 @@ int Game::run()
         printf("Unable to set 800x600 video: %s\n", SDL_GetError());
         return 1;
     }
+
+    //Creating the rooms
+    Map::room * rooms = map.GenerateMap();
     
 	// Program main loop
     bool done = false;
@@ -61,8 +67,12 @@ int Game::run()
         runPhysics();
         done = update();
         done = process_input();
-        draw(screen);
+        draw.drawMap(rooms, screen);
+        break;
     }
+
+
+    return 0;
 }
 
 void Game::update_timestep()
@@ -103,13 +113,13 @@ bool Game::update()
     return false;
 }
 
-void Game::draw(SDL_Surface *screen)
+/*void Game::draw(SDL_Surface *screen)
 {
 	// Clear screen
     SDL_FillRect(screen, nullptr, SDL_MapRGB(screen->format, 0, 0, 0));
     
   	// Draw rectangle Example
   	FillRect(50,150,50,50,0xFFFFFF,screen); // White Rect
-    FillRect(50+1,150+1,48,48,0x0,screen);	//Black Rect*/
+    FillRect(50+1,150+1,48,48,0x0,screen);	//Black Rect
     SDL_Flip(screen);
-}
+}*/

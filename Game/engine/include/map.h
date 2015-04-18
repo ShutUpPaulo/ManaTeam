@@ -9,10 +9,11 @@
 
 class Map
 {
-private:
+public:
 	typedef struct Room_
 	{
 		int id;
+        bool hasMap;
 		struct Room_ * left;
 		struct Room_ * right;
 		struct Room_ * top;
@@ -27,7 +28,7 @@ private:
 	
 public:
 	void ResetMap(room *);
-	void GenerateMap();
+	room * GenerateMap();
 	
 };
 #endif

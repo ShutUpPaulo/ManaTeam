@@ -10,6 +10,8 @@
 
 #include <iostream>
 #include <SDL/SDL.h>
+#include "map.h"
+#include "draw.h"
 
 void FillRect(int x, int y, int w, int h, int color, SDL_Surface *screen);
 
@@ -22,12 +24,14 @@ public:
     int run();
 
 private:
+    Map map;
+    Draw draw;
     void update_timestep();
     bool process_input();
     void runIA();
     void runPhysics();
     bool update();
-    void draw(SDL_Surface *screen);
+    //void draw(SDL_Surface *screen);
 };
 
 #endif

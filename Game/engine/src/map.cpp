@@ -5,12 +5,13 @@ using namespace std;
 // Insert Room
 Map::room * Map::InsertRoom(int id, room * left, room * top, room * right, room * bot)
 {
-	room * newRoom = (room*) malloc(sizeof(room*));
+	room * newRoom = (room*) malloc(sizeof(room));
 	newRoom->left = left;
 	newRoom->right = right;
 	newRoom->top = top;
 	newRoom->bot = bot;
 	newRoom->id = id;
+    newRoom->hasMap = false;
 	
 	return newRoom;
 }
@@ -20,10 +21,9 @@ void Map::CreateRoom(room *rooms, int id)
 {
 	int randomVar;
 	
-	srand(time(0));
 	
 	randomVar = rand() % 4+1;
-	
+	printf("random: %d\n", randomVar);
 	switch(randomVar)
 	{	
 		case LEFT:
@@ -72,15 +72,19 @@ void Map::ResetMap(room *rooms)
 }
 
 // Generate all the map
-void Map::GenerateMap()
+Map::room * Map::GenerateMap()
 {
 	int id = 0;
+    srand(time(NULL));
 	
 	room *rooms = InsertRoom(id, NULL, NULL, NULL, NULL);
 	
 	for(id = 1;id <= MAX; id++)
 	{	
 		CreateRoom(rooms,id);
+        printf("sala %d criada.\n", id);
 	}
+
+    return rooms;
 }
 
