@@ -11,8 +11,40 @@
 
 #include <iostream>
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
+#include <cstdlib>
+#include <stdlib.h>
+#include <string>
+#include <sstream>
 
 using namespace std;
+
+SDL_Surface* fontSurface;
+SDL_Color fColor;
+SDL_Rect fontRect;
+// Create a new window
+    SDL_Surface *screen = SDL_SetVideoMode(800, 600, 16,SDL_HWSURFACE|SDL_DOUBLEBUF);
+	
+
+TTF_Font* font;
+
+//Initialize the font, set to white
+void Game::fontInit(){
+        TTF_Init();
+        font = TTF_OpenFont("engine/font.ttf", 60);
+        fColor.r = 255;
+        fColor.g = 255;
+        fColor.b = 255;
+}
+
+//Print the designated string at the specified coordinates
+void Game::printF(char *c, int x, int y){
+        fontSurface = TTF_RenderText_Solid(font, c, fColor);
+        fontRect.x = x;
+        fontRect.y = y;
+        SDL_BlitSurface(fontSurface, NULL, screen, &fontRect);
+        SDL_Flip(screen);
+}
 
 //Função para desenhar retangulos
 void FillRect(int x, int y, int w, int h, int color, SDL_Surface *screen) {
@@ -35,6 +67,9 @@ Game::~Game()
 int Game::run()
 {
 
+    Game::fontInit();
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE);
+
 	// Initialize SDL video
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
     {
@@ -45,9 +80,7 @@ int Game::run()
     // To make sure SDL cleans up before exit
     atexit(SDL_Quit);	
     
-    // Create a new window
-    SDL_Surface *screen = SDL_SetVideoMode(800, 600, 16,SDL_HWSURFACE|SDL_DOUBLEBUF);
-	
+    
 	if ( !screen )
     {
         printf("Unable to set 800x600 video: %s\n", SDL_GetError());
@@ -60,6 +93,8 @@ int Game::run()
 
     // Drawing map
     draw.drawMap(rooms, screen);
+
+    
     
 	// Program main loop
     bool done = false;
@@ -72,6 +107,33 @@ int Game::run()
         done = update();
         done = process_input(&currentRoom, screen);
         //SDL_Delay(500);
+
+        //Printing the room number in the screen
+        char strId[3];
+        sprintf(strId, "%d", currentRoom->id);
+        printF(strId, screen->w/2, screen->h/2);
+
+        if(currentRoom->top != NULL)
+        {
+            sprintf(strId, "%d", currentRoom->top->id);
+            printF(strId, screen->w/2, screen->h/4);
+        }
+        if(currentRoom->bot != NULL)
+        {
+            sprintf(strId, "%d", currentRoom->bot->id);
+            printF(strId, screen->w/2, screen->h/4 * 3);
+        }
+        if(currentRoom->left != NULL)
+        {
+            sprintf(strId, "%d", currentRoom->left->id);
+            printF(strId, screen->w/4, screen->h/2);
+        }
+        if(currentRoom->right != NULL)
+        {
+            sprintf(strId, "%d", currentRoom->right->id);
+            printF(strId, screen->w/4 * 3, screen->h/2);
+        }
+        
         SDL_Flip(screen);
     }
 

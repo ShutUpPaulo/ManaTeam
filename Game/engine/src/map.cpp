@@ -17,7 +17,7 @@ Map::room * Map::InsertRoom(int id, room * left, room * top, room * right, room 
 }
 
 // Room Criation
-void Map::CreateRoom(room *rooms, int id)
+void Map::CreateRoom(room *rooms, int id, int x, int y)
 {
 	int randomVar;
 	
@@ -28,30 +28,62 @@ void Map::CreateRoom(room *rooms, int id)
 	{	
 		case LEFT:
 			if(rooms->left != NULL)
-				CreateRoom(rooms->left, id);
-			else
+				CreateRoom(rooms->left, id, x-1, y);
+			else if(x-1 >= 0 && matriz[x-1][y] == false)
+            {
 				rooms->left = InsertRoom(id, NULL, NULL, rooms, NULL);
+                matriz[x-1][y] = true;
+            }
+            else
+            {
+                printf("abortou sala %d\n", id);
+                return;
+            }
 			break;
 			
 		case RIGHT:
 			if(rooms->right != NULL)
-				CreateRoom(rooms->right, id);
-			else
+				CreateRoom(rooms->right, id, x+1, y);
+			else if(x+1 < 5 && matriz[x+1][y] == false)
+            {
 				rooms->right = InsertRoom(id, rooms, NULL, NULL, NULL);
+                matriz[x+1][y] = true;
+            }
+            else
+            {
+                printf("abortou sala %d\n", id);
+                return;
+            }
 			break;
 		
 		case TOP:
 			if(rooms->top != NULL)
-				CreateRoom(rooms->top, id);
-			else
+				CreateRoom(rooms->top, id, x, y-1);
+			else if(y-1 >= 0 && matriz[x][y-1] == false)
+            {
 				rooms->top = InsertRoom(id, NULL, NULL, NULL, rooms);
+                matriz[x][y-1] = true;
+            }
+            else
+            {   
+                printf("abortou sala %d\n", id);
+                return;
+            }
 			break;
 		
 		case BOTTOM:
 			if(rooms->bot != NULL)
-				CreateRoom(rooms->bot, id);
-			else
+				CreateRoom(rooms->bot, id, x, y+1);
+			else if(y+1 < 5 && matriz[x][y+1] == false)
+            {
 				rooms->bot = InsertRoom(id, NULL, rooms, NULL, NULL);
+                matriz[x][y+1] = true;
+            }
+            else
+            {
+                printf("abortou sala %d\n", id);
+                return;
+            }
 			break;
 	}
 }
@@ -75,14 +107,26 @@ void Map::ResetMap(room *rooms)
 Map::room * Map::GenerateMap()
 {
 	int id = 0;
+    int x = 2;
+    int y = x;
     srand(time(NULL));
+
+    for(int i = 0; i < 5; i++)
+    {
+        for(int j = 0; j < 5; j++)
+        {
+            matriz[i][j] = false;
+        }
+    }
+    
 	
 	room *rooms = InsertRoom(id, NULL, NULL, NULL, NULL);
-	
+	matriz[2][2] = true;
 	for(id = 1;id <= MAX; id++)
 	{	
-		CreateRoom(rooms,id);
+		CreateRoom(rooms, id, x, y);
         printf("sala %d criada.\n", id);
+        
 	}
 
     return rooms;

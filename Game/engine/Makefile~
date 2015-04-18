@@ -36,7 +36,7 @@ $(TARGET): $(OBJ)
 	$(AR) $(ARFLAGS) $@ $(OBJ)
 
 $(TEST): $(TST_MAIN) $(TARGET)
-	$(CC) $(CFLAGS) $(INCLUDES) $(TST_MAIN) $(TARGET) -o $@ -lSDL -lSDL_ttf
+	$(CC) $(CFLAGS) $(INCLUDES) $(TST_MAIN) $(TARGET) -o $@ -lSDL
 
 clean:
 	@find . -name *.o -exec rm {} \;

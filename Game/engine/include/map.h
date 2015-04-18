@@ -5,7 +5,7 @@
 #include <iostream>
 #include <ctime>
 
-#define MAX 15
+#define MAX 25
 
 class Map
 {
@@ -19,12 +19,14 @@ public:
 		struct Room_ * top;
 		struct Room_ * bot;
 	}room;
+
+    bool matriz[5][5];
 	
 	enum Position {LEFT = 1, RIGHT = 2, TOP = 3, BOTTOM = 4};
 	
 private:
 	room *InsertRoom(int, room*, room*, room*, room*);
-	void CreateRoom(room *, int);
+	void CreateRoom(room *, int, int, int);
 	
 public:
 	void ResetMap(room *);
