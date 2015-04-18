@@ -26,7 +26,7 @@ public:
 	
 private:
 	room *InsertRoom(int, room*, room*, room*, room*);
-	void CreateRoom(room *, int, int, int);
+	void CreateRoom(room *, int*, int, int);
 	
 public:
 	void ResetMap(room *);
