@@ -12,7 +12,6 @@
 #include <SDL/SDL.h>
 #include "map.h"
 #include "draw.h"
-#include <string>
 
 void FillRect(int x, int y, int w, int h, int color, SDL_Surface *screen);
 
@@ -28,7 +27,7 @@ private:
     Map map;
     Draw draw;
     void fontInit();
-    void printF(std::string, int, int);
+    void printF(char*, int, int);
     void update_timestep();
     bool process_input(Map::room **, SDL_Surface *screen);
     void runIA();

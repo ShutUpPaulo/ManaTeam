@@ -29,7 +29,7 @@ private:
     void fontInit();
     void printF(char*, int, int);
     void update_timestep();
-    bool process_input(Map::room **, SDL_Surface *screen);
+    bool process_input(Map:: room*, Map::room **, SDL_Surface *screen);
     void runIA();
     void runPhysics();
     bool update();

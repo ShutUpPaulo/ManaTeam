@@ -24,7 +24,7 @@ void Map::CreateRoom(room *rooms, int * id, int x, int y)
 	
 	
 	randomVar = rand() % 4+1;
-	printf("random: %d\n", randomVar);
+
 	switch(randomVar)
 	{	
 		case LEFT:
@@ -131,7 +131,6 @@ Map::room * Map::GenerateMap()
 	for(id = 1;id < MAX; id++)
 	{	
 		CreateRoom(rooms, &id, x, y);
-        printf("sala %d criada.\n", id);
         
 	}
 
