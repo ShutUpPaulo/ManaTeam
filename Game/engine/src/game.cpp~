@@ -6,6 +6,8 @@
  * Licença: LGPL. Sem copyright.
  */
 #include "game.h"
+#include "map.h"
+#include "draw.h"
 
 #include <iostream>
 #include <SDL/SDL.h>
@@ -22,6 +24,7 @@ void FillRect(int x, int y, int w, int h, int color, SDL_Surface *screen) {
 // Game Constructor
 Game::Game()
 {
+    
 }
 
 // Game Destructor
@@ -50,6 +53,13 @@ int Game::run()
         printf("Unable to set 800x600 video: %s\n", SDL_GetError());
         return 1;
     }
+
+    // Creating map
+    Map::room * rooms = map.GenerateMap();
+    Map::room * currentRoom = rooms;
+
+    // Drawing map
+    draw.drawMap(rooms, screen);
     
 	// Program main loop
     bool done = false;
@@ -60,16 +70,19 @@ int Game::run()
         runIA();
         runPhysics();
         done = update();
-        done = process_input();
-        draw(screen);
+        done = process_input(currentRoom, screen);
+        //SDL_Delay(500);
+        SDL_Flip(screen);
     }
+
+    return 0;
 }
 
 void Game::update_timestep()
 {
 }
 
-bool Game::process_input()
+bool Game::process_input(Map::room * currentRoom, SDL_Surface *screen)
 {
 	// Message processing loop
     SDL_Event event;
@@ -84,7 +97,39 @@ bool Game::process_input()
 		        break;
 
 		    // Check for keypresses
-            
+            case SDL_KEYDOWN:
+                /* Check the SDLKey values and move change the coords */
+                switch( event.key.keysym.sym )
+                {
+                    case SDLK_LEFT:
+                        if(currentRoom->left != NULL)
+                        {
+                            currentRoom = currentRoom->left;
+                            draw.drawRoom(currentRoom, screen);
+                        }
+                        break;
+                    case SDLK_RIGHT:
+                        if(currentRoom->right != NULL)
+                        {
+                            currentRoom = currentRoom->right;
+                            draw.drawRoom(currentRoom, screen);
+                        }
+                        break;
+                    case SDLK_UP:
+                        if(currentRoom->top != NULL)
+                        {
+                            currentRoom = currentRoom->top;
+                            draw.drawRoom(currentRoom, screen);
+                        }
+                        break;
+                    case SDLK_DOWN:
+                        if(currentRoom->bot != NULL)
+                        {
+                            currentRoom = currentRoom->bot;
+                            draw.drawRoom(currentRoom, screen);
+                        }
+                        break;
+                }
         }
     }
     return false;
@@ -103,16 +148,13 @@ bool Game::update()
     return false;
 }
 
-void Game::draw(SDL_Surface *screen)
+/*void Game::draw(SDL_Surface *screen)
 {
 	// Clear screen
     SDL_FillRect(screen, nullptr, SDL_MapRGB(screen->format, 0, 0, 0));
     
-    SDL_Rect rect = {50, 50, 100, 100};
-    SDL_FillRect(screen, &rect, 0xF0F1F2);
-    
-    SDL_Flip(screen);
-  /*/ Draw rectangle Example
+  	// Draw rectangle Example
   	FillRect(50,150,50,50,0xFFFFFF,screen); // White Rect
-    FillRect(50+1,150+1,48,48,0x0,screen);	//Black Rect*/
-}
+    FillRect(50+1,150+1,48,48,0x0,screen);	//Black Rect
+    SDL_Flip(screen);
+}*/

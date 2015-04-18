@@ -54,8 +54,12 @@ int Game::run()
         return 1;
     }
 
-    //Creating the rooms
+    // Creating map
     Map::room * rooms = map.GenerateMap();
+    Map::room * currentRoom = rooms;
+
+    // Drawing map
+    draw.drawMap(rooms, screen);
     
 	// Program main loop
     bool done = false;
@@ -66,11 +70,10 @@ int Game::run()
         runIA();
         runPhysics();
         done = update();
-        done = process_input();
-        draw.drawMap(rooms, screen);
-        break;
+        done = process_input(&currentRoom, screen);
+        //SDL_Delay(500);
+        SDL_Flip(screen);
     }
-
 
     return 0;
 }
@@ -79,7 +82,7 @@ void Game::update_timestep()
 {
 }
 
-bool Game::process_input()
+bool Game::process_input(Map::room ** currentRoom, SDL_Surface *screen)
 {
 	// Message processing loop
     SDL_Event event;
@@ -94,7 +97,39 @@ bool Game::process_input()
 		        break;
 
 		    // Check for keypresses
-            
+            case SDL_KEYDOWN:
+                /* Check the SDLKey values and move change the coords */
+                switch( event.key.keysym.sym )
+                {
+                    case SDLK_LEFT:
+                        if((*currentRoom)->left != NULL)
+                        {
+                            *currentRoom = (*currentRoom)->left;
+                            draw.drawRoom(*currentRoom, screen);
+                        }
+                        break;
+                    case SDLK_RIGHT:
+                        if((*currentRoom)->right != NULL)
+                        {
+                            *currentRoom = (*currentRoom)->right;
+                            draw.drawRoom(*currentRoom, screen);
+                        }
+                        break;
+                    case SDLK_UP:
+                        if((*currentRoom)->top != NULL)
+                        {
+                            *currentRoom = (*currentRoom)->top;
+                            draw.drawRoom(*currentRoom, screen);
+                        }
+                        break;
+                    case SDLK_DOWN:
+                        if((*currentRoom)->bot != NULL)
+                        {
+                            *currentRoom = (*currentRoom)->bot;
+                            draw.drawRoom(*currentRoom, screen);
+                        }
+                        break;
+                }
         }
     }
     return false;

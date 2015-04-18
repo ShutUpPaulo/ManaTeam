@@ -8,4 +8,5 @@ class Draw
 {
 	public:
 		void drawMap(Map::room*, SDL_Surface*);
+        void drawRoom(Map::room*, SDL_Surface*);
 };

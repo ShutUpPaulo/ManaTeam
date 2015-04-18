@@ -1,20 +1,23 @@
 [Anjuta]
-Geometry=790x575+281+59
+Maximized=1
+Geometry=1311x747+55+21
 
 [File Loader]
-Files=../../engine/include/map.h#32%%%../../engine/include/draw.h#15%%%../../engine/include/game.h#1%%%../../engine/Makefile#1
+Files=../../engine/include/map.h#1%%%../../engine/include/draw.h#11%%%../../engine/include/game.h#30%%%../../engine/src/map.cpp#63%%%../../engine/src/game.cpp#73%%%../../engine/src/draw.cpp#58%%%../../engine/include/keyboard.h#6
 
 [Document Manager]
 bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n
 
 [Execution]
-Program arguments=
 Program uri=../../engine/Makefile
 Run in terminal=2
 Working directories=../../../Game
 
 [Project Manager]
-Expand=Game%%%Game//engine%%%Game//engine//include
+Expand=Game%%%Game//engine%%%Game//engine//include%%%Game//engine//src
+
+[Debugger]
+Stop at beginning=2
 
 [Build]
 Configuration list=1:Default:engine%%%1:Debug:Debug%%%1:Profiling:Profiling%%%1:Optimized:Optimized
@@ -23,6 +26,3 @@ BuildArgs/Default=--enable-maintainer-mode
 BuildArgs/Debug=--enable-maintainer-mode 'CFLAGS=-g -O0' 'CXXFLAGS=-g -O0' 'JFLAGS=-g -O0' 'FFLAGS=-g -O0'
 BuildArgs/Profiling=--enable-maintainer-mode 'CFLAGS=-g -pg' 'CXXFLAGS=-g -pg' 'JFLAGS=-g -pg' 'FFLAGS=-g -pg'
 BuildArgs/Optimized=--enable-maintainer-mode 'CFLAGS=-O2' 'CXXFLAGS=-O2' 'JFLAGS=-O2' 'FFLAGS=-O2'
-
-[Debugger]
-Stop at beginning=2
