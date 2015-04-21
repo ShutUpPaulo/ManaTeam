@@ -1,7 +1,7 @@
 #include "imageManagement.h"
 
 
-bool ImageManagement::loadImage(String imgName)
+bool ImageManagement::loadImage(char imgName[50])
 {
 	SDL_Surface* imgTitle = SDL_LoadBMP(imgName);
     if (!imgTitle)
@@ -12,7 +12,7 @@ bool ImageManagement::loadImage(String imgName)
 	return true;
 }
 
-void ImageManagement::drawImage(SDL_Surface *imgTitle, const SDL_Rect *srcrect, SDL_Surface *screen, SDL_Rect *dstrect)
+void ImageManagement::drawImage(SDL_Surface *imgTitle, const SDL_Rect *srcrect, SDL_Surface *screen, SDL_Rect dstrect)
 {
-	SDL_BlitSurface(imgTitle, srcrect, screen, &dstrect);
+	SDL_BlitSurface(imgTitle, 0, screen, &dstrect);
 }
