@@ -48,7 +48,7 @@ void Game::printF(char *c, int x, int y){
         SDL_Flip(screen);
 }
 
-//Função para desenhar retangulos
+//Função para desenhar retangulos EXPERIMENTAL
 void FillRect(int x, int y, int w, int h, int color, SDL_Surface *screen) {
 	
     SDL_Rect rect = {x,y,w,h};

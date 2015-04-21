@@ -157,6 +157,7 @@ bool Game::process_input(Map::room * rooms, Map::room ** currentRoom, SDL_Surfac
         {
 		    // Exit if the window is closed
 		    case SDL_QUIT:
+                printf("\nSaindo do jogo..\n\n");
                 map.ResetMap(rooms);
 		        return true;
 		        break;

@@ -20,8 +20,6 @@ Map::room * Map::InsertRoom(int id, room * left, room * top, room * right, room 
 void Map::CreateRoom(room *rooms, int * id, int x, int y)
 {
 	int randomVar;
-
-	
 	
 	randomVar = rand() % 4+1;
 
