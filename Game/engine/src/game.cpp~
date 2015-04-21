@@ -19,8 +19,9 @@ using namespace std;
 SDL_Surface* fontSurface;
 SDL_Color fColor;
 SDL_Rect fontRect;
+
 // Create a new window
-    SDL_Surface *screen = SDL_SetVideoMode(800, 600, 16,SDL_HWSURFACE|SDL_DOUBLEBUF);
+SDL_Surface *screen = SDL_SetVideoMode(800, 600, 16,SDL_HWSURFACE|SDL_DOUBLEBUF);
 	
 
 TTF_Font* font;
@@ -48,7 +49,7 @@ void Game::printF(char *c, int x, int y){
         SDL_Flip(screen);
 }
 
-//Função para desenhar retangulos
+//Função para desenhar retangulos EXPERIMENTAL
 void FillRect(int x, int y, int w, int h, int color, SDL_Surface *screen) {
 	
     SDL_Rect rect = {x,y,w,h};
@@ -89,14 +90,17 @@ int Game::run()
         return 1;
     }
 
+	//Opening the game
+	menu.title(screen);
+	SDL_Delay(3000);
+	
+
     // Creating map
     Map::room * rooms = map.GenerateMap();
     Map::room * currentRoom = rooms;
 
     // Drawing map
     draw.drawMap(rooms, screen);
-
-    
     
 	// Program main loop
     bool done = false;

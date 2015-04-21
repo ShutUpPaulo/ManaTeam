@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <SDL/SDL.h>
+#include "menu.h"
 #include "map.h"
 #include "draw.h"
 
@@ -24,6 +25,7 @@ public:
     int run();
 
 private:
+	Menu menu;
     Map map;
     Draw draw;
     void fontInit();

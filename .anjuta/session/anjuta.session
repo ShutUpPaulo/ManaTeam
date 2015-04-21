@@ -1,21 +1,25 @@
 [Anjuta]
-Geometry=790x575+57+24
-
-[Document Manager]
-bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n
+Maximized=1
+Geometry=1543x876+57+24
 
 [Execution]
 Run in terminal=2
 Working directories=../../../ManaTeam
 
+[File Loader]
+Files=../../Game/engine/src/game.cpp#22%%%../../Game/engine/src/menu.cpp#2%%%../../Game/engine/src/imageManagement.cpp#4%%%../../Game/engine/include/imageManagement.h#3%%%../../Game/engine/include/menu.h#4%%%../../Game/engine/include/game.h#13
+
+[Document Manager]
+bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n
+
 [Project Manager]
-Expand=ManaTeam%%%ManaTeam//Game%%%ManaTeam//Game//engine
+Expand=ManaTeam%%%ManaTeam//Demo%%%ManaTeam//Game%%%ManaTeam//Game//engine%%%ManaTeam//Game//engine//include%%%ManaTeam//Game//engine//src
 
 [Debugger]
 Stop at beginning=2
 
 [Build]
-Configuration list=1:Default:%%%1:Debug:Debug%%%1:Profiling:Profiling%%%1:Optimized:Optimized
+Configuration list=1:Default:Game/engine%%%1:Debug:Debug%%%1:Profiling:Profiling%%%1:Optimized:Optimized
 Selected Configuration=Default
 BuildArgs/Default=--enable-maintainer-mode
 BuildArgs/Debug=--enable-maintainer-mode 'CFLAGS=-g -O0' 'CXXFLAGS=-g -O0' 'JFLAGS=-g -O0' 'FFLAGS=-g -O0'

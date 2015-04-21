@@ -10,6 +10,8 @@
 
 #include <iostream>
 #include <SDL/SDL.h>
+#include "imageManagement.h"
+#include "menu.h"
 #include "map.h"
 #include "draw.h"
 
@@ -24,12 +26,13 @@ public:
     int run();
 
 private:
+	Menu menu;
     Map map;
     Draw draw;
     void fontInit();
     void printF(char*, int, int);
     void update_timestep();
-    bool process_input(Map::room **, SDL_Surface *screen);
+    bool process_input(Map:: room*, Map::room **, SDL_Surface *screen);
     void runIA();
     void runPhysics();
     bool update();

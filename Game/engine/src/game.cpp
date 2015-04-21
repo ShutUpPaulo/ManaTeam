@@ -19,8 +19,9 @@ using namespace std;
 SDL_Surface* fontSurface;
 SDL_Color fColor;
 SDL_Rect fontRect;
+
 // Create a new window
-    SDL_Surface *screen = SDL_SetVideoMode(800, 600, 16,SDL_HWSURFACE|SDL_DOUBLEBUF);
+SDL_Surface *screen = SDL_SetVideoMode(800, 600, 16,SDL_HWSURFACE|SDL_DOUBLEBUF);
 	
 
 TTF_Font* font;
@@ -89,14 +90,15 @@ int Game::run()
         return 1;
     }
 
+	//Opening the game
+	menu.title(screen);
+
     // Creating map
     Map::room * rooms = map.GenerateMap();
     Map::room * currentRoom = rooms;
 
     // Drawing map
     draw.drawMap(rooms, screen);
-
-    
     
 	// Program main loop
     bool done = false;
