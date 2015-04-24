@@ -10,10 +10,9 @@
 
 #include <iostream>
 #include <SDL/SDL.h>
-#include "imageManagement.h"
 #include "menu.h"
 #include "map.h"
-#include "draw.h"
+#include "imageManagement.h"
 
 void FillRect(int x, int y, int w, int h, int color, SDL_Surface *screen);
 
@@ -28,7 +27,7 @@ public:
 private:
 	Menu menu;
     Map map;
-    Draw draw;
+	ImageManagement imageManagement;
     void fontInit();
     void printF(char*, int, int);
     void update_timestep();

@@ -12,7 +12,7 @@
 #include <SDL/SDL.h>
 #include "menu.h"
 #include "map.h"
-#include "draw.h"
+#include "imageManagement.h"
 
 void FillRect(int x, int y, int w, int h, int color, SDL_Surface *screen);
 
@@ -21,15 +21,15 @@ class Game
 public:
     Game();
     ~Game();
+	void fontInit();
+    void printF(char*, int, int);
 
     int run();
 
 private:
 	Menu menu;
     Map map;
-    Draw draw;
-    void fontInit();
-    void printF(char*, int, int);
+	ImageManagement imageManagement;
     void update_timestep();
     bool process_input(Map:: room*, Map::room **, SDL_Surface *screen);
     void runIA();

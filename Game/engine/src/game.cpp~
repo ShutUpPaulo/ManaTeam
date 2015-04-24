@@ -7,7 +7,7 @@
  */
 #include "game.h"
 #include "map.h"
-#include "draw.h"
+#include "imageManagement.h"
 
 #include <iostream>
 #include <SDL/SDL.h>
@@ -92,15 +92,13 @@ int Game::run()
 
 	//Opening the game
 	menu.title(screen);
-	SDL_Delay(3000);
-	
 
     // Creating map
     Map::room * rooms = map.GenerateMap();
     Map::room * currentRoom = rooms;
 
     // Drawing map
-    draw.drawMap(rooms, screen);
+    imageManagement.drawMap(rooms, screen);
     
 	// Program main loop
     bool done = false;
@@ -175,28 +173,28 @@ bool Game::process_input(Map::room * rooms, Map::room ** currentRoom, SDL_Surfac
                         if((*currentRoom)->left != NULL)
                         {
                             *currentRoom = (*currentRoom)->left;
-                            draw.drawRoom(*currentRoom, screen);
+                            imageManagement.drawRoom(*currentRoom, screen);
                         }
                         break;
                     case SDLK_RIGHT:
                         if((*currentRoom)->right != NULL)
                         {
                             *currentRoom = (*currentRoom)->right;
-                            draw.drawRoom(*currentRoom, screen);
+                            imageManagement.drawRoom(*currentRoom, screen);
                         }
                         break;
                     case SDLK_UP:
                         if((*currentRoom)->top != NULL)
                         {
                             *currentRoom = (*currentRoom)->top;
-                            draw.drawRoom(*currentRoom, screen);
+                            imageManagement.drawRoom(*currentRoom, screen);
                         }
                         break;
                     case SDLK_DOWN:
                         if((*currentRoom)->bot != NULL)
                         {
                             *currentRoom = (*currentRoom)->bot;
-                            draw.drawRoom(*currentRoom, screen);
+                            imageManagement.drawRoom(*currentRoom, screen);
                         }
                         break;
                 }
@@ -228,3 +226,4 @@ bool Game::update()
     FillRect(50+1,150+1,48,48,0x0,screen);	//Black Rect
     SDL_Flip(screen);
 }*/
+ ec 

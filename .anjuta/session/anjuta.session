@@ -7,16 +7,13 @@ Run in terminal=2
 Working directories=../../../ManaTeam
 
 [File Loader]
-Files=../../Game/engine/src/game.cpp#22%%%../../Game/engine/src/menu.cpp#2%%%../../Game/engine/src/imageManagement.cpp#4%%%../../Game/engine/include/imageManagement.h#3%%%../../Game/engine/include/menu.h#4%%%../../Game/engine/include/game.h#13
+Files=../../Game/engine/src/menu.cpp#12%%%../../Game/engine/include/menu.h#2%%%../../Game/engine/src/map.cpp#18%%%../../Game/engine/include/game.h#25%%%../../Game/engine/src/game.cpp#229
 
 [Document Manager]
 bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n
 
 [Project Manager]
 Expand=ManaTeam%%%ManaTeam//Demo%%%ManaTeam//Game%%%ManaTeam//Game//engine%%%ManaTeam//Game//engine//include%%%ManaTeam//Game//engine//src
-
-[Debugger]
-Stop at beginning=2
 
 [Build]
 Configuration list=1:Default:Game/engine%%%1:Debug:Debug%%%1:Profiling:Profiling%%%1:Optimized:Optimized
@@ -25,3 +22,6 @@ BuildArgs/Default=--enable-maintainer-mode
 BuildArgs/Debug=--enable-maintainer-mode 'CFLAGS=-g -O0' 'CXXFLAGS=-g -O0' 'JFLAGS=-g -O0' 'FFLAGS=-g -O0'
 BuildArgs/Profiling=--enable-maintainer-mode 'CFLAGS=-g -pg' 'CXXFLAGS=-g -pg' 'JFLAGS=-g -pg' 'FFLAGS=-g -pg'
 BuildArgs/Optimized=--enable-maintainer-mode 'CFLAGS=-O2' 'CXXFLAGS=-O2' 'JFLAGS=-O2' 'FFLAGS=-O2'
+
+[Debugger]
+Stop at beginning=2

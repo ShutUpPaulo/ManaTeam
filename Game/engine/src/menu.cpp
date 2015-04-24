@@ -1,9 +1,16 @@
 #include "menu.h"
 #include "game.h"
 #include "imageManagement.h"
+#include <iostream>
+#include <SDL/SDL_ttf.h>
+
+Game game;
 
 void Menu::title(SDL_Surface *screen)
 {
+	game.printF("ManaTeam apresenta: ", screen->w/6, screen->h/2);
+	SDL_Delay(4000);
+
 	SDL_Surface * imgTitle = SDL_LoadBMP("src/images/lena.bmp");
 	
 	if (!imgTitle)
