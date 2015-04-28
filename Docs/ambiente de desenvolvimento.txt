@@ -11,16 +11,17 @@ API padrão da disciplina.
 3. Ferramenta de controle de versão: Git
 Ferramenta padrão da disciplina.
 
-5. Depurador: Bash
-Por ser o software padrão do Linux Ubuntu, o depurador Bash será utilizado.
+5. Depurador: Debugger
+Por ser o software padrão do Linux Ubuntu, o depurador Debugger, da suite GNU, será utilizado.
 
-6. Editor de texto:
+6. Editor de texto: Anjuta (Não oficial)
+O editor Anjuta está sendo utilizado, porém será decidido por um novo editor em breve.
 
-7. Linguagem de script: bash
-"bash" é a linguagem padrão do Linux Ubuntu e por isso será utilizada.
+7. Linguagem de script: Lua
+Linguagem de script padrão da disciplina.
 
 8. Linguagem de programação: C++
 Esta linguagem foi escolhida por ser de compreenção comum para a maioria da equipe de desenvolvimento.
 
-8. Compilador: g++
+9. Compilador: g++
 
