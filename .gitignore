@@ -31,8 +31,8 @@
 *.h~
 *.cpp~
 *.txt~
-*.gitgnore
+*.gitignore~
 
 # Anjuta Shit
 *.db
-
+*.anjuta
