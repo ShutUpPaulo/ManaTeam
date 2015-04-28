@@ -27,6 +27,9 @@
 *.out
 *.app
 
-#Temp
+# Temp
 *.h~
 *.cpp~
+
+# Anjuta Shit
+.db

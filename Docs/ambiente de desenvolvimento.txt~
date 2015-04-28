@@ -1,0 +1,26 @@
+Ambiente de Desenvolvimento
+
+Para a atividade de desenvolvimento foi estabelecida a utilização das seguintes ferramentas:
+
+1. Sistema Operacional: Linux Ubuntu 14.04 64-bits
+Este SO foi escolhido por ser uma ferramenta open source e de utilização comum para a maioria da equipe de desenvolvimento.
+
+2. APIs para manipulação de arquivos, áudio e gráfica: SQL2/SQL1.2
+API padrão da disciplina.
+
+3. Ferramenta de controle de versão: Git
+Ferramenta padrão da disciplina.
+
+5. Depurador: Bash
+Por ser o software padrão do Linux Ubuntu, o depurador Bash será utilizado.
+
+6. Editor de texto:
+
+7. Linguagem de script: bash
+"bash" é a linguagem padrão do Linux Ubuntu e por isso será utilizada.
+
+8. Linguagem de programação: C++
+Esta linguagem foi escolhida por ser de compreenção comum para a maioria da equipe de desenvolvimento.
+
+8. Compilador: g++
+
