@@ -30,6 +30,9 @@
 # Temp
 *.h~
 *.cpp~
+*.txt~
+*.gitgnore
 
 # Anjuta Shit
-.db
+*.db
+

@@ -5,7 +5,7 @@ Para a atividade de desenvolvimento foi estabelecida a utilização das seguinte
 1. Sistema Operacional: Linux Ubuntu 14.04 64-bits
 Este SO foi escolhido por ser uma ferramenta open source e de utilização comum para a maioria da equipe de desenvolvimento.
 
-2. APIs para manipulação de arquivos, áudio e gráfica: SQL2/SQL1.2
+2. APIs para manipulação de arquivos, áudio e gráfica: SDL2/SDL1.2
 API padrão da disciplina.
 
 3. Ferramenta de controle de versão: Git
