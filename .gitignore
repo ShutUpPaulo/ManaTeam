@@ -36,3 +36,8 @@
 # Anjuta Shit
 *.db
 *.anjuta
+
+# Latex files
+*.bak
+*.log
+*.aux

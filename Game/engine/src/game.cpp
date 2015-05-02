@@ -226,4 +226,4 @@ bool Game::update()
     FillRect(50+1,150+1,48,48,0x0,screen);	//Black Rect
     SDL_Flip(screen);
 }*/
- ec b vh
+ 
