@@ -1,0 +1,48 @@
+﻿Game Mechanics (estrutura/fluxo das ações do jogador)
+Controles de navegação
+
+
+Personagem Principal (Edmond)
+-Andar (W,A,S,D)
+  Locomover-se pelo cenário nos eixos x, y e nas diagonais. O jogador se move de ½ em ½ tile ao andar.
+-Correr (SHIFT+W,A,S,D)
+  Locomover-se com maior velocidade pelo cenário nos eixos x,y e nas diagonais, porém fazendo mais barulho e atraindo atenção de guardas e loucos. O jogador se move de 1 em 1 tile ao correr.
+-Agachar (CRTL)
+  Abaixar-se para se esconder atrás de objetos do cenário.
+-Andar agachado (CTRL+W,A,S,D)
+  Locomover-se abaixado para não ser visto ao se movimentar atrás dos possíveis esconderijos, porém com uma velocidade muito reduzida. O jogador se move de ½ em ½ tile ao andar agachado.
+-Atacar (J)
+  Atacar os personagens inimigos do jogo para matá-los ou apagá-los afim de não ser visto e evitar que façam barulho. Ele usará items que coletará pelo chão das salas, sendo armas ou seringas com tranquilizantes que terão efeitos diferentes dependendo de qual será usado. O alcance é de apenas 1 tile a frente. Um guarda morre se sofrer 2 ataques pela frente ou 1 ataque pelas costas. Um louco so morre se for atacado 3 vezes ou 1 vez pelas costas.
+-Rolar (W+W,A+A,S+S,D+D)
+  Mover-se rapidamente em um rolamento com o intuito de não ser visto pelos inimigos. Se o jogador realizar o comando ele avançará de 3 em 3 tiles a partir do qual estava inicialmente. Ao rolar ele avança rapidamente porém para rolar novamente ele tem um delay de 1 segundo.
+-Se esconder
+  O jogador so estará escondido do raio de visão dos guardas (5 tiles à frente, na ponta 5 tiles de largura), caso ele esteja agachado atrás de algum elemento do cenário, fora do campo de visão da lanterna ou fora das luzes do lugar.
+-Perder vida
+  O jogador perde vida toda vez que um louco o ataca ou um fantasma entra em seu campo de visão. O louco, a cada ataque, tira 20% da vida do jogador, os fantasmas normais tiram 12,5% a cada segundo e os fantasmas principais retiram 16% a cada segundo.
+-Recuperar vida
+  O jogador pode recuperar vida usando os itens que serão colocados aleatoriamente nas fases, sendo que nem todas as salas terão estes itens. O item faz com que o jogador recupere 40% de sua vida total.
+
+
+
+
+
+
+-Atravessar portas
+  Para passar para as outras salas da fase, basta o jogador entrar no tile referente ao espaço da porta e ele será passado para a proxima sala automaticamente. Para passar de fase é necessário que o jogador tenha em mãos a chave daquela porta.
+-Pegar itens do chão (K)
+  Os itens que o jogador usará, sejam armas, tranquilizantes ou kits medicos todos estarão espalhados aleatoriamente pelo chão das salas da fase. Para pegar um item basta o jogador usar o botão de ação quando estiver em cima do tile do item.
+   -Tipos de items (todos os itens de ataque matam um oponente instantaneamente se este for atacado pelas costas):
+    -Mão: Um guarda morre se sofrer 5 golpes frontais e um louco so morre se sofrer 6 golpes frontais.
+     -Garrafa: Um guarda morre se sofrer 2 garrafadas frontais e um louco so morre se sofrer 3 ataques frontais. Porém a garrafa se quebra depois de 3 ataques e é perdida..
+     -Cacetete: Um guarda morre se sofrer 3 ataques frontais e um louco morre se sofrer 4 ataques frontais.
+     -Faca: Um guarda morre se sofrer 2 ataques de faca pela frente e um louco so morre se sofrer 3 ataques frontais..
+     -Seringa: Tanto um guarda quanto um louco morrem instantaneamente se forem atacados com uma seringa. Porém a seringa é perdida após ser usada.
+     -Kit médico: O kit médico recupera 40% da vida total do jogador ao ser pego.
+-Pegar chaves e abrir portas (K)
+  Para passar para para as proximas fases é necessário que o jogador pegue uma chave que aparecerá aleatoriamente em uma das salas da fase. Assim que o jogador pegá-la o fantasma principal da fase aparecerá para perturbá-lo. Para usar a chave na porta o jogador deve ser aproximar da porta e usar o botão de ação para abrí-la.
+-Morrer
+  Se o jogador chegar a 0% de sua barra de vida, ele morre. O jogador terá apenas uma vida extra, que será a sua chance de refazer a fase. Qndo ele morrer a primeira vez ele volta para o inicio da fase ainda com seu item. Se ele morrer uma segunda vez será fim de jogo, então ele poderá escolher entre voltar para o inicio da fase sem item ou reiniciar todo o jogo.
+
+
+*Perde sanidade
+*Recupera sanidade
