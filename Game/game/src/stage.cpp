@@ -16,8 +16,8 @@ Stage::Stage(ObjectID id)
 {
     Environment *env = Environment::get_instance();
 
-    double x = env->canvas->w()/2;
-    double y = env->canvas->h()*0.6;
+    double x = 0;
+    double y = env->canvas->h()*0.8;
     double w = env->canvas->w();
     double h = env->canvas->h();
 

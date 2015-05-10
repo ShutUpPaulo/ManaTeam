@@ -26,7 +26,8 @@ class Idle : public Sprite::SpriteState
 {
 public:
     Idle(Sprite *parent,Animation* animation_idle) : m_parent(parent),
-        m_animation(animation_idle)
+        m_animation(new Animation("res/images/idle.png", 0, 0, 188, 379, 2,
+        400, true))
     {
         parent->set_dimensions(m_animation->w(), m_animation->h());
     }
@@ -67,7 +68,8 @@ class Running : public Sprite::SpriteState
 {
 public:
     Running(Sprite *parent,Animation* animation_running) : m_parent(parent),
-        m_animation(animation_running )
+        m_animation(new Animation("res/images/running.png", 0, 0, 188,
+        379, 8, 100, true))
     {
         parent->set_dimensions(m_animation->w(), m_animation->h());
     }
