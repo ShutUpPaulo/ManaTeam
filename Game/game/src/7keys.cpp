@@ -25,15 +25,15 @@ SevenKeys::load_level(const string& id)
 {
     if (id == "logo")
     {
-        return new FrontEnd("sdl", "res/images/logo.png");
+        return new FrontEnd("tecnologias", "res/images/logoMT.png");
     }
-    else if (id == "sdl")
+    else if (id == "tecnologias")
     {
-        return new FrontEnd("classificacao", "res/images/sdl.png");
+        return new FrontEnd("classificacao", "res/images/tecnologias.png");
     }
     else if (id == "classificacao")
     {
-        return new FrontEnd("title", "res/images/classificacao.png");
+        return new FrontEnd("title", "res/images/classificacao_indicativa.png");
     } else if (id == "title")
     {
         return new TitleScreen();
