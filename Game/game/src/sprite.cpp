@@ -5,9 +5,9 @@
  * Data: 05/05/2015
  * Licença: LGPL. Sem copyright.
  */
-#include <engine/rect.h>
-#include <engine/keyboardevent.h>
-#include <engine/environment.h>
+#include <rect.h>
+#include <keyboardevent.h>
+#include <environment.h>
 
 #include "sprite.h"
 
@@ -106,7 +106,7 @@ private:
 
 
 Sprite::Sprite(Object *parent, ObjectID id,std::map<int,Animation*>actions)
-    : Object(parent, id), m_left(0), m_right(0), m_last(0), m_state(IDLE)
+    : Object(parent, id), m_left(0), m_right(0), m_up(0), m_down(0), m_last(0), m_state(IDLE)
 {
     Environment *env = Environment::get_instance();
     env->events_manager->register_keyboard_event_listener(this);
@@ -154,6 +154,15 @@ Sprite::onKeyboardEvent(const KeyboardEvent& event)
             case KeyboardEvent::RIGHT:
                 m_right = 1;
                 return true;
+                
+            case KeyboardEvent::UP:
+                m_up = 1;
+                return true;
+                
+            case KeyboardEvent::DOWN:
+                m_down = 1;
+                return true;
+                
             default:
                 return false;
         }
@@ -168,6 +177,15 @@ Sprite::onKeyboardEvent(const KeyboardEvent& event)
             case KeyboardEvent::RIGHT:
                 m_right = 0;
                 return true;
+                
+            case KeyboardEvent::UP:
+                m_up = 0;
+                return true;
+                
+            case KeyboardEvent::DOWN:
+                m_down = 0;
+                return true;
+                
             default:
                 return false;
         }
@@ -197,6 +215,9 @@ Sprite::update_self(unsigned long elapsed)
 
     double dx = m_left*(-SPEED) + m_right*SPEED;
     double x = this->x() + dx*((elapsed - m_last)/1000.0);
+    
+    double dy = m_up*(-SPEED) + m_down*SPEED;
+    double y = this->y() + dy*((elapsed - m_last)/1000.0);
 
     m_last = elapsed;
 
@@ -216,8 +237,25 @@ Sprite::update_self(unsigned long elapsed)
     {
         change_state(Sprite::IDLE, m_state);
     }
+    
+    if (y < 0)
+    {
+        y = 0;
+    }
+
+    if (y + h() > env->canvas->h())
+    {
+        y = env->canvas->h() - h();
+    }
+
+    if ((y == env->canvas->h() - h() and dy > 0) or 
+        (y == 0 and dy < 0))
+    {
+        change_state(Sprite::IDLE, m_state);
+    }
 
     set_x(x);
+    set_y(y);
 }
 
 void
@@ -241,5 +279,5 @@ Sprite::change_state(State to, State)
 short
 Sprite::direction() const
 {
-    return m_right - m_left;
+    return m_right - m_left || m_up - m_down;
 }

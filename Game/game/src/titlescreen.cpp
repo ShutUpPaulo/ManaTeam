@@ -8,7 +8,7 @@
 #include "titlescreen.h"
 #include "button.h"
 
-#include <engine/environment.h>
+#include <environment.h>
 
 #include <iostream>
 using namespace std;

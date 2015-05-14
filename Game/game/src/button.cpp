@@ -5,10 +5,10 @@
  * Data: 29/04/2015
  * Licença: LGPL. Sem copyright.
  */
-#include <engine/color.h>
-#include <engine/rect.h>
-#include <engine/environment.h>
-#include <engine/mousebuttonevent.h>
+#include <color.h>
+#include <rect.h>
+#include <environment.h>
+#include <mousebuttonevent.h>
 
 #include "button.h"
 

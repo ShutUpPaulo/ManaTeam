@@ -8,7 +8,7 @@
 #ifndef TEST_H
 #define TEST_H
 
-#include <engine/game.h>
+#include <game.h>
 
 class SevenKeys : public Game
 {

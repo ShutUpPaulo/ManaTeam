@@ -8,8 +8,8 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include <engine/object.h>
-#include <engine/mousebuttoneventlistener.h>
+#include <object.h>
+#include <mousebuttoneventlistener.h>
 
 #include <memory>
 

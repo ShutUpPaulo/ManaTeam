@@ -8,9 +8,9 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#include <engine/object.h>
-#include <engine/keyboardeventlistener.h>
-#include <engine/animation.h>
+#include <object.h>
+#include <keyboardeventlistener.h>
+#include <animation.h>
 
 #include <memory>
 #include <map>
@@ -56,7 +56,7 @@ Sprite(Object *parent, ObjectID id,std::map<int,Animation*> actions);
     void change_state(State to, State from);
 
 protected:
-    short m_left, m_right;
+    short m_left, m_right, m_up, m_down;
     unsigned long m_last;
 
     State m_state;
