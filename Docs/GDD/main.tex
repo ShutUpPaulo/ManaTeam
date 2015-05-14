@@ -1,0 +1,132 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{indentfirst}
+\usepackage{setspace}
+\usepackage{anysize}
+\usepackage{makeidx}
+\usepackage[brazil]{babel}
+\makeindex
+
+\geometry{verbose,tmargin=1.5cm,bmargin=1.5cm,lmargin=1.5cm,rmargin=1.5cm}
+
+\begin{document}
+\input{capa}
+\onehalfspacing
+\marginsize {2 cm} {2 cm} {2 cm} {2 cm}
+\tableofcontents
+\pagebreak
+\section{Apresentação e resumo do jogo}
+     O objetivo desse documento é apresentar as características principais do jogo 7 Keys, sua história, mecânicas, a proposta de design entre outras informações importantes para o desenvolvimento do jogo.
+     
+     O jogo baseia-se em dois gêneros: stealth e roguelike. Stealth é um gênero onde o jogador precisa evitar ser notado, utilizando da furtividade para evadir ou elaborar emboscadas para os antagonistas. Jogos do gênero empregam mecânicas como se esconder na sombra, em objetos do cenário, disfarces, e barulhos que podem alertar os inimigos. Roguelike é um subgênero, geralmente de jogos de RPG, que é caracterizado pela geração de mapas aleatórios durante a partida, mapas baseados em tile e permanent death.
+
+    
+\section{Requisitos Tecnológicos}
+
+\section{Front End}
+Ao iniciar o jogo algumas telas são apresentadas ao jogador. Elas contém informações básicas porém importantes, como a empresa que desenvolveu o jogo e as tecnologias ligadas à ele. 
+
+
+No caso do jogo proposto nesse documento, desenvolvido pela Mana Team, a primeira tela ao executar o jogo que aparece é a tela q apresenta o logo da equipe (Figura 1), que é também o mascote da empresa, o peixe boi [INSIRA AQUI O NOME DO MASCOTE]. Em seguida vem a tela que apresenta as tecnologias utilizadas para desenvolver o jogo (Figura 2), como o GIMP, os programas da Adobe entre outros. Por fim, antes da tela do menu inicial, vemos a tela com a classificação indicativa do jogo (Figura 3). Cada tela ficará visível por 3 segundo e após esse período ocorrerá um efeito de \textit{fade out} com duração de 1 segundo seguido de um efeito de \textit{fade in} também de um segundo que introduzirá a tela seguinte. A música do menu será iniciada no instante em que a primeira tela for carregada.
+\begin{figure}[h]
+    \centering
+    \caption{Tela com logo [provisória] da empresa}
+     \includegraphics[keepaspectratio=true,scale=0.35]{logoMT.png}
+\end{figure}
+\begin{figure}
+    \centering
+    \caption{Tecnologias utilizadas}
+    \includegraphics[keepaspectratio=true,scale=0.35]{tecnologias.png}
+\end{figure}
+\begin{figure}
+    \centering
+    \caption{Classificação Indicativa}
+    \includegraphics[keepaspectratio=true,scale=0.35]{classificacao_indicativa.png}
+\end{figure}
+
+\section{Telas}
+\section{Câmera e HUD}
+\section{A história do jogo}
+
+   Início da 2a Guerra Mundial. A Alemanha invadiu a Polônia, levando a França e o Reino Unido a declarar guerra à Alemanha. O personagem, Edmond Gauthier - um sargento do exército francês - é um homem com um forte senso de honra que lidera bravamente seu exército frente ao inimigo alemão.
+   
+Em uma missão de resgate na Polônia, Edmond Gauthier e seu exército sofrem uma emboscada, planejada com o principal objetivo de impedi-los de resgatar os reféns judeus que seriam levados ao campo de concentração alemão ainda em construção. Embora a emboscada tenha causado algumas baixas, Edmond consegue alcançar os reféns, porém tarde demais. Ao se aproximar do local, ele percebe que os reféns já haviam sido executados e estavam sendo removidos do caminhão que continha a câmara de gás, uns dos últimos remanescentes da 1ª Guerra Mundial.
+   
+    Mesmo tendo falhado na missão, o exército francês ataca os alemães, numa espécie de revanche e  aprisiona-os. O superior de Edmond define então que os soldados nazistas aprisionados devem ser fuzilados, o que abala Edmond. Embora seja claro que os nazistas são um mal crescente, o código de honra de Edmond não o permite assassinar homens indefesos, sem a menor chance de revidarem ou sequer se protegerem. No entanto, como a ordem veio de um superior, Edmond é obrigado a obedecer e fuzila os nazistas aprisionados. Após essa missão mal sucedida, e com a crescente ameaça alemã, Edmond resolve voltar ao seu lar na França para se despedir de sua família e os mandarem para a Inglaterra, onde supostamente estariam mais protegidos.
+    
+    Em 1940, a Alemanha contorna a Linha Magnot - barreira de defesa que cobria toda a fronteira entre a França e a Alemanha, criada pela França após a 1a Guerra Mundial para evitar ataques surpresa e garantir mais tempo de resposta aos franceses em caso de um ataque frontal – vindo pelas densas florestas de Ardenas, único local desprotegido, pois acharam que os tanques alemães não conseguiriam atravessar a floresta. O General Weygand, recentemente nomeado, tomou ações imediatas para conter os alemães. Edmond então é enviado juntamente com o exército francês para conter os alemães. Durante a missão, Pierre Dante (NOME PROVISÓRIO), amigo de Edmond fica sob a mira do fogo inimigo. Edmond, logo parte em sua defesa, abatendo um soldado inimigo de pequeno porte. Ao investigar o corpo do inimigo, Edmond percebe que o soldado era uma criança, de aparentemente menos que 15 anos, o que o deixa perturbado. 
+    
+    Dois dias depois, ainda tentando conter os alemães, seu esconderijo é atacado por um tanque, desmoronando sobre suas cabeças. Edmond percebe então que Pierre ficou preso nos escombros. Ao tentar resgatar o amigo, acaba notando que o mesmo já se encontrava praticamente sem pulso e desacordado. Edmond decide então, mesmo contra sua vontade, abandonar o amigo e os demais soterrados e foi ao encalço dos alemães.
+    
+    O exército francês recua enquanto aguarda reforços e, ao receber informes da situação da Europa, descobre que a cidade inglesa onde sua família encontrava-se refugiada foi fortemente bombardeada pelos exércitos alemães. Esse era então o fim para Edmond Gauthier. Nada mais que ele amava lhe restava, além de amargas lembranças dos últimos e turbulentos meses. No entanto, uma missão mais precisava ser cumprida: parar os alemães.
+    
+    Os alemães, por outro lado, estavam muito fortalecidos e, mesmo com todo o empenho do exército francês e inglês, eles conseguiram avançar adentro do território francês. Edmond e mais alguns oficiais são então aprisionados e torturados em longos interrogatórios. Após obter as informações que necessitavam, os alemães aprisionaram os oficiais no campo de concentração de Bergen- Belsen (ou apenas Belsen) para utilizá-los depois como moeda de troca por oficiais alemães.
+    
+    Edmond não suporta a pressão causada pelas massivas perdas em sua vida e começa a agir de forma estranha, sendo constantemente atormentado pelas lembranças de seus entes queridos. Sendo considerado como louco, começa a receber uma série de medicações fortes que o deixa 'dopado' por meses a fio. A droga, que ainda estava em experimentação,  é tão forte que começa a afetar as lembranças de Edmond, que lentamente começa a se esquecer de todas as perdas bem como de quem ele próprio é, vivendo em um estágio próximo ao do vegetativo, apenas obedecendo ordens.
+    
+    Um dia, durante a manutenção do sistema de segurança do campo de concentração, uma pane ocorre no sistema elétrico e a segurança do complexo é comprometida. Praticamente todas as celas do complexo se destravam, o que causa uma tentativa de fuga em massa. Os guardas locais fazem o possível para conter os detentos, enquanto tentam comunicar-se com os campos próximos para solicitar reforços. Edmond, ainda meio sob o efeito dos medicamentos, tenta fugir também, sem atrair a atenção dos guardas. 
+    
+    Edmond precisará agora utilizar tudo que ainda se lembra para poder sobreviver. Isso significa se esconder nas sombras e atrás de objetos para evitar ser visto pelos guardas. Ou então, quando fugir do guarda não for opção, Edmond precisará eliminá-lo para prosseguir. O complexo em que ele se encontra possui 7 alas divididas em 3 andares, e para fugir ele precisará encontrar chaves específicas que dão acesso aos demais andares/alas até que ele alcançe o salão central, que dá acesso aos jardins que por sua vez levam à uma densa floresta, possibilitando uma fuga mais “segura”.
+    
+    Além de lidar com os guardas, Edmond precisará enfrentar outros seres, fantasmas que habitam sua mente. Esses fantasmas possuem características específicas que o relembram fatos importantes de sua vida. Esses fantasmas são, na verdade, suas lembranças de todas as mortes que o impactaram de alguma forma. No entanto, ele precisará lidar com essas lembranças e não só recordá-las como também aceitá-las para conseguir fugir do inferno em que se encontra. Caso contrário, ele será completamente consumido pela insanidade cada vez mais próxima dele, nesse ambiente completamente hostil e cheio de armadilhas, aguardando-o em cada sala. 
+
+\section{Personagem Principal}
+
+\section{Principais Personagens do Mundo do Jogo}
+O personagem principal do jogo é o Edmond Gauthier, no entanto, alguns outro personagens também compõe o universo do jogo, apresentados como inimigos do personagem. Essa seção apresenta esses personagens e um pouco de sua relação com o personagem.
+
+\subsection{Fantasma dos soldados fuzilados}
+Como previamente descrito na história do jogo, Edmond não consegue lidar com algumas mortes, como no caso de alguns soldados que, embora inimigos, não morreram de forma digna, segundo o pensamento do Edmond. 
+	
+	A forma do personagem tem o objetivo de lembrar o Edmond sobre o significado daquele personagem. Isso justifica os furos que o mesmo tem no corpo, representando os tiros disparados nos soldados fuzilados. [INSERIR AQUI IMAGEM E DESCRIÇÃO DO FANTASMA IN GAME E VERSÀO CUTSCENE]
+	
+	Esse fantasma aparece para o Edmond na primeira fase para impedi-lo de alcançar o andar inferior.
+
+\subsection{Fantasma do soldado criança}
+ O fantasma referente ao soldado criança se parece um pouco com o fantasma dos soldados fuzilados pois esse também era um soldado inimigo. Edmond também é pertubado pelo fato de ter matado a sangue frio uma criança, mesmo que o tenha feito para garantir a segurança de seu amigo e aliado de guerra. [INSERIR AQUI IMAGEM E DESCRIÇÃO DO FANTASMA IN GAME E VERSÀO CUTSCENE]
+ 
+ Esse fantasma irá aparecer na segunda fase do jogo. Por representar o fantasma de uma criança, esse fantasma irá tentar pregar "peças" no jogador, como rindo em momentos aleatórios da fase, e  aparecendo em momentos diferentes do primeiro fantasma.
+ 
+\subsection{Fantasma dos reféns da câmara de gás}
+Esse fantasma, que tem a base do seu corpo formada por gás, representa uma das maiores falhas de Edmond durante a guerra, a falha na missão de resgate dos reféns judeus na Polônia, como já relatado na história do jogo. [INSERIR AQUI IMAGEM E DESCRIÇÃO DO FANTASMA IN GAME E VERSÀO CUTSCENE]
+
+A pressão causada por essa lembrança na mente de Edmond é tão forte ou até maior que as outras e isso impacta diretamente na relação dele com o fantasma e com a fase em si. O fantasma estará presente em mais momentos da fase, interagindo direta e indiretamente com o Edmond com maior frequência que os anteriores. Esse fantasma estará na terceira fase do jogo.
+
+\subsection{Fantasma do amigo de Edmond}
+
+
+\subsection{Fantasma da esposa de Edmond}
+
+\subsection{}
+
+\section{NPCs}
+\section{Mecânicas Universais}
+\section{Inimigos}
+\subsection{Policiais}
+\subsubsection{Policial fácil}
+\subsubsection{Policial médio}
+\subsubsection{Policial difícil}
+\subsection{Loucos}
+\subsection{Fantasmas}
+Os fantasmas são, na verdade,personagens que só existem dentro da cabeça do Edmond. A função deles é fazer com que Edmond consiga aceitar os fardos adquiridos ao longo da guerra e supere as perdas.
+
+\section{Sistema de Pontuação}
+\section{Saúde}
+\section{Power-Ups}
+\section{Economia}
+\section{Níveis}
+
+\section{O início do jogo}
+    O jogo se inicia no último andar do campo de concentração de Belsen. Edmond nota que a cela e tenta fugir. O personagem estará em sua cela no início do jogo. O objetivo de cada fase é procurar a chave que dá acesso á fase seguinte. Essa chave está em algum local aleatório das fases que são geradas de forma aleatória. Seu formato pode mudar de uma fase para outra, mas será sempre um objeto que destrava uma porta específica em alguma sala para a fase seguinte. Toda vez que o jogador perder (for pego por um guarda) o mapa é carregado novamente. Na história, a justificativa para essa mecânica é que a cada vez que ele é capturado e consegue fugir novamente, ele pensa em como ele conseguiria fugir se a estrutura fosse diferente.
+  
+    Na primeira fase o primeiro inimigo a aparecer será o segurança nível fácil, que fica parado, girando ao redor do próprio eixo, em busca de detentos. Se o guarda avistar o jogador, o jogador terá um tempo para reagir até que o guarda convoque reforços. Inicialmente esse tempo de ação está estimado em 3 a 5 segundos para que o jogador saia da sala que se econtra ou elimine o guarda. Esse guarda eliminado torna-se um fantasma que ficará vagando pelas salas, dificultando progresso do personagem.
+  
+    Ao encontrar a chave, que estará em alguma sala aleatória, o jogador terá que procurar (caso ainda não tenha achado) a porta que abre com aquela chave. No entanto, ao conseguir a chave, um fantasma especial, exclusivo de cada fase, aparecerá e irá perseguir o jogador, que deve fugir do fantasma até encontrar a porta que dá acesso á próxima fase. Feito isso o jogador terá concluído a fase 1. O processo se repete para as demais fases. No entanto, inimigos, itens e objetos diferentes surgirão à medida que o personagem progrida no jogo
+
+\section{Progresso do Jogo}
+\section{Objetos Colecionáveis}
+\section{Músicas e Efeitos Sonoros}
+\end{document}
