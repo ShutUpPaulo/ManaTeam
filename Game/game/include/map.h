@@ -9,7 +9,7 @@
 
 class Map
 {
-private:
+public:
 	typedef struct Room_
 	{
 		int id;

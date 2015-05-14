@@ -17,11 +17,11 @@ Stage::Stage(ObjectID id)
     
     double x = 0;
     double y = env->canvas->h()*0.8;
-    double w = env->canvas->w();
-    double h = env->canvas->h();
+    //double w = env->canvas->w();
+    //double h = env->canvas->h();
     
-    Map::room * rooms = Map::GenerateMap();
-    Map::room * currentRoom = rooms;
+    //Map::room * rooms = maps.GenerateMap();
+    //Map::room * currentRoom = rooms;
 
     //m_floor.set(x, y);
     //m_floor.set_dimensions(w, h);
