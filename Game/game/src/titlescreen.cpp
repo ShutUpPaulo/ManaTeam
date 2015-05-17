@@ -48,8 +48,8 @@ TitleScreen::draw_self()
     Environment *env = Environment::get_instance();
     env->canvas->clear(Color::WHITE);
 
-    shared_ptr<Image> image = env->resources_manager->get_image("res/images/lena.bmp");
-    env->canvas->draw(image.get());
+    shared_ptr<Image> image = env->resources_manager->get_image("res/images/sanatorio_Beelitz_26.png");
+    env->canvas->draw(image.get(), 1, 69.5 );
 }
 
 bool

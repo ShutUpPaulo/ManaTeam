@@ -1,19 +1,12 @@
-/*
- * Implementação da classe Sprite.
- *
- * Autor: Edson Alves
- * Data: 05/05/2015
- * Licença: LGPL. Sem copyright.
- */
 #include <rect.h>
 #include <keyboardevent.h>
 #include <environment.h>
 
-#include "sprite.h"
+#include "player.h"
 
 constexpr double SPEED { 160.5 };
 
-class Sprite::SpriteState
+class Player::SpriteState
 {
 public:
     virtual ~SpriteState() {}
@@ -22,10 +15,10 @@ public:
     virtual bool onKeyboardEvent(const KeyboardEvent&) { return false; }
 };
 
-class Idle : public Sprite::SpriteState
+class Idle : public Player::SpriteState
 {
 public:
-    Idle(Sprite *parent,Animation* animation_idle) : m_parent(parent),
+    Idle(Player *parent,Animation* animation_idle) : m_parent(parent),
         m_animation(new Animation("res/sprites/idle.png", 0, 0, 40, 81, 2,
         400, true))
     {
@@ -47,7 +40,7 @@ public:
 
         if (dir != 0)
         {
-            m_parent->report_event(Sprite::MOVED);
+            m_parent->report_event(Player::MOVED);
 
             if (dir < 0)
             {
@@ -60,14 +53,14 @@ public:
     }
 
 private:
-    Sprite *m_parent;
+    Player *m_parent;
     unique_ptr<Animation> m_animation;
 };
 
-class Running : public Sprite::SpriteState
+class Running : public Player::SpriteState
 {
 public:
-    Running(Sprite *parent,Animation* animation_running) : m_parent(parent),
+    Running(Player *parent,Animation* animation_running) : m_parent(parent),
         m_animation(new Animation("res/sprites/running.png", 0, 0, 40,
         81, 8, 50, true))
     {
@@ -89,7 +82,7 @@ public:
 
         if (dir == 0)
         {
-            m_parent->report_event(Sprite::STOPPED);
+            m_parent->report_event(Player::STOPPED);
         } else if (dir < 0)
         {
             m_animation->set_row(0);
@@ -100,12 +93,12 @@ public:
     }
 
 private:
-    Sprite *m_parent;
+    Player *m_parent;
     unique_ptr<Animation> m_animation;
 };
 
 
-Sprite::Sprite(Object *parent, ObjectID id,std::map<int,Animation*>actions)
+Player::Player(Object *parent, ObjectID id,std::map<int,Animation*>actions)
     : Object(parent, id), m_left(0), m_right(0), m_up(0), m_down(0), m_last(0), m_state(IDLE)
 {
     Environment *env = Environment::get_instance();
@@ -128,7 +121,7 @@ Sprite::Sprite(Object *parent, ObjectID id,std::map<int,Animation*>actions)
     m_fst[RUNNING][STOPPED] = IDLE;
 }
 
-Sprite::~Sprite()
+Player::~Player()
 {
     Environment *env = Environment::get_instance();
     env->events_manager->unregister_keyboard_event_listener(this);
@@ -140,7 +133,7 @@ Sprite::~Sprite()
 }
 
 bool
-Sprite::onKeyboardEvent(const KeyboardEvent& event)
+Player::onKeyboardEvent(const KeyboardEvent& event)
 {
     switch (event.state())
     {
@@ -198,13 +191,13 @@ Sprite::onKeyboardEvent(const KeyboardEvent& event)
 }
 
 void
-Sprite::draw_self()
+Player::draw_self()
 {
     m_states[m_state]->draw_self();
 }
 
 void
-Sprite::update_self(unsigned long elapsed)
+Player::update_self(unsigned long elapsed)
 {
     m_states[m_state]->update_self(elapsed);
 
@@ -235,7 +228,7 @@ Sprite::update_self(unsigned long elapsed)
     if ((x == env->canvas->w() - w() and dx > 0) or 
         (x == 0 and dx < 0))
     {
-        change_state(Sprite::IDLE, m_state);
+        change_state(Player::IDLE, m_state);
     }
     
     if (y < 0)
@@ -251,7 +244,7 @@ Sprite::update_self(unsigned long elapsed)
     if ((y == env->canvas->h() - h() and dy > 0) or 
         (y == 0 and dy < 0))
     {
-        change_state(Sprite::IDLE, m_state);
+        change_state(Player::IDLE, m_state);
     }
 
     set_x(x);
@@ -259,7 +252,7 @@ Sprite::update_self(unsigned long elapsed)
 }
 
 void
-Sprite::report_event(Event event)
+Player::report_event(Event event)
 {
     State next = m_fst[m_state][event];
 
@@ -271,13 +264,13 @@ Sprite::report_event(Event event)
 }
 
 void
-Sprite::change_state(State to, State)
+Player::change_state(State to, State)
 {
     m_state = to;
 }
 
 short
-Sprite::direction() const
+Player::direction() const
 {
     return m_right - m_left || m_up - m_down;
 }
