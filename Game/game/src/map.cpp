@@ -21,6 +21,7 @@ Map::room * Map::InsertRoom(int id, room * left, room * top, room * right, room 
 	newRoom->bot = bot;
 	newRoom->id = id;
     newRoom->hasMap = false;
+	newRoom->objects.clear();
 	
 	return newRoom;
 }
