@@ -1,7 +1,7 @@
 #ifndef ROOM_H
 #define ROOM_H
 
-#include <object.h>
+#include <core/object.h>
 
 class Room: public Object
 {

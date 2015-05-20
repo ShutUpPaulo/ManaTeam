@@ -3,10 +3,9 @@
  * Data: 20/04/2015
  * Licença: LGPL. Sem copyright.
  */
-#include <environment.h>
+#include <core/environment.h>
 #include "stage.h"
 #include "item.h"
-#include "sprite.h"
 #include "map.h"
 #include "player.h"
 

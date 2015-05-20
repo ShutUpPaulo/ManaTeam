@@ -1,6 +1,6 @@
 #include "room.h"
-#include <font.h>
-#include <environment.h>
+#include <core/font.h>
+#include <core/environment.h>
 
 Room::Room(Object *parent, ObjectID id)
 : Object(parent, id), m_left(nullptr), m_right(nullptr), m_top(nullptr), m_botton(nullptr)

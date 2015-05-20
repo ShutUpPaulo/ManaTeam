@@ -1,9 +1,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <object.h>
-#include <keyboardeventlistener.h>
-#include <animation.h>
+#include <core/object.h>
+#include <core/keyboardeventlistener.h>
+#include <core/animation.h>
 
 #include <memory>
 #include <map>

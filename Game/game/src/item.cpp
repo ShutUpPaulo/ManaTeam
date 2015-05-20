@@ -1,8 +1,7 @@
 #include "item.h"
-#include "sprite.h"
-#include "animation.h"
-#include "keyboardevent.h"
-#include "environment.h"
+#include <core/animation.h>
+#include <core/keyboardevent.h>
+#include <core/environment.h>
 
 Item::Item(Object *parent, ObjectID id, double posx, double posy, Map::Priority priority, bool walk)
     : Object(parent, id)

@@ -9,8 +9,8 @@ BIN_DIR = bin
 CC = g++
 
 CFLAGS = -W -Wall -pedantic -std=c++11 -MMD -g3
-INCLUDES = -Iinclude `sdl2-config --cflags` -I/usr/share/ijengine/include
-LIBS = -L/usr/share/ijengine/lib -lijengine `sdl2-config --libs` -lSDL2_image -lSDL2_ttf
+INCLUDES = -Iinclude `sdl2-config --cflags` -I/usr/local/include/ijengine
+LIBS = -lijengine `sdl2-config --libs` -lSDL2_image -lSDL2_ttf
 
 GAME = $(BIN_DIR)/$(NAME)
 

@@ -1,6 +1,6 @@
-#include <rect.h>
-#include <keyboardevent.h>
-#include <environment.h>
+#include <core/rect.h>
+#include <core/keyboardevent.h>
+#include <core/environment.h>
 
 #include "player.h"
 

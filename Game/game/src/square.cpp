@@ -5,9 +5,9 @@
  * Data: 29/04/2015
  * Licença: LGPL. Sem copyright.
  */
-#include <rect.h>
-#include <keyboardevent.h>
-#include <environment.h>
+#include <core/rect.h>
+#include <core/keyboardevent.h>
+#include <core/environment.h>
 
 #include "square.h"
 

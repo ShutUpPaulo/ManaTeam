@@ -5,7 +5,7 @@
  * Data: 20/04/2015
  * Licença: LGPL. Sem copyright.
  */
-#include <environment.h>
+#include <ijengine/core/environment.h>
 
 #include "7keys.h"
 #include <util/frontend.h>

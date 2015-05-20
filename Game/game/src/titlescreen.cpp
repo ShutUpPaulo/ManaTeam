@@ -7,9 +7,9 @@
  */
 #include "titlescreen.h"
  
-#include "button.h"
-#include <font.h>
-#include <environment.h>
+#include <ijengine/util/button.h>
+#include <core/font.h>
+#include <core/environment.h>
 
 #include <iostream>
 using namespace std;
@@ -28,9 +28,12 @@ TitleScreen::TitleScreen()
     double bx = (w - bw)/2;
     double by = h/2;
 
-    Button *ok = new Button(this, "ok", bx, by, bw, bh);
-    Button *exit = new Button(this, "exit", bx, by + bh + 20, bw, bh,
-        Color::RED);
+    Button *ok = new Button(this, "ok", bw, bh);
+    ok->set_position(bx, by);
+    ok->set_color(Color::RED,Color::WHITE);
+    Button *exit = new Button(this, "exit", bw, bh);
+    exit->set_position(bx, by + bh + 20);
+    exit->set_color(Color::WHITE,Color::RED);
 
     ok->add_observer(this);
     exit->add_observer(this);
@@ -49,7 +52,7 @@ TitleScreen::draw_self()
     Environment *env = Environment::get_instance();
     env->canvas->clear(Color::WHITE);
 
-    shared_ptr<Image> image = env->resources_manager->get_image("res/images/sanatorio_Beelitz_26.png");
+    shared_ptr<Texture> image = env->resources_manager->get_texture("res/images/sanatorio_Beelitz_26.png");
     env->canvas->draw(image.get(), 1, 69.5 );
 }
 

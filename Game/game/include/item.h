@@ -3,8 +3,8 @@
 
 #include "map.h"
 
-#include <object.h>
-#include <keyboardeventlistener.h>
+#include <core/object.h>
+#include <core/keyboardeventlistener.h>
 
 class Item : public Object
 {
