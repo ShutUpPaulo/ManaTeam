@@ -1,0 +1,38 @@
+=== Documento de Apresentação da Equipe ===
+
+Nome: Paulo Markes
+Função: Game Designer
+Histórico:
+    Aluno de graduação do 7o semestre de Engenharia de Software, já atuou como game designer em um jogo que produziu juntamente com amigos na disciplina de Orientação à Objetos. Tem conhecimentos básicos em programas de edição de imagens e vídeos. Atualmente é analista de requisitos em um projeto de extensão em parceria com o Exército Brasileiro.
+
+Nome: Bruno Contessotto Bragança Pinheiro
+Funcao: Programador
+Historico:
+     Aluno de Graduacao do 7o semestre do curso Engenharia de Software da Universidade de Brasilia, programador desde o seu primeiro semestre com foco em linguagem C/C++. Possui conhecimento em programas de manipulacao de imagens  
+
+Nome: Lucas Rufino
+Função: Programador
+Histórico:
+    Aluno de graduação do 2o semestre de Engenharia de Software,  programador desde 2010 em seu curso anterior de Engenharia da Computação, com foco em C/C++. Já atuou na área de jogos utilizando C++ e Direct X.
+
+
+Nome: Luis André Leal de Holanda Cavalcanti
+Função: Designer
+Historico:
+         Aluno de Graduação do 4o semestre da Geografia, transferindo para o Curso de Design da Universidade de Brasilia. Possui curso de modelagem em clay, Escultura em argila e desenho especifico.
+Já ajudou na criação de jogos de tabuleiro nas disciplinas de design e possui experiencia na modelagem de clay.
+
+
+Nome: Maria Cristina Monteiro de Oliveira
+Função: Designer
+Histórico:
+    Aluna de Graduação do 11º semestre de Publicidade e Propaganda.Trabalhou como redatora e diretora de arte durante o período de laboratório do curso de Publicidade e durante o estágio na Assessoria de Comunicação do TJDFT, onde desenvolveu também ações nas áreas de mídia e planejamento publicitário. Em 2013, participou do curso de produção cultural ministrado pela Rock sem Fronteiras juntamente com a banda Móveis Coloniais de Acaju, no qual exerceu atividades de planejamento e gestão de projetos culturais e ainda de comunicação e divulgação dos mesmos. Mais recentemente trabalhou como diretora de arte nas produções audiovisuais independentes “Felída” (Isabel Ilha, 2014) e “Córtex” (Gabriel Rocha, 2014).  
+
+
+
+
+Nome: Guilherme Henrique Nunes Lopes
+Função: Músico
+Histórico:
+    Aluno de Graduação do 2º Semestre de Bacharelado em Composição, na Universidade de Brasília. Em 2009, entrou na Escola de Música de Brasília, onde terminou o curso básico de Piano e Teoria Musical após 5 anos. Hoje, se dedica à aprendizagem composicional voltada para games e apresentações audiovisuais.
+
