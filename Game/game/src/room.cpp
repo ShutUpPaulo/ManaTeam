@@ -10,16 +10,16 @@ Room::Room(Object *parent, ObjectID id)
 {
 	Item *piso;
 	string id_piso = "piso";
-	for(int i = 0; i < 11; i++)
+	for(int i = 0; i < 22; i++)
 	{
-		for(int j = 0; j < 7; j++)
+		for(int j = 0; j < 14; j++)
 		{
 			id_piso += '1';
-			piso = new Item(this,id_piso,i*120,j*120,true);
-			piso->change_sprite("res/tile_sheets/tile1.png");
-			piso->set_w(120);
-			piso->set_h(120);
-			piso->set_position(i*120,j*120);
+			piso = new Item(this,id_piso,i*60,j*60,true);
+			piso->change_sprite("res/tile_sheets/tile2.png");
+			piso->set_w(60);
+			piso->set_h(60);
+			piso->set_position(i*60,j*60);
 			add_child(piso);
 		}
 	}
