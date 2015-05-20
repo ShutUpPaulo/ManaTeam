@@ -1,4 +1,5 @@
 #include "item.h"
+#include <iostream>
 #include <core/animation.h>
 #include <core/keyboardevent.h>
 #include <core/environment.h>
@@ -24,8 +25,9 @@ Item::draw_self()
     //const Color color { 80, 180, 205 };
     Animation* item;
     
-    item = new Animation(current_sprite, x(), y(), w(), h(), 1,0, false);
-    item->draw(x(),y());
+    item = new Animation(current_sprite, 0, 0, w(), h(), 1,0, false);
+    
+    item->draw(x(), y());
     //Environment *env = Environment::get_instance();
     //env->canvas->fill(bounding_box(), color);
 }
