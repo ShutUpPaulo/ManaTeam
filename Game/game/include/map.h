@@ -20,7 +20,6 @@ public:
 	Map();
 
     enum Position {LEFT = 1, RIGHT = 2, TOP = 3, BOTTOM = 4};
-	enum Priority {MAP = 0, SCEN = 1 , ITEM = 2, CHAR = 5};
 	
 	typedef struct Room_
 	{
@@ -41,7 +40,6 @@ private:
 
 	
 public:
-    void AddObject(room *, Object *,  Priority);
 	void ResetMap(room *);
 	room * GenerateMap();
 	

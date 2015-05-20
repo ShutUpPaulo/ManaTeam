@@ -12,8 +12,8 @@
 Stage::Stage(ObjectID id)
     : Level(id)
 {
-    Map * map = new Map();
-    add_child(map);
+    Map * maps = new Map();
+    add_child(maps);
 //     //Environment *env = Environment::get_instance();
     
 //     //double x = 0;
@@ -27,14 +27,14 @@ Stage::Stage(ObjectID id)
 //     //m_floor.set(x, y);
 //     //m_floor.set_dimensions(w, h);
 
-// 	map<int,Animation*> actions;
+ 	map<int,Animation*> actions;
 	
-//     actions[Sprite::IDLE] = new Animation("res/sprites/idle.png", 
-//         0, 0, 40, 81, 2,300, true);
-// 	actions[Sprite::RUNNING] = new Animation("res/sprites/running.png", 
-//         0, 0, 40, 81, 8,50, true);
+     actions[Player::IDLE] = new Animation("res/sprites/idle.png", 
+         0, 0, 40, 81, 2,300, true);
+ 	actions[Player::RUNNING] = new Animation("res/sprites/running.png", 
+         0, 0, 40, 81, 8,50, true);
 
-//     Player *player = new Player(this, "player", actions);
+     Player *player = new Player(this, "player", actions);
     
 //     Item *item = new Item(this, "item", 0, 0, Map::MAP, true);
     
@@ -43,7 +43,7 @@ Stage::Stage(ObjectID id)
     
 //     printf("Stage 1\n");
 
-//     player->set_position(300, 400);
+     player->set_position(300, 400);
     
 //     // //Adcionando objetos à sala
 //     // maps.AddObject(currentRoom, player, Map::CHAR);
@@ -60,7 +60,7 @@ Stage::Stage(ObjectID id)
 //     //     printf("saiu1\n");
 //     // }
 //     printf("saiu2\n");
-//        // add_child(player);
+     add_child(player);
 }
 
 void

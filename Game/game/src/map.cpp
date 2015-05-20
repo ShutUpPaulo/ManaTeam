@@ -7,11 +7,10 @@
 
 using namespace std;
 
-// Add Objects to a list
-void Map::AddObject(Map::room *room, Object *object, Map::Priority priority)
+Map::Map()
 {
-    room->objects.push_back(object);
-    printf("saindo do add object\n");
+	Room *room = new Room(this,"sala");
+	add_child(room);
 }
 
 // Insert Room
@@ -158,10 +157,4 @@ void Map::draw_self()
     Environment *env = Environment::get_instance();
     //env->canvas->clear(Color::BLUE);
     env->canvas->draw(r,color);
-}
-
-Map::Map()
-{
-	Room *room = new Room(this,"sala");
-	add_child(room);
 }
