@@ -45,7 +45,7 @@ Button::draw_self()
 {
     Environment *env = Environment::get_instance();
     env->canvas->fill(bounding_box(), m_impl->background);
-}
+}   
 
 bool
 Button::onMouseButtonEvent(const MouseButtonEvent& event)

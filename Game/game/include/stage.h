@@ -17,7 +17,6 @@ class Stage : public Level
 {
 public:
     Stage(ObjectID id);
-    Map maps;
 
 private:
     Rect m_floor;

@@ -6,8 +6,9 @@
  * Licença: LGPL. Sem copyright.
  */
 #include "titlescreen.h"
+ 
 #include "button.h"
-
+#include <font.h>
 #include <environment.h>
 
 #include <iostream>
@@ -18,7 +19,7 @@ TitleScreen::TitleScreen()
 {
     Environment *env = Environment::get_instance();
 
-    double w = env->canvas->w();
+     double w = env->canvas->w();
     double h = env->canvas->h();
 
     double bw = 100;

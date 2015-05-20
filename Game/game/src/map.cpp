@@ -1,6 +1,9 @@
 #include "map.h"
+#include "room.h"
 #include <vector>
 #include <utility>
+#include <ijengine/core/environment.h>
+#include <ijengine/core/rect.h>
 
 using namespace std;
 
@@ -8,7 +11,7 @@ using namespace std;
 void Map::AddObject(Map::room *room, Object *object, Map::Priority priority)
 {
     room->objects.push_back(object);
-    printf("saindo do addobject\n");
+    printf("saindo do add object\n");
 }
 
 // Insert Room
@@ -144,4 +147,21 @@ Map::room * Map::GenerateMap()
     
     printf("saindo da generate\n");
     return rooms;
+}
+
+void Map::draw_self()
+{
+	const Color color {0, 200, 60 };
+
+	Rect r {200, 200, 100, 50};
+
+    Environment *env = Environment::get_instance();
+    //env->canvas->clear(Color::BLUE);
+    env->canvas->draw(r,color);
+}
+
+Map::Map()
+{
+	Room *room = new Room(this,"sala");
+	add_child(room);
 }
