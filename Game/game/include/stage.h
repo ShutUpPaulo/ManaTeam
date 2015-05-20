@@ -8,8 +8,10 @@
 #ifndef STAGE_H
 #define STAGE_H
 
-#include <engine/level.h>
-#include <engine/rect.h>
+#include <core/level.h>
+#include <core/rect.h>
+
+#include "map.h"
 
 class Stage : public Level
 {

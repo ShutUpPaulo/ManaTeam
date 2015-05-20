@@ -43,3 +43,6 @@
 *.bak
 *.log
 *.aux
+
+# IJE
+/IJE_Manateam/*

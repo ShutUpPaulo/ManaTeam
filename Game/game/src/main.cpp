@@ -16,7 +16,7 @@ int main(int, char *[])
     try
     {
         SevenKeys keys;
-        keys.init("7 Keys", 800, 600);
+        keys.init("7 Keys", 1280, 720  );
         keys.run();
     } catch (Exception ex)
     {

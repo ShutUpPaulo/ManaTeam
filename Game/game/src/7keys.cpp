@@ -5,10 +5,10 @@
  * Data: 20/04/2015
  * Licença: LGPL. Sem copyright.
  */
-#include <engine/environment.h>
+#include <ijengine/core/environment.h>
 
 #include "7keys.h"
-#include "frontend.h"
+#include <util/frontend.h>
 #include "titlescreen.h"
 #include "stage.h"
 
