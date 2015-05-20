@@ -8,16 +8,30 @@
 \usepackage{anysize}
 \usepackage{makeidx}
 \usepackage[brazil]{babel}
+\usepackage{longtable}
+\usepackage{multirow} 
+\usepackage{hyperref}
 \makeindex
 
-\geometry{verbose,tmargin=1.5cm,bmargin=1.5cm,lmargin=1.5cm,rmargin=1.5cm}
+\newcommand{\longtableendfoot}{Continuará na próxima página}
+
+\geometry{
+verbose,
+a4paper,
+left = 30mm,
+top = 30mm,
+right = 20mm,
+bottom = 20mm
+}
 
 \begin{document}
 \input{capa}
 \onehalfspacing
-\marginsize {2 cm} {2 cm} {2 cm} {2 cm}
 \tableofcontents
 \pagebreak
+\section{Histórico de versionamento}
+\input{commit_log.tex}
+\newpage
 \section{Apresentação e resumo do jogo}
      O objetivo desse documento é apresentar as características principais do jogo 7 Keys, sua história, mecânicas, a proposta de design entre outras informações importantes para o desenvolvimento do jogo.
      
@@ -31,24 +45,86 @@ Ao iniciar o jogo algumas telas são apresentadas ao jogador. Elas contém infor
 
 
 No caso do jogo proposto nesse documento, desenvolvido pela Mana Team, a primeira tela ao executar o jogo que aparece é a tela q apresenta o logo da equipe (Figura 1), que é também o mascote da empresa, o peixe boi [INSIRA AQUI O NOME DO MASCOTE]. Em seguida vem a tela que apresenta as tecnologias utilizadas para desenvolver o jogo (Figura 2), como o GIMP, os programas da Adobe entre outros. Por fim, antes da tela do menu inicial, vemos a tela com a classificação indicativa do jogo (Figura 3). Cada tela ficará visível por 3 segundo e após esse período ocorrerá um efeito de \textit{fade out} com duração de 1 segundo seguido de um efeito de \textit{fade in} também de um segundo que introduzirá a tela seguinte. A música do menu será iniciada no instante em que a primeira tela for carregada.
-\begin{figure}[h]
+\begin{figure}[!h]
     \centering
     \caption{Tela com logo [provisória] da empresa}
-     \includegraphics[keepaspectratio=true,scale=0.35]{logoMT.png}
+     \includegraphics[keepaspectratio=true,scale=0.35]{images/logoMT.png}
 \end{figure}
-\begin{figure}
+\begin{figure} [!h]
     \centering
     \caption{Tecnologias utilizadas}
-    \includegraphics[keepaspectratio=true,scale=0.35]{tecnologias.png}
+    \includegraphics[keepaspectratio=true,scale=0.35]{images/tecnologias.png}
 \end{figure}
-\begin{figure}
+\begin{figure}[!h]
     \centering
     \caption{Classificação Indicativa}
-    \includegraphics[keepaspectratio=true,scale=0.35]{classificacao_indicativa.png}
+    \includegraphics[keepaspectratio=true,scale=0.35]{images/classificacao_indicativa.png}
 \end{figure}
 
 \section{Telas}
 \section{Câmera e HUD}
+
+\section{Controles}
+O jogador poderá usar como forma de controle para o jogo o teclado do computador ou ainda controles para computadores, mais conhecidos como joysticks.
+
+\newpage
+\begin{longtable}{|c|c|}
+\caption{Controles do jogo}
+\\
+\hline
+\multicolumn{2}{|c|}{Lista de comandos do jogo}
+\\
+\hline
+\includegraphics[scale=0.3]{images/360_Dpad.png}
+\includegraphics[scale=0.3]{images/kW.png} 
+\includegraphics[scale=0.3]{images/kA.png}
+\includegraphics[scale=0.3]{images/kS.png}
+\includegraphics[scale=0.3]{images/kD.png}
+& Movimentar o personagem na tela
+\\
+\hline
+\includegraphics[scale=0.3]{images/360_RT.png}
+\includegraphics[scale=0.3]{images/kShift.png}
+ & Correr (na direção selecionada)
+\\
+\hline
+\includegraphics[scale=0.3]{images/360_RB.png}
+\includegraphics[scale=0.3]{images/kCtrl.png}
+& Rolar (na direção selecionada) 
+\\
+\hline
+\includegraphics[scale=0.3]{images/360_LB.png}
+\includegraphics[scale=0.3]{images/kAlt.png}
+& Agachar e andar agachado (pressionando algum botão direcional)
+\\
+\hline
+\includegraphics[scale=0.3]{images/360_LT.png}
+\includegraphics[scale=0.3]{images/kL.png}
+& Ataque com arma secundária
+\\
+\hline
+\includegraphics[scale=0.3]{images/360_A.png}
+\includegraphics[scale=0.3]{images/kJ.png}
+& Ataque principal (No menu: selecionar opção)
+\\
+\hline
+\includegraphics[scale=0.3]{images/360_B.png}
+\includegraphics[scale=0.3]{images/kK.png}
+& Pegar item no chão (No menu: negar opção)
+\\
+\hline
+\includegraphics[scale=0.3]{images/360_X.png}
+\includegraphics[scale=0.3]{images/kQ.png}
+& Usar item 
+\\
+\hline
+\includegraphics[scale=0.3]{images/360_Start.png}
+\includegraphics[scale=0.3]{images/kP.png}
+& Pausar jogo (acessa o menu de pausa) 
+\\
+\hline
+\end{longtable}
+\newpage
 \section{A história do jogo}
 
    Início da 2a Guerra Mundial. A Alemanha invadiu a Polônia, levando a França e o Reino Unido a declarar guerra à Alemanha. O personagem, Edmond Gauthier - um sargento do exército francês - é um homem com um forte senso de honra que lidera bravamente seu exército frente ao inimigo alemão.
