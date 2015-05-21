@@ -41,35 +41,38 @@ bottom = 20mm
 \section{Requisitos Tecnológicos}
 Para a atividade de desenvolvimento foi estabelecida a utilização das seguintes ferramentas:
 
-1. Sistema Operacional: Linux Ubuntu 14.04 64-bits
+\begin{enumerate}
+\item Sistema Operacional: Linux Ubuntu 14.04 64-bits
 
 Este SO foi escolhido por ser uma ferramenta open source e de utilização comum para a maioria da equipe de desenvolvimento.
 
-2. APIs para manipulação de arquivos, áudio e gráfica: SDL2/SDL1.2
+\item APIs para manipulação de arquivos, áudio e gráfica: SDL2/SDL1.2
 
 API padrão da disciplina.
 
-3. Ferramenta de controle de versão: Git
+\item Ferramenta de controle de versão: Git
 
 Ferramenta padrão da disciplina.
 
-5. Depurador: Debugger
+\item Depurador: Debugger
 
 Por ser o software padrão do Linux Ubuntu, o depurador Debugger, da suite GNU, será utilizado.
 
-6. Editor de texto: Sublime Text 2 
+\item Editor de texto: Sublime Text 2 
 
 O editor Sublime Text 2 está sendo utilizado, porém será decidido por um novo editor em breve.
 
-7. Linguagem de script: Lua
+\item Linguagem de script: Lua
 
 Linguagem de script padrão da disciplina.
 
-8. Linguagem de programação: C++
+\item Linguagem de programação: C++
 
-Esta linguagem foi escolhida por ser de compreenção comum para a maioria da equipe de desenvolvimento.
+Esta linguagem foi escolhida por ser de compreensão comum para a maioria da equipe de desenvolvimento.
 
-9. Compilador: g++
+\item Compilador: g++
+
+\end{enumerate}
 
 \section{Front End}
 Ao iniciar o jogo algumas telas são apresentadas ao jogador. Elas contém informações básicas porém importantes, como a empresa que desenvolveu o jogo e as tecnologias ligadas à ele. 
@@ -191,12 +194,12 @@ Como previamente descrito na história do jogo, Edmond não consegue lidar com a
 	Esse fantasma aparece para o Edmond na primeira fase para impedi-lo de alcançar o andar inferior.
 
 \subsection{Fantasma do soldado criança}
- O fantasma referente ao soldado criança se parece um pouco com o fantasma dos soldados fuzilados pois esse também era um soldado inimigo. Edmond também é perturbado pelo fato de ter matado a sangue frio uma criança, mesmo que o tenha feito para garantir a segurança de seu amigo e aliado de guerra. [INSERIR AQUI IMAGEM E DESCRIÇÃO DO FANTASMA IN GAME E VERSÀO CUTSCENE]
+ O fantasma referente ao soldado criança se parece um pouco com o fantasma dos soldados fuzilados pois esse também era um soldado inimigo. Edmond também é perturbado pelo fato de ter matado a sangue frio uma criança, mesmo que o tenha feito para garantir a segurança de seu amigo e aliado de guerra. [INSERIR AQUI IMAGEM E DESCRIÇÃO DO FANTASMA IN GAME E VERSÃO CUTSCENE]
  
  Esse fantasma irá aparecer na segunda fase do jogo. Por representar o fantasma de uma criança, esse fantasma irá tentar pregar "peças" no jogador, como rindo em momentos aleatórios da fase, e  aparecendo em momentos diferentes do primeiro fantasma.
  
 \subsection{Fantasma dos reféns da câmara de gás}
-Esse fantasma, que tem a base do seu corpo formada por gás, representa uma das maiores falhas de Edmond durante a guerra, a falha na missão de resgate dos reféns judeus na Polônia, como já relatado na história do jogo. [INSERIR AQUI IMAGEM E DESCRIÇÃO DO FANTASMA IN GAME E VERSÀO CUTSCENE]
+Esse fantasma, que tem a base do seu corpo formada por gás, representa uma das maiores falhas de Edmond durante a guerra, a falha na missão de resgate dos reféns judeus na Polônia, como já relatado na história do jogo. [INSERIR AQUI IMAGEM E DESCRIÇÃO DO FANTASMA IN GAME E VERSÃO CUTSCENE]
 
 A pressão causada por essa lembrança na mente de Edmond é tão forte ou até maior que as outras e isso impacta diretamente na relação dele com o fantasma e com a fase em si. O fantasma estará presente em mais momentos da fase, interagindo direta e indiretamente com o Edmond com maior frequência que os anteriores. Esse fantasma estará na terceira fase do jogo.
 
@@ -227,7 +230,7 @@ Os fantasmas são, na verdade,personagens que só existem dentro da cabeça do E
 \section{O início do jogo}
     O jogo se inicia no último andar do campo de concentração de Belsen. Edmond nota que a cela e tenta fugir. O personagem estará em sua cela no início do jogo. O objetivo de cada fase é procurar a chave que dá acesso á fase seguinte. Essa chave está em algum local aleatório das fases que são geradas de forma aleatória. Seu formato pode mudar de uma fase para outra, mas será sempre um objeto que destrava uma porta específica em alguma sala para a fase seguinte. Toda vez que o jogador perder (for pego por um guarda) o mapa é carregado novamente. Na história, a justificativa para essa mecânica é que a cada vez que ele é capturado e consegue fugir novamente, ele pensa em como ele conseguiria fugir se a estrutura fosse diferente.
   
-    Na primeira fase o primeiro inimigo a aparecer será o segurança nível fácil, que fica parado, girando ao redor do próprio eixo, em busca de detentos. Se o guarda avistar o jogador, o jogador terá um tempo para reagir até que o guarda convoque reforços. Inicialmente esse tempo de ação está estimado em 3 a 5 segundos para que o jogador saia da sala que se econtra ou elimine o guarda. Esse guarda eliminado torna-se um fantasma que ficará vagando pelas salas, dificultando progresso do personagem.
+    Na primeira fase o primeiro inimigo a aparecer será o segurança nível fácil, que fica parado, girando ao redor do próprio eixo, em busca de detentos. Se o guarda avistar o jogador, o jogador terá um tempo para reagir até que o guarda convoque reforços. Inicialmente esse tempo de ação está estimado em 3 a 5 segundos para que o jogador saia da sala que se encontra ou elimine o guarda. Esse guarda eliminado torna-se um fantasma que ficará vagando pelas salas, dificultando progresso do personagem.
   
     Ao encontrar a chave, que estará em alguma sala aleatória, o jogador terá que procurar (caso ainda não tenha achado) a porta que abre com aquela chave. No entanto, ao conseguir a chave, um fantasma especial, exclusivo de cada fase, aparecerá e irá perseguir o jogador, que deve fugir do fantasma até encontrar a porta que dá acesso á próxima fase. Feito isso o jogador terá concluído a fase 1. O processo se repete para as demais fases. No entanto, inimigos, itens e objetos diferentes surgirão à medida que o personagem progrida no jogo
 
