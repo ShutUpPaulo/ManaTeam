@@ -14,8 +14,8 @@ Ferramenta padrão da disciplina.
 5. Depurador: Debugger
 Por ser o software padrão do Linux Ubuntu, o depurador Debugger, da suite GNU, será utilizado.
 
-6. Editor de texto: Anjuta (Não oficial)
-O editor Anjuta está sendo utilizado, porém será decidido por um novo editor em breve.
+6. Editor de texto: Sublime Text 2 (Não oficial)
+O editor Sublime Text 2 está sendo utilizado, porém será decidido por um novo editor em breve.
 
 7. Linguagem de script: Lua
 Linguagem de script padrão da disciplina.
