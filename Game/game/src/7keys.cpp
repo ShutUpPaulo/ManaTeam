@@ -8,7 +8,7 @@
 #include <ijengine/core/environment.h>
 
 #include "7keys.h"
-#include <util/frontend.h>
+#include <ijengine/util/frontend.h>
 #include "titlescreen.h"
 #include "stage.h"
 
@@ -25,15 +25,15 @@ SevenKeys::load_level(const string& id)
 {
     if (id == "logo")
     {
-        return new FrontEnd("tecnologias", "res/images/logoMT.png");
+        return new FrontEnd("logo", "tecnologias", "res/images/logoMT.png");
     }
     else if (id == "tecnologias")
     {
-        return new FrontEnd("classificacao", "res/images/tecnologias.png");
+        return new FrontEnd("tecnologias", "classificacao", "res/images/tecnologias.png");
     }
     else if (id == "classificacao")
     {
-        return new FrontEnd("title", "res/images/classificacao_indicativa.png");
+        return new FrontEnd("classificacao", "title", "res/images/classificacao_indicativa.png");
     } else if (id == "title")
     {
         return new TitleScreen();

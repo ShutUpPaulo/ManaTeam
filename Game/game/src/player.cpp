@@ -19,7 +19,7 @@ class Idle : public Player::SpriteState
 {
 public:
     Idle(Player *parent,Animation* animation_idle) : m_parent(parent),
-        m_animation(new Animation("res/sprites/idle.png", 0, 0, 40, 81, 2,
+        m_animation(new Animation("res/sprites/idle.png", 0, 0, 41, 81, 1,
         400, true))
     {
         parent->set_dimensions(m_animation->w(), m_animation->h());
@@ -38,18 +38,12 @@ public:
 
         short dir = m_parent->direction();
 
-        if (dir != 0)
+        if (dir >= 0)
         {
             m_parent->report_event(Player::MOVED);
-
-            if (dir < 0)
-            {
-                m_animation->set_row(1);
-            } else
-            {
-                m_animation->set_row(0);
-            }
+            m_animation->set_row(dir);
         }
+        
     }
 
 private:
@@ -62,7 +56,7 @@ class Running : public Player::SpriteState
 public:
     Running(Player *parent,Animation* animation_running) : m_parent(parent),
         m_animation(new Animation("res/sprites/running.png", 0, 0, 40,
-        81, 10, 55, true))
+        81, 8, 60, true))
     {
         parent->set_dimensions(m_animation->w(), m_animation->h());
     }
@@ -80,16 +74,21 @@ public:
 
         short dir = m_parent->direction();
 
-        if (dir == 0)
+        if (dir == -1)
         {
             m_parent->report_event(Player::STOPPED);
-        } else if (dir < 0)
+        }else
+        {
+            m_animation->set_row(dir);
+        }
+
+        /*else if (dir < 0)
         {
             m_animation->set_row(0);
         } else
         {
             m_animation->set_row(1);
-        }
+        }*/
     }
 
 private:
@@ -272,5 +271,14 @@ Player::change_state(State to, State)
 short
 Player::direction() const
 {
-    return m_right - m_left || m_up - m_down;
+    if(m_left)
+        return 0;
+    else if(m_up)
+        return 1;
+    else if(m_right)
+        return 2;
+    else if(m_down)
+        return 3;
+    else
+        return -1;
 }

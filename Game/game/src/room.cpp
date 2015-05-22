@@ -10,9 +10,9 @@ Room::Room(Object *parent, ObjectID id)
 {
 	Item *piso;
 	string id_piso = "piso";
-	for(int i = 0; i < 22; i++)
+	for(int i = 0; i < 20; i++)
 	{
-		for(int j = 0; j < 14; j++)
+		for(int j = 0; j < 12; j++)
 		{
 			id_piso += '1';
 			piso = new Item(this,id_piso,i*60,j*60,true);
