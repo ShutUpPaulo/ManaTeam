@@ -8,7 +8,7 @@
 using namespace std;
 
 Map::Map()
-{
+{	
 	Room *room = new Room(this,"sala");
 	add_child(room);
 }
@@ -29,25 +29,25 @@ Map::room * Map::InsertRoom(int id, room * left, room * top, room * right, room 
 }
 
 // Room Criation
-void Map::CreateRoom(room *rooms, int * id, int x, int y)
+void Map::CreateRoom(Room *room, int *id,int x, int y)
 {
 	int randomVar;
-
-	
 	
 	randomVar = rand() % 4+1;
 
 	switch(randomVar)
 	{	
 		case LEFT:
-			if(rooms->left != NULL)
-				CreateRoom(rooms->left, id, x-1, y);
+			if(room->r_left != nullptr)
+				CreateRoom(room->r_left, id, x-1, y);
 			else if(x-1 >= 0 && matriz[x-1][y] == false)
             {
-				rooms->left = InsertRoom(*id, NULL, NULL, rooms, NULL);
+            	room->r_left = new Room(this, "salaEsq");
+				//rooms->left = InsertRoom(*id, NULL, NULL, rooms, NULL);
                 matriz[x-1][y] = true;
+                add_child(room->r_left);
                 //*id+=1;
-            }
+            }	
             else
             {
                 *id-=1;
@@ -56,12 +56,14 @@ void Map::CreateRoom(room *rooms, int * id, int x, int y)
 			break;
 			
 		case RIGHT:
-			if(rooms->right != NULL)
-				CreateRoom(rooms->right, id, x+1, y);
+			if(room->r_right != nullptr)
+				CreateRoom(room->r_right, id, x+1, y);
 			else if(x+1 < 5 && matriz[x+1][y] == false)
             {
-				rooms->right = InsertRoom(*id, rooms, NULL, NULL, NULL);
+            	room->r_right = new Room(this, "salaDir");
+				//rooms->right = InsertRoom(*id, rooms, NULL, NULL, NULL);
                 matriz[x+1][y] = true;
+                add_child(room->r_right);
                 //*id+=1;
             }
             else
@@ -72,12 +74,13 @@ void Map::CreateRoom(room *rooms, int * id, int x, int y)
 			break;
 		
 		case TOP:
-			if(rooms->top != NULL)
-				CreateRoom(rooms->top, id, x, y-1);
+			if(room->r_top != nullptr)
+				CreateRoom(room->r_top, id, x, y-1);
 			else if(y-1 >= 0 && matriz[x][y-1] == false)
             {
-				rooms->top = InsertRoom(*id, NULL, NULL, NULL, rooms);
+				room->r_top = new Room(this, "salaCim");
                 matriz[x][y-1] = true;
+                add_child(room->r_top);
                 //*id+=1;
             }
             else
@@ -88,12 +91,13 @@ void Map::CreateRoom(room *rooms, int * id, int x, int y)
 			break;
 		
 		case BOTTOM:
-			if(rooms->bot != NULL)
-				CreateRoom(rooms->bot, id, x, y+1);
+			if(room->r_botton != nullptr)
+				CreateRoom(room->r_botton, id, x, y+1);
 			else if(y+1 < 5 && matriz[x][y+1] == false)
             {
-				rooms->bot = InsertRoom(*id, NULL, rooms, NULL, NULL);
+				room->r_botton = new Room(this, "salaBai");
                 matriz[x][y+1] = true;
+                add_child(room->r_botton);
                 //*id+=1;
             }
             else
@@ -121,7 +125,7 @@ void Map::ResetMap(room *rooms)
 }
 
 // Generate all the map
-Map::room * Map::GenerateMap()
+void Map::GenerateMap()
 {
 	int id = 0;
     int x = 2;
@@ -136,16 +140,16 @@ Map::room * Map::GenerateMap()
         }
     }
     printf("Gerou a matriz\n");
-	room *rooms = InsertRoom(id, NULL, NULL, NULL, NULL);
+	Room *room = new Room(this,"sala");
+	add_child(room);
 	matriz[2][2] = true;
     id+=1;
 	for(id = 1;id < MAX; id++)
 	{	
-		CreateRoom(rooms, &id, x, y);
+		CreateRoom(room, &id, x, y);
 	}
     
     printf("saindo da generate\n");
-    return rooms;
 }
 
 void Map::draw_self()
