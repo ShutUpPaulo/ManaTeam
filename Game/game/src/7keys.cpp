@@ -30,7 +30,7 @@ SevenKeys::load_level(const string& id)
     else if (id == "tecnologias")
     {
         return new FrontEnd("tecnologias", "classificacao", "res/images/tecnologias.png");
-    }
+    }cd
     else if (id == "classificacao")
     {
         return new FrontEnd("classificacao", "title", "res/images/classificacao_indicativa.png");

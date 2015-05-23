@@ -9,16 +9,9 @@ Room::Room(Object *parent, ObjectID id)
 : Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr)
 {
 	Item *piso;
-<<<<<<< HEAD
 	for(int i = 0; i < 16; i++)
 	{
 		for(int j = 0; j < 9; j++)
-=======
-	string id_piso = "piso";
-	for(int i = 0; i < 20; i++)
-	{
-		for(int j = 0; j < 12; j++)
->>>>>>> 479762ae8585ced747789fbb0d7a1a5f86b7b7dd
 		{
 			piso = new Item(this,"piso",i*80,j*80,true);
 			piso->change_sprite("res/tile_sheets/tile.png");
