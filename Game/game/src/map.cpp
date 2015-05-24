@@ -1,5 +1,5 @@
 #include "map.h"
-#include "room.h"
+
 #include <vector>
 #include <utility>
 #include <ijengine/core/environment.h>
@@ -13,22 +13,6 @@ Map::Map()
 	add_child(room);*/
 	GenerateMap();
 }
-
-// Insert Room
-Map::room * Map::InsertRoom(int id, room * left, room * top, room * right, room * bot)
-{
-	room * newRoom = (room*) malloc(sizeof(room));
-	newRoom->left = left;
-	newRoom->right = right;
-	newRoom->top = top;
-	newRoom->bot = bot;
-	newRoom->id = id;
-    newRoom->hasMap = false;
-	newRoom->objects.clear();
-	
-	return newRoom;
-}
-
 // Room Criation
 void Map::CreateRoom(Room *room, int *id,int x, int y)
 {
@@ -43,10 +27,11 @@ void Map::CreateRoom(Room *room, int *id,int x, int y)
 				CreateRoom(room->r_left, id, x-1, y);
 			else if(x-1 >= 0 && matriz[x-1][y] == false)
             {
-            	room->r_left = new Room(this, "salaEsq");
+            	room->Room::r_left = new Room(this, "salaEsq");
+            	room->r_left->r_right = room;
 				//rooms->left = InsertRoom(*id, NULL, NULL, rooms, NULL);
                 matriz[x-1][y] = true;
-                add_child(room->r_left);
+                //add_child(room->r_left);
                 //*id+=1;
             }	
             else
@@ -62,9 +47,10 @@ void Map::CreateRoom(Room *room, int *id,int x, int y)
 			else if(x+1 < 5 && matriz[x+1][y] == false)
             {
             	room->r_right = new Room(this, "salaDir");
+            	room->r_right->r_left = room;
 				//rooms->right = InsertRoom(*id, rooms, NULL, NULL, NULL);
                 matriz[x+1][y] = true;
-                add_child(room->r_right);
+                //add_child(room->r_right);
                 //*id+=1;
             }
             else
@@ -80,8 +66,9 @@ void Map::CreateRoom(Room *room, int *id,int x, int y)
 			else if(y-1 >= 0 && matriz[x][y-1] == false)
             {
 				room->r_top = new Room(this, "salaCim");
+				room->r_top->r_botton = room;
                 matriz[x][y-1] = true;
-                add_child(room->r_top);
+                //add_child(room->r_top);
                 //*id+=1;
             }
             else
@@ -97,8 +84,9 @@ void Map::CreateRoom(Room *room, int *id,int x, int y)
 			else if(y+1 < 5 && matriz[x][y+1] == false)
             {
 				room->r_botton = new Room(this, "salaBai");
+				room->r_botton->r_top = room;
                 matriz[x][y+1] = true;
-                add_child(room->r_botton);
+                //add_child(room->r_botton);
                 //*id+=1;
             }
             else
@@ -110,20 +98,6 @@ void Map::CreateRoom(Room *room, int *id,int x, int y)
 	}
 }
 
-// Delete rooms
-void Map::ResetMap(room *rooms)
-{
-	if(rooms->left != NULL)
-		ResetMap(rooms->left);
-	if(rooms->top != NULL)
-		ResetMap(rooms->top);
-	if(rooms->right != NULL)
-		ResetMap(rooms->right);
-	if(rooms->bot != NULL)
-		ResetMap(rooms->bot);
-		
-	free(rooms);
-}
 
 // Generate all the map
 void Map::GenerateMap()
@@ -149,7 +123,6 @@ void Map::GenerateMap()
 	{	
 		CreateRoom(room, &id, x, y);
 	}
-    
     printf("saindo da generate\n");
 }
 

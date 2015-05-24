@@ -2,6 +2,8 @@
 #include <core/keyboardevent.h>
 #include <core/environment.h>
 
+#include "map.h"
+#include "room.h"
 #include "player.h"
 
 constexpr double SPEED { 200.5 };
@@ -97,7 +99,7 @@ private:
 };
 
 
-Player::Player(Object *parent, ObjectID id,std::map<int,Animation*>actions)
+Player::Player(Object *parent, ObjectID id,std::map<int,Animation*>actions, Room * current_room)
     : Object(parent, id), m_left(0), m_right(0), m_up(0), m_down(0), m_last(0), m_state(IDLE)
 {
     Environment *env = Environment::get_instance();
@@ -248,7 +250,15 @@ Player::update_self(unsigned long elapsed)
 
     set_x(x);
     set_y(y);
+
+    if(x <= 80 && ( y >= 340 && y <= 420) && current_room->r_left)
+    {
+        printf("testando");
+    }
+
 }
+
+//Room::Room Player::current_room(Room)
 
 void
 Player::report_event(Event event)

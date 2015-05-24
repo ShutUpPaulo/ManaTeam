@@ -34,7 +34,7 @@ Stage::Stage(ObjectID id)
  	actions[Player::RUNNING] = new Animation("res/sprites/running.png", 
          0, 0, 40, 81, 8,50, true);
 
-     Player *player = new Player(this, "player", actions);
+     Player *player = new Player(this, "player", actions, nullptr);
     
 //     Item *item = new Item(this, "item", 0, 0, Map::MAP, true);
     
