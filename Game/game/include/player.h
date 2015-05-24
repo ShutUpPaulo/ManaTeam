@@ -5,6 +5,8 @@
 #include <core/keyboardeventlistener.h>
 #include <core/animation.h>
 
+#include "map.h"
+
 #include <memory>
 #include <map>
 
@@ -13,7 +15,7 @@ using std::unique_ptr;
 class Player : public Object, KeyboardEventListener
 {
 public:
-Player(Object *parent, ObjectID id,std::map<int,Animation*> actions);
+Player(Object *parent, ObjectID id,std::map<int,Animation*> actions, Map * current_map);
     ~Player();
 
     bool onKeyboardEvent(const KeyboardEvent& event);
@@ -51,6 +53,7 @@ Player(Object *parent, ObjectID id,std::map<int,Animation*> actions);
 protected:
     short m_left, m_right, m_up, m_down;
     unsigned long m_last;
+    Map *current_map;
     
     //Status do personagem
     int health, sanity, stamina;
@@ -60,6 +63,7 @@ protected:
     State m_fst[STATE_TOTAL][EVENT_TOTAL];
     SpriteState * m_states[STATE_TOTAL];
 
+    void enter_room(Room *, Room *, int, int);
     void draw_self();
     void update_self(unsigned long elapsed);
 };

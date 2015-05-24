@@ -8,12 +8,14 @@ class Room: public Object
 public:
 	Room(Object *parent, ObjectID id);
 
+	Room *r_left;
+	Room *r_right;
+	Room *r_top;
+	Room *r_botton;
+
+	void check_entry();
 private:
 	//bool hasMap;
-	Room *m_left;
-	Room *m_right;
-	Room *m_top;
-	Room *m_botton;
 
 	void draw_self();
 };

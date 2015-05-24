@@ -12,12 +12,12 @@
 #include <core/rect.h>
 
 #include "map.h"
+#include "room.h"
 
 class Stage : public Level
 {
 public:
     Stage(ObjectID id);
-
 private:
     Rect m_floor;
 

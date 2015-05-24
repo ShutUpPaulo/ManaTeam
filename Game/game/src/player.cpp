@@ -2,9 +2,15 @@
 #include <core/keyboardevent.h>
 #include <core/environment.h>
 
+#include <iostream>
+
+#include "map.h"
+#include "room.h"
 #include "player.h"
 
-constexpr double SPEED { 160.5 };
+using namespace std;
+
+constexpr double SPEED { 200.5 };
 
 class Player::SpriteState
 {
@@ -97,8 +103,8 @@ private:
 };
 
 
-Player::Player(Object *parent, ObjectID id,std::map<int,Animation*>actions)
-    : Object(parent, id), m_left(0), m_right(0), m_up(0), m_down(0), m_last(0), m_state(IDLE)
+Player::Player(Object *parent, ObjectID id,std::map<int,Animation*>actions, Map * current_map)
+    : Object(parent, id), m_left(0), m_right(0), m_up(0), m_down(0), m_last(0), m_state(IDLE), current_map(current_map)
 {
     Environment *env = Environment::get_instance();
     env->events_manager->register_keyboard_event_listener(this);
@@ -248,7 +254,49 @@ Player::update_self(unsigned long elapsed)
 
     set_x(x);
     set_y(y);
+
+   // printf("posx: %lf, posy: %lf\n",x,y);
+
+    int posx,posy;
+    posx = (int) x;
+    posy = (int) y;
+
+    if(posx <= 1 && ( posy >= 280 && posy <= 420) && current_map->current_room->r_left)
+    {
+        printf("entrando sala esquerda, posx: %d, posy: %d\n", posx, posy);
+        enter_room(current_map->current_room, current_map->current_room->r_left, 1120, posy);
+    }
+    else if(posx >= 1200 && ( posy >= 280 && posy <= 420) && current_map->current_room->r_right)
+    {
+        printf("entrando sala direita, posx: %d, posy: %d\n", posx, posy);
+        enter_room(current_map->current_room, current_map->current_room->r_right, 80, posy);
+    }
+    else if(posy <= 1  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_top)
+    {
+        printf("entrando sala cima, posx: %d, posy: %d\n", posx, posy);
+        enter_room(current_map->current_room, current_map->current_room->r_top, posx, 580);
+    }
+    else if(posy >= 620  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_botton)
+    {
+        printf("entrando sala baixo, posx: %d, posy: %d\n", posx, posy);
+        enter_room(current_map->current_room, current_map->current_room->r_botton, posx, 80);
+    }
+    else
+    {
+        //printf("nao esta entrando em salas\n");
+    }
+
 }
+
+void
+Player::enter_room(Room * anterior, Room * nova, int posx, int posy)
+{
+    set_position(posx, posy);
+    printf("entrou player->enterroom\n");
+    current_map->enter_room(anterior, nova);
+    
+}
+
 
 void
 Player::report_event(Event event)
