@@ -37,7 +37,9 @@ bottom = 20mm
      
      O jogo baseia-se em dois gêneros: stealth e roguelike. Stealth é um gênero onde o jogador precisa evitar ser notado, utilizando da furtividade para evadir ou elaborar emboscadas para os antagonistas. Jogos do gênero empregam mecânicas como se esconder na sombra, em objetos do cenário, disfarces, e barulhos que podem alertar os inimigos. Roguelike é um subgênero, geralmente de jogos de RPG, que é caracterizado pela geração de mapas aleatórios durante a partida, mapas baseados em tile e permanent death.
 
-    
+\section{Objetivo do jogo}
+O principal objetivo do jogo é fugir do santório. O jogador começa na ala de celas e precisa alcançar o térreo. Para finalizar cada fase será necessário encontrar uma chave específica que abra a porta que dá acesso ao andar inferior ou próxima ala.
+ 
 \section{Requisitos Tecnológicos}
 Para a atividade de desenvolvimento foi estabelecida a utilização das seguintes ferramentas:
 
@@ -95,7 +97,13 @@ No caso do jogo proposto nesse documento, desenvolvido pela Mana Team, a primeir
 \end{figure}
 
 \section{Telas}
+
 \section{Câmera e HUD}
+A câmera do jogo é fixa e vista de um ângulo superior inclinado, mais conhecido como "visão de pássaro". 
+
+No canto superior esquerdo será apresentado as três barras de dados fundamentais do jogo na seguinte ordem: barra de vida, barra de resistência (stamina) e de sanidade. As barras estão alinhadas á uma imagem do rosto do player que irá variar de acordo com o nível da barra da sanidade.
+
+No canto inferior esquerdo será apresentado os botões de ação do personagem que demosntram os itens que o player poderá utilizar, tanto para ataque quanto para se curar.
 
 \section{Controles}
 O jogador poderá usar como forma de controle para o jogo o teclado do computador ou ainda controles para computadores, mais conhecidos como joysticks. A tabela presente nessa seção apresenta as devidas funcionalidades de ambas as opções dentro do jogo.
@@ -121,12 +129,12 @@ O jogador poderá usar como forma de controle para o jogo o teclado do computado
 \\
 \hline
 \includegraphics[scale=0.3]{images/360_RB.png}
-\includegraphics[scale=0.3]{images/kCtrl.png}
+\includegraphics[scale=0.3]{images/kAlt.png}
 & Rolar (na direção selecionada) 
 \\
 \hline
 \includegraphics[scale=0.3]{images/360_LB.png}
-\includegraphics[scale=0.3]{images/kAlt.png}
+\includegraphics[scale=0.3]{images/kCtrl.png}
 & Agachar e andar agachado (pressionando algum botão direcional)
 \\
 \hline
@@ -142,7 +150,7 @@ O jogador poderá usar como forma de controle para o jogo o teclado do computado
 \hline
 \includegraphics[scale=0.3]{images/360_B.png}
 \includegraphics[scale=0.3]{images/kK.png}
-& Pegar item no chão (No menu: negar opção)
+& Interagir com itens (No menu: negar opção)
 \\
 \hline
 \includegraphics[scale=0.3]{images/360_X.png}
@@ -150,9 +158,14 @@ O jogador poderá usar como forma de controle para o jogo o teclado do computado
 & Usar item 
 \\
 \hline
+\includegraphics[scale=0.3]{images/360_Y.png}
+\includegraphics[scale=0.3]{images/kE.png}
+& Abre a porta especial (ao possuir a chave) 
+\\
+\hline
 \includegraphics[scale=0.3]{images/360_Start.png}
 \includegraphics[scale=0.3]{images/kP.png}
-& Pausar jogo (acessa o menu de pausa) 
+& Pausar jogo (acessa o menu de pausa)
 \\
 \hline
 \end{longtable}
