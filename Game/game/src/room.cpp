@@ -10,9 +10,9 @@ Room::Room(Object *parent, ObjectID id)
 : Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr)
 {
 	Item *piso;
-	for(int i = 0; i < 0; i++)
+	for(int i = 0; i < 18; i++)
 	{
-		for(int j = 0; j < 0; j++)
+		for(int j = 0; j < 12; j++)
 		{
 			piso = new Item(this,"piso",i*60,j*60,true);
 			piso->change_sprite("res/tile_sheets/tile1.png");
@@ -60,7 +60,7 @@ void Room::draw_self()
 	Environment *env = Environment::get_instance();
 	shared_ptr <Font> font = env->resources_manager->get_font("res/fonts/TakaoExGothic.ttf");
 	env->canvas->set_font(font);
-	env->canvas->draw(id(),300,400,Color::RED);
+	env->canvas->draw(id(),1150,20,Color::RED);
 
 	if(this->r_left)
 	{
@@ -86,5 +86,6 @@ void Room::draw_self()
 		env->canvas->draw(b_door, Color::WHITE);
 
 	}
+
 }
 

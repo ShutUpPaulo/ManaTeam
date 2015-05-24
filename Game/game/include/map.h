@@ -22,13 +22,16 @@ public:
 	Map();
 
     enum Position {LEFT = 1, RIGHT = 2, TOP = 3, BOTTOM = 4};
-	
+	Room * current_room;
 private:
+
     bool matriz[5][5];
 	void CreateRoom(Room *, int*, int, int);
 	void draw_self();
 
 public:
+	Room * room();
+	void enter_room(Room *, Room *);
 	void GenerateMap();
 	
 };

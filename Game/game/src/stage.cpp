@@ -34,32 +34,10 @@ Stage::Stage(ObjectID id)
  	actions[Player::RUNNING] = new Animation("res/sprites/running.png", 
          0, 0, 40, 81, 8,50, true);
 
-     Player *player = new Player(this, "player", actions, nullptr);
-    
-//     Item *item = new Item(this, "item", 0, 0, Map::MAP, true);
-    
-//     item->set_x(1);
-//     item->set_y(1);
-    
-//     printf("Stage 1\n");
+     Player *player = new Player(this, "player", actions, maps);
 
      player->set_position(300, 400);
-    
-//     // //Adcionando objetos à sala
-//     // maps.AddObject(currentRoom, player, Map::CHAR);
-//     // maps.AddObject(currentRoom, item, Map::MAP);
-    
-//     // printf("adicionou\n");
 
-//     // for(auto it = currentRoom->objects.begin(); 
-//     //     it != currentRoom->objects.end() ; ++it)
-//     // {
-//     //     (*it)->set_position((*it)->x(),(*it)->y());
-//     //     printf("entrou\n");
-//     //     add_child((*it));
-//     //     printf("saiu1\n");
-//     // }
-//     printf("saiu2\n");
      add_child(player);
 }
 
