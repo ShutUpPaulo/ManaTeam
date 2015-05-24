@@ -9,15 +9,15 @@ Room::Room(Object *parent, ObjectID id)
 : Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr)
 {
 	Item *piso;
-	for(int i = 0; i < 16; i++)
+	for(int i = 0; i < 21; i++)
 	{
-		for(int j = 0; j < 9; j++)
+		for(int j = 0; j < 12; j++)
 		{
-			piso = new Item(this,"piso",i*80,j*80,true);
-			piso->change_sprite("res/tile_sheets/tile.png");
-			piso->set_w(80);
-			piso->set_h(80);
-			piso->set_position(i*80,j*80);
+			piso = new Item(this,"piso",i*60,j*60,true);
+			piso->change_sprite("res/tile_sheets/tile1.png");
+			piso->set_w(60);
+			piso->set_h(60);
+			piso->set_position(i*60,j*60);
 			add_child(piso);
 		}
 	}

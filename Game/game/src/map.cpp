@@ -9,8 +9,9 @@ using namespace std;
 
 Map::Map()
 {	
-	Room *room = new Room(this,"sala");
-	add_child(room);
+	/*Room *room = new Room(this, "room");
+	add_child(room);*/
+	GenerateMap();
 }
 
 // Insert Room

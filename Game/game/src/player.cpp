@@ -4,7 +4,7 @@
 
 #include "player.h"
 
-constexpr double SPEED { 160.5 };
+constexpr double SPEED { 200.5 };
 
 class Player::SpriteState
 {
