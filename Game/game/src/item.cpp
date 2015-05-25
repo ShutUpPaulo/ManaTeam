@@ -5,11 +5,9 @@
 #include <core/environment.h>
 
 Item::Item(Object *parent, ObjectID id, double posx, double posy, bool walk)
-    : Object(parent, id)
+    : Object(parent, id), walkable(walk)
 {
-
-    walkable = walk;
-    
+    set_position(posx, posy);
     set_x(posx);
     set_y(posy);
 }

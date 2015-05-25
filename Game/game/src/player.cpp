@@ -61,8 +61,8 @@ class Running : public Player::SpriteState
 {
 public:
     Running(Player *parent,Animation* animation_running) : m_parent(parent),
-        m_animation(new Animation("res/sprites/running.png", 0, 0, 40,
-        81, 8, 60, true))
+        m_animation(new Animation("res/sprites/running.png", 0, 0, 60,
+        60, 8, 60, true))
     {
         parent->set_dimensions(m_animation->w(), m_animation->h());
     }

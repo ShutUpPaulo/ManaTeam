@@ -10,20 +10,73 @@ Room::Room(Object *parent, ObjectID id)
 : Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr)
 {
 	Item *piso;
-	for(int i = 0; i < 0; i++)
+	for(int i = 0; i < 22; i++)
 	{
-		for(int j = 0; j < 0; j++)
+		for(int j = 0; j < 12; j++)
 		{
 			piso = new Item(this,"piso",i*60,j*60,true);
 			piso->change_sprite("res/tile_sheets/tile1.png");
 			piso->set_w(60);
 			piso->set_h(60);
-			piso->set_position(i*60,j*60);
 			add_child(piso);
 		}
 	}
-	
 
+	/*Adicionando cantos*/
+	Item *canto = new Item(this,"canto", 0, 0,false);
+	canto->change_sprite("res/tile_sheets/canto1.png");
+	canto->set_w(80);
+	canto->set_h(80);
+	add_child(canto);
+
+	canto = new Item(this,"canto", 1200, 0,false);
+	canto->change_sprite("res/tile_sheets/canto2.png");
+	canto->set_w(80);
+	canto->set_h(80);
+	add_child(canto);
+
+	canto = new Item(this,"canto", 0, 640,false);
+	canto->change_sprite("res/tile_sheets/canto4.png");
+	canto->set_w(80);
+	canto->set_h(80);
+	add_child(canto);
+
+	canto = new Item(this,"canto", 1200, 640,false);
+	canto->change_sprite("res/tile_sheets/canto3.png");
+	canto->set_w(80);
+	canto->set_h(80);
+	add_child(canto);
+
+	/*Adicionando paredes */
+	Item *parede;
+	for(int x = 1; x < 15; x++)
+	{
+		parede = new Item(this, "parede", x*80, 0, false);
+		parede->change_sprite("res/tile_sheets/parede2.png");
+		parede->set_w(80);
+		parede->set_h(80);
+		add_child(parede);
+
+		parede = new Item(this, "parede", x*80, 640, false);
+		parede->change_sprite("res/tile_sheets/parede4.png");
+		parede->set_w(80);
+		parede->set_h(80);
+		add_child(parede);
+	}
+	for(int y = 1; y < 8; y++ )
+	{
+		parede = new Item(this, "parede", 0, y*80, false);
+		parede->change_sprite("res/tile_sheets/parede1.png");
+		parede->set_w(80);
+		parede->set_h(80);
+		add_child(parede);
+
+		parede = new Item(this, "parede", 1200, y*80, false);
+		parede->change_sprite("res/tile_sheets/parede3.png");
+		parede->set_w(80);
+		parede->set_h(80);
+		add_child(parede);
+	}
 }
 
 void Room::check_entry()
@@ -90,13 +143,22 @@ void Room::draw_self()
 {
 	Environment *env = Environment::get_instance();
 	draw_id(NULL, this, 640, 360);
-	Rect l_door {640, 360, 80, 40};
-	env->canvas->draw(l_door, Color::RED);
+	Rect square {635, 355, 80, 40};
+	env->canvas->draw(square, Color::RED);
+
+	Item *porta;
 
 	if(this->r_left)
 	{
 		Rect l_door {0, 320, 80, 80};
 		env->canvas->draw(l_door, Color::WHITE);
+
+		/*Adicionando portas */
+		porta = new Item(this,"porta", 0, 320, true);
+		porta->change_sprite("res/tile_sheets/porta1.png");
+		porta->set_w(80);
+		porta->set_h(80);
+		add_child(porta);
 
 	}
 	if(this->r_top)
@@ -104,17 +166,34 @@ void Room::draw_self()
 		Rect t_door {600, 0, 80, 80};
 		env->canvas->draw(t_door, Color::WHITE);
 
+		porta = new Item(this,"porta", 600, 0, true);
+		porta->change_sprite("res/tile_sheets/porta2.png");
+		porta->set_w(80);
+		porta->set_h(80);
+		add_child(porta);
+
 	}
 	if(this->r_right)
 	{
 		Rect r_door {1200, 320, 80, 80};
 		env->canvas->draw(r_door, Color::WHITE);
 
+		porta = new Item(this,"porta", 1200, 320, true);
+		porta->change_sprite("res/tile_sheets/porta3.png");
+		porta->set_w(80);
+		porta->set_h(80);
+		add_child(porta);
+
 	}
 	if(this->r_botton)
 	{
 		Rect b_door {600, 640, 80, 80};
 		env->canvas->draw(b_door, Color::WHITE);
+		porta = new Item(this,"porta", 600, 640, true);
+		porta->change_sprite("res/tile_sheets/porta4.png");
+		porta->set_w(80);
+		porta->set_h(80);
+		add_child(porta);
 
 	}
 
