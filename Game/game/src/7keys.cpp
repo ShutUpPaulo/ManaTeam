@@ -13,7 +13,7 @@
 #include "stage.h"
 
 SevenKeys::SevenKeys()
-    : Game("logo")
+    : Game("fone")
 {
     Environment *env = Environment::get_instance();
 
@@ -22,7 +22,11 @@ SevenKeys::SevenKeys()
 
 Level *
 SevenKeys::load_level(const string& id)
-{
+{   
+    if (id == "fone")
+    {
+        return new FrontEnd("logo", "logo", "res/images/fone.png");
+    }
     if (id == "logo")
     {
         return new FrontEnd("logo", "tecnologias", "res/images/logoMT.png");
