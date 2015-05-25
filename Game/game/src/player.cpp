@@ -1,4 +1,5 @@
 #include <core/rect.h>
+#include <core/circle.h>
 #include <core/keyboardevent.h>
 #include <core/environment.h>
 
@@ -198,7 +199,24 @@ Player::onKeyboardEvent(const KeyboardEvent& event)
 void
 Player::draw_self()
 {
+    Environment * env = Environment::get_instance();
+
+    Rect darkness {0,0,1280,720};
+    Color m_fad, m_fad2;
+    m_fad.set_a(220);
+    env->canvas->set_blend_mode(Canvas::BLEND);
+    env->canvas->fill(darkness, m_fad);
+
+    Circle self_light{{x() + 30, y() + 30},100};
+    m_fad2 = Color::WHITE;
+    m_fad2.set_a(10);
+    env->canvas->fill(self_light, m_fad2);
+
     m_states[m_state]->draw_self();
+
+    
+
+
 }
 
 void
@@ -257,6 +275,7 @@ Player::update_self(unsigned long elapsed)
 
    // printf("posx: %lf, posy: %lf\n",x,y);
 
+    /* Colisao com as portas */
     int posx,posy;
     posx = (int) x;
     posy = (int) y;
