@@ -10,9 +10,9 @@ Room::Room(Object *parent, ObjectID id)
 : Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr)
 {
 	Item *piso;
-	for(int i = 0; i < 18; i++)
+	for(int i = 0; i < 0; i++)
 	{
-		for(int j = 0; j < 12; j++)
+		for(int j = 0; j < 0; j++)
 		{
 			piso = new Item(this,"piso",i*60,j*60,true);
 			piso->change_sprite("res/tile_sheets/tile1.png");
@@ -55,12 +55,31 @@ void Room::check_entry()
 	}
 }
 
-void Room::draw_self()
+void
+Room::draw_id(Room * anterior, Room * sala, int x, int y)
 {
+
 	Environment *env = Environment::get_instance();
 	shared_ptr <Font> font = env->resources_manager->get_font("res/fonts/TakaoExGothic.ttf");
 	env->canvas->set_font(font);
-	env->canvas->draw(id(),1150,20,Color::RED);
+	env->canvas->draw(sala->id(),x,y,Color::RED);
+
+	if(sala->r_left && sala->r_left != anterior)
+		draw_id(sala, sala->r_left, x - 100, y);
+	if(sala->r_top && sala->r_top != anterior)
+		draw_id(sala, sala->r_top, x, y - 40);
+	if(sala->r_right && sala->r_right != anterior)
+		draw_id(sala, sala->r_right, x + 100, y);
+	if(sala->r_botton && sala->r_botton != anterior)
+		draw_id(sala, sala->r_botton, x, y + 40);
+}
+
+void Room::draw_self()
+{
+	Environment *env = Environment::get_instance();
+	draw_id(NULL, this, 640, 360);
+	Rect l_door {640, 360, 80, 40};
+	env->canvas->draw(l_door, Color::RED);
 
 	if(this->r_left)
 	{

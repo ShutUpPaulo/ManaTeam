@@ -16,7 +16,7 @@ public:
 	void check_entry();
 private:
 	//bool hasMap;
-
+	void draw_id(Room *,Room *, int, int);
 	void draw_self();
 };
 

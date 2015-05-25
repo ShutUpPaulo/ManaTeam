@@ -13,11 +13,11 @@ using namespace std;
 
 Map::Map() : current_room(nullptr)
 {	
-	GenerateMap();
+	GenerateMap(50);
 
 }
 // Room Criation
-void Map::CreateRoom(Room *room, int *id,int x, int y)
+void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
 {
 	int randomVar;
 	
@@ -27,29 +27,16 @@ void Map::CreateRoom(Room *room, int *id,int x, int y)
 	int num = *id;
 	char numero1, numero2;
 
-	if(num < 10)
-	{
-		numero1 = '0';
-	}
-	else if (num < 20)
-	{
-		numero1 = '1';
-		num -= 10;
-	}
-	else
-	{
-		numero1 = '2';
-		num -= 20;
-	}
+	numero1 = num/10 + 48;
 
-		numero2 = num + 48;
+	numero2 = num % 10 + 48;
 	
 
 	switch(randomVar)
 	{	
 		case LEFT:
 			if(room->r_left != nullptr)
-				CreateRoom(room->r_left, id, x-1, y);
+				CreateRoom(room->r_left, id, x-1, y, qnt);
 			else if(x-1 >= 0 && matriz[x-1][y] == false)
             {
             	room->Room::r_left = new Room(this, sala + numero1 + numero2);
@@ -68,8 +55,8 @@ void Map::CreateRoom(Room *room, int *id,int x, int y)
 			
 		case RIGHT:
 			if(room->r_right != nullptr)
-				CreateRoom(room->r_right, id, x+1, y);
-			else if(x+1 < 5 && matriz[x+1][y] == false)
+				CreateRoom(room->r_right, id, x+1, y, qnt);
+			else if(x+1 < qnt && matriz[x+1][y] == false)
             {
             	room->r_right = new Room(this, sala + numero1 + numero2);
             	room->r_right->r_left = room;
@@ -87,7 +74,7 @@ void Map::CreateRoom(Room *room, int *id,int x, int y)
 		
 		case TOP:
 			if(room->r_top != nullptr)
-				CreateRoom(room->r_top, id, x, y-1);
+				CreateRoom(room->r_top, id, x, y-1, qnt);
 			else if(y-1 >= 0 && matriz[x][y-1] == false)
             {
 				room->r_top = new Room(this, sala + numero1 + numero2);
@@ -105,8 +92,8 @@ void Map::CreateRoom(Room *room, int *id,int x, int y)
 		
 		case BOTTOM:
 			if(room->r_botton != nullptr)
-				CreateRoom(room->r_botton, id, x, y+1);
-			else if(y+1 < 5 && matriz[x][y+1] == false)
+				CreateRoom(room->r_botton, id, x, y+1, qnt);
+			else if(y+1 < qnt && matriz[x][y+1] == false)
             {
 				room->r_botton = new Room(this, sala + numero1 + numero2);
 				room->r_botton->r_top = room;
@@ -125,27 +112,27 @@ void Map::CreateRoom(Room *room, int *id,int x, int y)
 
 
 // Generate all the map
-void Map::GenerateMap()
+void Map::GenerateMap(int quantidade_salas)
 {
 	int id = 0;
-    int x = 2;
+    int x = quantidade_salas/2;
     int y = x;
     srand(time(NULL));
 
-    for(int i = 0; i < 5; i++)
+    for(int i = 0; i < 10; i++)
     {
-        for(int j = 0; j < 5; j++)
+        for(int j = 0; j < 10; j++)
         {
             matriz[i][j] = false;
         }
     }
     printf("Gerou a matriz\n");
 	Room *room = new Room(this,"sala 00");
-	matriz[2][2] = true;
+	matriz[x][y] = true;
     id+=1;
-	for(id = 1;id < MAX; id++)
+	for(id = 1;id < quantidade_salas; id++)
 	{	
-		CreateRoom(room, &id, x, y);
+		CreateRoom(room, &id, x, y, quantidade_salas);
 	}
     current_room = room;
     add_child(current_room);

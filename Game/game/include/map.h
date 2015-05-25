@@ -25,14 +25,14 @@ public:
 	Room * current_room;
 private:
 
-    bool matriz[5][5];
-	void CreateRoom(Room *, int*, int, int);
+    bool matriz[50][50];
+	void CreateRoom(Room *, int*, int, int, int);
 	void draw_self();
 
 public:
 	Room * room();
 	void enter_room(Room *, Room *);
-	void GenerateMap();
+	void GenerateMap(int);
 	
 };
 #endif

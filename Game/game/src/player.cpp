@@ -10,7 +10,7 @@
 
 using namespace std;
 
-constexpr double SPEED { 200.5 };
+constexpr double SPEED { 300 };
 
 class Player::SpriteState
 {
