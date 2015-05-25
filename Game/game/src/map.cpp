@@ -30,6 +30,8 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
 	numero1 = num/10 + 48;
 
 	numero2 = num % 10 + 48;
+
+
 	
 
 	switch(randomVar)
@@ -115,7 +117,9 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
 void Map::GenerateMap(int quantidade_salas)
 {
 	int id = 0;
-    int x = quantidade_salas/2;
+
+	
+    int x = rand() % quantidade_salas/2 + 1;
     int y = x;
     srand(time(NULL));
 
@@ -155,11 +159,4 @@ Map::enter_room(Room * anterior, Room * nova)
 
 void Map::draw_self()
 {
-	const Color color {0, 200, 60 };
-
-	Rect r {200, 200, 100, 50};
-
-    Environment *env = Environment::get_instance();
-    //env->canvas->clear(Color::BLUE);
-    env->canvas->draw(r,color);
 }

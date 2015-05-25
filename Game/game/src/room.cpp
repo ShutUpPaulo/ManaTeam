@@ -65,13 +65,25 @@ Room::draw_id(Room * anterior, Room * sala, int x, int y)
 	env->canvas->draw(sala->id(),x,y,Color::RED);
 
 	if(sala->r_left && sala->r_left != anterior)
+	{
+		env->canvas->draw("-", x - 20, y,Color::RED);
 		draw_id(sala, sala->r_left, x - 100, y);
+	}
 	if(sala->r_top && sala->r_top != anterior)
-		draw_id(sala, sala->r_top, x, y - 40);
+	{
+		env->canvas->draw("|", x + 20, y - 30,Color::RED);
+		draw_id(sala, sala->r_top, x, y - 60);
+	}
 	if(sala->r_right && sala->r_right != anterior)
+	{
+		env->canvas->draw("-", x + 80, y,Color::RED);
 		draw_id(sala, sala->r_right, x + 100, y);
+	}
 	if(sala->r_botton && sala->r_botton != anterior)
-		draw_id(sala, sala->r_botton, x, y + 40);
+	{
+		env->canvas->draw("|", x + 20, y + 25,Color::RED);
+		draw_id(sala, sala->r_botton, x, y + 60);
+	}
 }
 
 void Room::draw_self()
