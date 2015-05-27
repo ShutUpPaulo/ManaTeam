@@ -15,6 +15,7 @@ public:
     
 	void change_sprite(string);
 
+	
     bool walkable;
 private:
 	string current_sprite;

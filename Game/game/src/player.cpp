@@ -5,6 +5,7 @@
 
 #include <iostream>
 
+#include "item.h"
 #include "map.h"
 #include "room.h"
 #include "player.h"
@@ -105,7 +106,7 @@ private:
 
 
 Player::Player(Object *parent, ObjectID id,std::map<int,Animation*>actions, Map * current_map)
-    : Object(parent, id), m_left(0), m_right(0), m_up(0), m_down(0), m_last(0), m_state(IDLE), current_map(current_map)
+    : Object(parent, id), m_left(0), m_right(0), m_up(0), m_down(0), m_last(0), m_state(IDLE), current_map(current_map), key(false)
 {
     Environment *env = Environment::get_instance();
     env->events_manager->register_keyboard_event_listener(this);
@@ -299,6 +300,21 @@ Player::update_self(unsigned long elapsed)
 
         enter_room(current_map->current_room, current_map->current_room->r_botton, posx, 80);
     }
+
+
+
+    /*Colisoes com os itens */
+    vector <Item*> aux = current_map->current_room->items;
+
+    for(int i = 0; i < aux.size(); i++)
+    {
+        if (((posx + 40 > aux[i]->x()) && (posx + 40 < (aux[i]->x() + 32))) && ((posy + 60> aux[i]->y()) && (posy + 60 < (aux[i]->y() + 32))))
+        {
+            current_map->current_room->remove_child(aux[i]);
+            cout << "peguei a porra da chave" << endl;
+            pick_key();
+        } 
+    }
 }
 
 void
@@ -340,4 +356,21 @@ Player::direction() const
         return 3;
     else
         return -1;
+}
+
+bool
+Player::has_key()
+{
+    return key;
+}
+
+void
+Player::pick_key()
+{
+    this->key = true;
+}
+void
+Player::drop_key()
+{
+    this->key = false;
 }

@@ -50,6 +50,9 @@ Player(Object *parent, ObjectID id,std::map<int,Animation*> actions, Map * curre
     void report_event(Event event);
     void change_state(State to, State from);
 
+    bool has_key();
+    void pick_key();
+    void drop_key();
 protected:
     short m_left, m_right, m_up, m_down;
     unsigned long m_last;
@@ -57,6 +60,7 @@ protected:
     
     //Status do personagem
     int health, sanity, stamina;
+    bool key;
      
 
     State m_state;
