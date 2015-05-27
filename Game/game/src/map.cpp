@@ -121,7 +121,7 @@ void Map::GenerateMap(int quantidade_salas)
 	
     int x = rand() % quantidade_salas/2 + 1;
     int y = x;
-    
+    string type;
 
     for(int i = 0; i < 10; i++)
     {
@@ -130,8 +130,21 @@ void Map::GenerateMap(int quantidade_salas)
             matriz[i][j] = false;
         }
     }
-	Room *room = new Room(this,"sala 00");
+
+    int random = rand() % 4 + 1;
+    if(random < 1)
+        type = "None";
+    else if (random < 2)
+        type = "Cela";
+    else if (random < 3)
+        type = "Final";
+    else if ( random < 4)
+        type = "KeyRoom";
+
+	Room *room = new Room(this,"sala 00", type);
+
 	matriz[x][y] = true;
+    
     id+=1;
 	for(id = 1;id < quantidade_salas; id++)
 	{	
