@@ -44,7 +44,11 @@ SevenKeys::load_level(const string& id)
     } else if (id == "stage1")
     {
         return new Stage("stage1");
+    } else if (id == "stage2")
+    {
+        return new Stage("stage2");
     }
+
 
     return nullptr;
 }

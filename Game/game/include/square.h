@@ -9,16 +9,17 @@
 #define SQUARE_H
 
 #include <core/object.h>
-#include <core/keyboardeventlistener.h>
+#include <core/keyboardevent.h>
+#include <core/listener.h>
 
-class Square : public Object, KeyboardEventListener
+class Square : public Object, Listener
 {
 public:
     Square(Object *parent, ObjectID id, double size);
     ~Square();
 
     double size();
-    bool onKeyboardEvent(const KeyboardEvent& event);
+    bool on_event(const KeyboardEvent& event);
 
 private:
     double m_speed;

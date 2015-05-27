@@ -2,6 +2,7 @@
 #include <core/circle.h>
 #include <core/keyboardevent.h>
 #include <core/environment.h>
+#include <core/level.h>
 
 #include <iostream>
 
@@ -9,6 +10,7 @@
 #include "map.h"
 #include "room.h"
 #include "player.h"
+#include "stage.h"
 
 using namespace std;
 
@@ -20,7 +22,7 @@ public:
     virtual ~SpriteState() {}
     virtual void draw_self() {}
     virtual void update_self(unsigned long) {}
-    virtual bool onKeyboardEvent(const KeyboardEvent&) { return false; }
+    virtual bool on_event(const KeyboardEvent&) { return false; }
 };
 
 class Idle : public Player::SpriteState
@@ -109,7 +111,7 @@ Player::Player(Object *parent, ObjectID id,std::map<int,Animation*>actions, Map 
     : Object(parent, id), m_left(0), m_right(0), m_up(0), m_down(0), m_last(0), m_state(IDLE), current_map(current_map), key(false)
 {
     Environment *env = Environment::get_instance();
-    env->events_manager->register_keyboard_event_listener(this);
+    env->events_manager->register_listener(this);
 
     for (int state = IDLE; state < STATE_TOTAL; ++state)
     {
@@ -131,7 +133,7 @@ Player::Player(Object *parent, ObjectID id,std::map<int,Animation*>actions, Map 
 Player::~Player()
 {
     Environment *env = Environment::get_instance();
-    env->events_manager->unregister_keyboard_event_listener(this);
+    env->events_manager->unregister_listener(this);
 
     for (int state = IDLE; state < STATE_TOTAL; ++state)
     {
@@ -140,7 +142,7 @@ Player::~Player()
 }
 
 bool
-Player::onKeyboardEvent(const KeyboardEvent& event)
+Player::on_event(const KeyboardEvent& event)
 {
     switch (event.state())
     {
@@ -214,10 +216,6 @@ Player::draw_self()
     env->canvas->fill(self_light, m_fad2);
 
     m_states[m_state]->draw_self();
-
-    
-
-
 }
 
 void
@@ -323,7 +321,9 @@ Player::update_self(unsigned long elapsed)
             {
                 cout << "você ganhou o jogo!" << endl;
                 drop_key();
-
+                //Passa pro prox level
+                Level *next_level = new Level("stage","stage2");
+                next_level->set_next("stage2");
             } 
         }
     }
