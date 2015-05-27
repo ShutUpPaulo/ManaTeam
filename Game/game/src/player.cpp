@@ -273,7 +273,6 @@ Player::update_self(unsigned long elapsed)
     set_x(x);
     set_y(y);
 
-   // printf("posx: %lf, posy: %lf\n",x,y);
 
     /* Colisao com as portas */
     int posx,posy;
@@ -282,40 +281,33 @@ Player::update_self(unsigned long elapsed)
 
     if(posx <= 1 && ( posy >= 280 && posy <= 420) && current_map->current_room->r_left)
     {
-        printf("entrando sala esquerda, posx: %d, posy: %d\n", posx, posy);
+
         enter_room(current_map->current_room, current_map->current_room->r_left, 1120, posy);
     }
     else if(posx >= 1200 && ( posy >= 280 && posy <= 420) && current_map->current_room->r_right)
     {
-        printf("entrando sala direita, posx: %d, posy: %d\n", posx, posy);
+
         enter_room(current_map->current_room, current_map->current_room->r_right, 80, posy);
     }
     else if(posy <= 1  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_top)
     {
-        printf("entrando sala cima, posx: %d, posy: %d\n", posx, posy);
+
         enter_room(current_map->current_room, current_map->current_room->r_top, posx, 580);
     }
     else if(posy >= 620  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_botton)
     {
-        printf("entrando sala baixo, posx: %d, posy: %d\n", posx, posy);
+
         enter_room(current_map->current_room, current_map->current_room->r_botton, posx, 80);
     }
-    else
-    {
-        //printf("nao esta entrando em salas\n");
-    }
-
 }
 
 void
 Player::enter_room(Room * anterior, Room * nova, int posx, int posy)
 {
     set_position(posx, posy);
-    printf("entrou player->enterroom\n");
     current_map->enter_room(anterior, nova);
     
 }
-
 
 void
 Player::report_event(Event event)

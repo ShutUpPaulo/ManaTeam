@@ -117,11 +117,11 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
 void Map::GenerateMap(int quantidade_salas)
 {
 	int id = 0;
-
+    srand(time(NULL));
 	
     int x = rand() % quantidade_salas/2 + 1;
     int y = x;
-    srand(time(NULL));
+    
 
     for(int i = 0; i < 10; i++)
     {
@@ -130,7 +130,6 @@ void Map::GenerateMap(int quantidade_salas)
             matriz[i][j] = false;
         }
     }
-    printf("Gerou a matriz\n");
 	Room *room = new Room(this,"sala 00");
 	matriz[x][y] = true;
     id+=1;
@@ -140,7 +139,6 @@ void Map::GenerateMap(int quantidade_salas)
 	}
     current_room = room;
     add_child(current_room);
-    printf("saindo da generate\n");
 }
 
 Room *

@@ -7,76 +7,131 @@
 #include <core/rect.h>
 
 Room::Room(Object *parent, ObjectID id)
-: Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr)
+: Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr), type("None")
 {
-	Item *piso;
-	for(int i = 0; i < 22; i++)
+	Item *piso = new Item(this,"piso",0,0,true);
+	piso->change_sprite("res/tile_sheets/piso1.png");
+	piso->set_w(1280);
+	piso->set_h(720);
+	add_child(piso);
+
+	Item *paredes = new Item(this,"parede",0,0,true);
+	paredes->change_sprite("res/tile_sheets/paredes.png");
+	paredes->set_w(1280);
+	paredes->set_h(720);
+	add_child(paredes);
+	// Item *piso;
+	// for(int i = 0; i < 22; i++)
+	// {
+	// 	for(int j = 0; j < 12; j++)
+	// 	{
+	// 		piso = new Item(this,"piso",i*60,j*60,true);
+	// 		piso->change_sprite("res/tile_sheets/tile1.png");
+	 		
+	// 	}
+	// }
+
+	// /*Adicionando cantos*/
+	// Item *canto = new Item(this,"canto", 0, 0,false);
+	// canto->change_sprite("res/tile_sheets/canto1.png");
+	// canto->set_w(80);
+	// canto->set_h(80);
+	// add_child(canto);
+
+	// canto = new Item(this,"canto", 1200, 0,false);
+	// canto->change_sprite("res/tile_sheets/canto2.png");
+	// canto->set_w(80);
+	// canto->set_h(80);
+	// add_child(canto);
+
+	// canto = new Item(this,"canto", 0, 640,false);
+	// canto->change_sprite("res/tile_sheets/canto4.png");
+	// canto->set_w(80);
+	// canto->set_h(80);
+	// add_child(canto);
+
+	// canto = new Item(this,"canto", 1200, 640,false);
+	// canto->change_sprite("res/tile_sheets/canto3.png");
+	// canto->set_w(80);
+	// canto->set_h(80);
+	// add_child(canto);
+
+	// /*Adicionando paredes */
+	// Item *parede;
+	// for(int x = 1; x < 15; x++)
+	// {
+	// 	parede = new Item(this, "parede", x*80, 0, false);
+	// 	parede->change_sprite("res/tile_sheets/parede2.png");
+	// 	parede->set_w(80);
+	// 	parede->set_h(80);
+	// 	add_child(parede);
+
+	// 	parede = new Item(this, "parede", x*80, 640, false);
+	// 	parede->change_sprite("res/tile_sheets/parede4.png");
+	// 	parede->set_w(80);
+	// 	parede->set_h(80);
+	// 	add_child(parede);
+	// }
+	// for(int y = 1; y < 8; y++ )
+	// {
+	// 	parede = new Item(this, "parede", 0, y*80, false);
+	// 	parede->change_sprite("res/tile_sheets/parede1.png");
+	// 	parede->set_w(80);
+	// 	parede->set_h(80);
+	// 	add_child(parede);
+
+	// 	parede = new Item(this, "parede", 1200, y*80, false);
+	// 	parede->change_sprite("res/tile_sheets/parede3.png");
+	// 	parede->set_w(80);
+	// 	parede->set_h(80);
+	// 	add_child(parede);
+	// }
+
+	/*Gerando os itens aleatóriamente na sala*/
+	draw_itens(this);
+}
+
+void Room::draw_itens(Room* room)
+{
+	//srand(time(NULL));
+	int random_number = rand()%2+1;
+
+	if(room->type == "None")
 	{
-		for(int j = 0; j < 12; j++)
+
+	}
+	if(room->type != "Cela")
+	{
+		//Desenhando uma bancada
+		Item* stand_table = new Item(this, "bancada", 520, 240, false);
+		if(random_number == 1)
 		{
-			piso = new Item(this,"piso",i*60,j*60,true);
-			piso->change_sprite("res/tile_sheets/tile1.png");
-			piso->set_w(60);
-			piso->set_h(60);
-			add_child(piso);
+			stand_table->change_sprite("res/tile_sheets/Bancadaa1.png");
+
+			stand_table->set_w(240);
+			stand_table->set_h(240);
+			add_child(stand_table);
 		}
+			
+		else if(random_number == 2)
+		{
+			stand_table->change_sprite("res/tile_sheets/Bancadaa2.png");
+
+			stand_table->set_w(240);
+			stand_table->set_h(240);
+			add_child(stand_table);
+		}
+	
 	}
-
-	/*Adicionando cantos*/
-	Item *canto = new Item(this,"canto", 0, 0,false);
-	canto->change_sprite("res/tile_sheets/canto1.png");
-	canto->set_w(80);
-	canto->set_h(80);
-	add_child(canto);
-
-	canto = new Item(this,"canto", 1200, 0,false);
-	canto->change_sprite("res/tile_sheets/canto2.png");
-	canto->set_w(80);
-	canto->set_h(80);
-	add_child(canto);
-
-	canto = new Item(this,"canto", 0, 640,false);
-	canto->change_sprite("res/tile_sheets/canto4.png");
-	canto->set_w(80);
-	canto->set_h(80);
-	add_child(canto);
-
-	canto = new Item(this,"canto", 1200, 640,false);
-	canto->change_sprite("res/tile_sheets/canto3.png");
-	canto->set_w(80);
-	canto->set_h(80);
-	add_child(canto);
-
-	/*Adicionando paredes */
-	Item *parede;
-	for(int x = 1; x < 15; x++)
+	if(room->type == "Final")
 	{
-		parede = new Item(this, "parede", x*80, 0, false);
-		parede->change_sprite("res/tile_sheets/parede2.png");
-		parede->set_w(80);
-		parede->set_h(80);
-		add_child(parede);
-
-		parede = new Item(this, "parede", x*80, 640, false);
-		parede->change_sprite("res/tile_sheets/parede4.png");
-		parede->set_w(80);
-		parede->set_h(80);
-		add_child(parede);
+	
 	}
-	for(int y = 1; y < 8; y++ )
+	if(room->type == "KeyRoom")
 	{
-		parede = new Item(this, "parede", 0, y*80, false);
-		parede->change_sprite("res/tile_sheets/parede1.png");
-		parede->set_w(80);
-		parede->set_h(80);
-		add_child(parede);
+	
+	}	
 
-		parede = new Item(this, "parede", 1200, y*80, false);
-		parede->change_sprite("res/tile_sheets/parede3.png");
-		parede->set_w(80);
-		parede->set_h(80);
-		add_child(parede);
-	}
 }
 
 void Room::check_entry()

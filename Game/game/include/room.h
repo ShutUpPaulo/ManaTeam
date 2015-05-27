@@ -13,11 +13,14 @@ public:
 	Room *r_top;
 	Room *r_botton;
 
+	string type;
+
 	void check_entry();
 private:
 	//bool hasMap;
 	void draw_id(Room *,Room *, int, int);
 	void draw_self();
+	void draw_itens(Room *);
 };
 
 #endif
