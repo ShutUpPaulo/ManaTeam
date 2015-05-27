@@ -4,6 +4,9 @@
  * Licença: LGPL. Sem copyright.
  */
 #include <core/environment.h>
+#include <core/music.h>
+#include <core/audiomanager.h>
+#include <core/audiomanagerwrapper.h>
 #include "stage.h"
 #include "item.h"
 #include "map.h"
@@ -12,7 +15,8 @@
 Stage::Stage(ObjectID id)
     : Level(id)
 {
-    Map * maps = new Map();
+    int quantidade_de_salas = 5;
+    Map * maps = new Map(quantidade_de_salas);
     add_child(maps);
 //     //Environment *env = Environment::get_instance();
     
@@ -39,6 +43,14 @@ Stage::Stage(ObjectID id)
      player->set_position(600, 320);
 
      add_child(player);
+
+   /* AudioManagerWrapper();
+    AudioManagerMusic * music2 = new AudioManagerMusic();
+    Mix_Music * musix = Mix_LoadMUS("res/sounds/MusicaMenu.ogg");
+    Music * music = new Music (musix);
+    
+*/
+
 }
 
 void

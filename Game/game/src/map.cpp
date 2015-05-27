@@ -9,9 +9,9 @@
 
 using namespace std;
 
-Map::Map() : current_room(nullptr)
+Map::Map(int qnt_salas) : current_room(nullptr)
 {	
-	GenerateMap(4);
+	GenerateMap(qnt_salas);
 
 }
 // Room Criation

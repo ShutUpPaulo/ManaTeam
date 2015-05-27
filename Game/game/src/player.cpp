@@ -204,13 +204,13 @@ Player::draw_self()
 
     Rect darkness {0,0,1280,720};
     Color m_fad, m_fad2;
-    m_fad.set_a(220);
+    m_fad.set_a(230);
     env->canvas->set_blend_mode(Canvas::BLEND);
     env->canvas->fill(darkness, m_fad);
 
     Circle self_light{{x() + 30, y() + 30},100};
     m_fad2 = Color::WHITE;
-    m_fad2.set_a(10);
+    m_fad2.set_a(30);
     env->canvas->fill(self_light, m_fad2);
 
     m_states[m_state]->draw_self();
@@ -308,12 +308,24 @@ Player::update_self(unsigned long elapsed)
 
     for(int i = 0; i < aux.size(); i++)
     {
-        if (((posx + 40 > aux[i]->x()) && (posx + 40 < (aux[i]->x() + 32))) && ((posy + 60> aux[i]->y()) && (posy + 60 < (aux[i]->y() + 32))))
+        if(aux[i]->type == "key")
         {
-            current_map->current_room->remove_child(aux[i]);
-            cout << "peguei a porra da chave" << endl;
-            pick_key();
-        } 
+            if (((posx + 40 > aux[i]->x()) && (posx + 40 < (aux[i]->x() + 32))) && ((posy + 40> aux[i]->y()) && (posy + 40 < (aux[i]->y() + 32))))
+            {
+                current_map->current_room->remove_child(aux[i]);
+                cout << "peguei a porra da chave" << endl;
+                pick_key();
+            } 
+        }
+        else if(aux[i]->type == "finaldoor")
+        {
+            if (((posx + 40 > aux[i]->x()) && (posx + 40 < (aux[i]->x() + 80))) && ((posy + 40> aux[i]->y()) && (posy + 40 < (aux[i]->y() + 80))))
+            {
+                cout << "você ganhou o jogo!" << endl;
+                drop_key();
+
+            } 
+        }
     }
 }
 

@@ -15,7 +15,7 @@ Room::Room(Object *parent, ObjectID id, string type)
 	piso->change_sprite("res/tile_sheets/piso1.png");
 	piso->set_w(1280);
 	piso->set_h(720);
-	//add_child(piso);
+	add_child(piso);
 
 	Item *paredes = new Item(this,"parede",0,0,true);
 	paredes->change_sprite("res/tile_sheets/paredes.png");
@@ -198,50 +198,11 @@ void Room::draw_itens(Room* room)
 	}
 	if(this->room_type() == "Final")
 	{
-		Item * porta;
-		if(this->r_right)
-		{
-			/*Adicionando portas */
-			porta = new Item(this,"finaldoor", 0, 320, true);
-			porta->change_sprite("res/door/porta1.png");
-			porta->set_w(80);
-			porta->set_h(80);
-			add_child(porta);
-			add_vector(porta);
-		}
-		if(this->r_botton)
-		{
-			porta = new Item(this,"finaldoor", 600, 0, true);
-			porta->change_sprite("res/door/porta2.png");
-			porta->set_w(80);
-			porta->set_h(80);
-			add_child(porta);
-			add_vector(porta);
 
-		}
-		if(this->r_left)
-		{
-			porta = new Item(this,"finaldoor", 1200, 320, true);
-			porta->change_sprite("res/door/porta3.png");
-			porta->set_w(80);
-			porta->set_h(80);
-			add_child(porta);
-			add_vector(porta);
-
-		}
-		if(this->r_top)
-		{
-			porta = new Item(this,"finaldoor", 600, 640, true);
-			porta->change_sprite("res/door/porta4.png");
-			porta->set_w(80);
-			porta->set_h(80);
-			add_child(porta);
-			add_vector(porta);
-		}
 	}
 	if(this->room_type() == "KeyRoom")
 	{
-		Item *key = new Item(this, "chave", rand() % 900 + 80, rand() % 500 + 80, true);
+		Item *key = new Item(this, "key", rand() % 900 + 80, rand() % 500 + 80, true, "key");
 		key->change_sprite("res/itens/key.png");
 		key->set_w(32);
 		key->set_h(32);
@@ -382,6 +343,48 @@ void Room::draw_self()
 
 	}
 
+	if(this->type == "Final")
+	{
+		if(this->r_right)
+		{
+			/*Adicionando portas */
+			porta = new Item(this,"finaldoor", 0, 320, true, "finaldoor");
+			porta->change_sprite("res/door/porta1.png");
+			porta->set_w(80);
+			porta->set_h(80);
+			add_child(porta);
+			add_vector(porta);
+		}
+		if(this->r_botton)
+		{
+			porta = new Item(this,"finaldoor", 600, 0, true, "finaldoor");
+			porta->change_sprite("res/door/porta2.png");
+			porta->set_w(80);
+			porta->set_h(80);
+			add_child(porta);
+			add_vector(porta);
+
+		}
+		if(this->r_left)
+		{
+			porta = new Item(this,"finaldoor", 1200, 320, true, "finaldoor");
+			porta->change_sprite("res/door/porta3.png");
+			porta->set_w(80);
+			porta->set_h(80);
+			add_child(porta);
+			add_vector(porta);
+
+		}
+		if(this->r_top)
+		{
+			porta = new Item(this,"finaldoor", 600, 640, true, "finaldoor");
+			porta->change_sprite("res/door/porta4.png");
+			porta->set_w(80);
+			porta->set_h(80);
+			add_child(porta);
+			add_vector(porta);
+		}
+	}
 	env->canvas->draw(this->type, 1100, 320,Color::WHITE);
 
 
