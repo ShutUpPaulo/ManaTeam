@@ -1,10 +1,12 @@
-#include "room.h"
-#include "item.h"
+
 #include <string>
 #include <iostream>
 #include <core/font.h>
 #include <core/environment.h>
 #include <core/rect.h>
+
+#include "item.h"
+#include "room.h"
 
 Room::Room(Object *parent, ObjectID id, string type)
 : Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr), type(type)
@@ -200,14 +202,27 @@ void Room::draw_itens(Room* room)
 	}
 	if(this->room_type() == "KeyRoom")
 	{
-		//Item *key = new Item(this, "chave", rand() % 1160 + 80, rand() % 640 + 80, true);
-		Environment * env = Environment::get_instance();
-		Rect key {0,0,40,20};
-
-		env->canvas->fill(key, Color::YELLOW);
+		Item *key = new Item(this, "chave", rand() % 900 + 80, rand() % 500 + 80, true);
+		key->change_sprite("res/itens/key.png");
+		key->set_w(32);
+		key->set_h(32);
+		add_child(key);
 	}	
 
 }
+
+void
+Room::add_vector(Item * item)
+{
+	this->items.push_back(item);
+}
+
+vector <Item*>
+Room::get_vector()
+{
+	return this->items;
+}
+
 
 void Room::check_entry()
 {

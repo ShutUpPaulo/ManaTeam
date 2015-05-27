@@ -1,7 +1,16 @@
 #ifndef ROOM_H
 #define ROOM_H
 
+
 #include <core/object.h>
+#include <vector>
+
+#include "item.h"
+
+
+
+
+using std::vector;
 
 class Room: public Object
 {
@@ -17,6 +26,11 @@ public:
 
 	void check_entry();
 	string room_type();
+
+	vector <Item*> items;
+
+	void add_vector(Item *);
+	vector<Item*> get_vector();
 private:
 	void draw_id(Room *,Room *, int, int);
 	void draw_self();

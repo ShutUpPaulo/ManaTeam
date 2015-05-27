@@ -1,8 +1,6 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include "map.h"
-
 #include <core/object.h>
 #include <core/keyboardeventlistener.h>
 #include <string>
@@ -18,7 +16,6 @@ public:
 	void change_sprite(string);
 
     bool walkable;
-
 private:
 	string current_sprite;
 

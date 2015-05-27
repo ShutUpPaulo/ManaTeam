@@ -1,8 +1,10 @@
-#include "item.h"
+
 #include <iostream>
 #include <core/animation.h>
 #include <core/keyboardevent.h>
 #include <core/environment.h>
+
+#include "item.h"
 
 Item::Item(Object *parent, ObjectID id, double posx, double posy, bool walk)
     : Object(parent, id), walkable(walk)

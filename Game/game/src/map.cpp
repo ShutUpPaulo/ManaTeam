@@ -1,20 +1,17 @@
-#include "map.h"
-
 #include <vector>
 #include <utility>
 #include <ijengine/core/environment.h>
 #include <ijengine/core/rect.h>
 #include <map>
-#include "item.h"
-#include "player.h"
-#include "room.h"
+
+#include "map.h"
 
 
 using namespace std;
 
 Map::Map() : current_room(nullptr)
 {	
-	GenerateMap(15);
+	GenerateMap(4);
 
 }
 // Room Criation
