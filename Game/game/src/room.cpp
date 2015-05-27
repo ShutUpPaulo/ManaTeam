@@ -13,7 +13,7 @@ Room::Room(Object *parent, ObjectID id, string type)
 	piso->change_sprite("res/tile_sheets/piso1.png");
 	piso->set_w(1280);
 	piso->set_h(720);
-	add_child(piso);
+	//add_child(piso);
 
 	Item *paredes = new Item(this,"parede",0,0,true);
 	paredes->change_sprite("res/tile_sheets/paredes.png");
@@ -91,16 +91,24 @@ Room::Room(Object *parent, ObjectID id, string type)
 	draw_itens(this);
 }
 
+string Room::room_type()
+{
+	if (this->type == "CelaH" || this->type == "CelaV")
+		return "Cela";
+
+	return this->type;
+}
+
 void Room::draw_itens(Room* room)
 {
 	//srand(time(NULL));
 	int random_number = rand()%10+1;
 
-	if(room->type == "None")
+	if(this->room_type() == "None")
 	{
 
 	}
-	if(room->type != "Cela")
+	if(this->room_type() != "Cela")
 	{
 		//Desenhando uma bancada
 		Item* stand_table = new Item(this, "bancada", 520, 240, false);
@@ -159,8 +167,8 @@ void Room::draw_itens(Room* room)
 		if(random_number == 2)
 		{
 			chair_n_table->change_sprite("res/tile_sheets/CadeiraseMesa2.png");
-			chair_n_table->set_w(80);
-			chair_n_table->set_h(80);
+			chair_n_table->set_w(64);
+			chair_n_table->set_h(38);
 			add_child(chair_n_table);
 		}
 
@@ -174,18 +182,24 @@ void Room::draw_itens(Room* room)
 			add_child(chair_n_table);
 		}
 	}
-	if(room->type == "Cela")
+	if(this->room_type() == "Cela")
 	{
-		Item* cell_room = new Item(this, "sala de celas", 0, 0, false);
-		cell_room->set_h(1280);
-		cell_room->set_w(720);
-		add_child(cell_room);
+		if(room->type == "CelaH")
+		{
+			cout << "achout" << endl;
+			Item *cell_room = new Item(this, "celas", 0, 0, true);
+			cell_room->change_sprite("res/tile_sheets/ConjuntodeCelas.png");
+			cell_room->set_w(1280);
+			cell_room->set_h(720);
+			add_child(cell_room);
+		}
+
 	}
-	if(room->type == "Final")
+	if(this->room_type() == "Final")
 	{
 	
 	}
-	if(room->type == "KeyRoom")
+	if(this->room_type() == "KeyRoom")
 	{
 		//Item *key = new Item(this, "chave", rand() % 1160 + 80, rand() % 640 + 80, true);
 		Environment * env = Environment::get_instance();
@@ -313,6 +327,8 @@ void Room::draw_self()
 		add_child(porta);
 
 	}
+
+	env->canvas->draw(this->type, 1100, 320,Color::WHITE);
 
 }
 

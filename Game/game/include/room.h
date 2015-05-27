@@ -16,11 +16,12 @@ public:
 	string type;
 
 	void check_entry();
+	string room_type();
 private:
-	//bool hasMap;
 	void draw_id(Room *,Room *, int, int);
 	void draw_self();
 	void draw_itens(Room *);
+	
 };
 
 #endif

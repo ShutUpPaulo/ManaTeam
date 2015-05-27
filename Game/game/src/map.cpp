@@ -7,13 +7,14 @@
 #include <map>
 #include "item.h"
 #include "player.h"
+#include "room.h"
 
 
 using namespace std;
 
 Map::Map() : current_room(nullptr)
 {	
-	GenerateMap(7);
+	GenerateMap(15);
 
 }
 // Room Criation
@@ -37,7 +38,7 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
     else if (randomType < 3)
         type = "Cela";
     if(*id == (int)(qnt*0.5))
-        type = "keyRoom";
+        type = "KeyRoom";
     if(*id == (int)(qnt*0.9))
         type = "Final";
 
@@ -54,8 +55,11 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
 		case LEFT:
 			if(room->r_left != nullptr)
 				CreateRoom(room->r_left, id, x-1, y, qnt);
-			else if(x-1 >= 0 && matriz[x-1][y] == false)
+			else if(x-1 >= 0 && matriz[x-1][y] == false && (room->room_type() != "Cela" || (room->room_type() == "Cela" && room->r_right)))
             {
+                if(type == "Cela")
+                    type += 'H';
+
             	room->Room::r_left = new Room(this, sala + numero1 + numero2, type);
             	room->r_left->r_right = room;
 				//rooms->left = InsertRoom(*id, NULL, NULL, rooms, NULL);
@@ -73,8 +77,11 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
 		case RIGHT:
 			if(room->r_right != nullptr)
 				CreateRoom(room->r_right, id, x+1, y, qnt);
-			else if(x+1 < qnt && matriz[x+1][y] == false)
+			else if(x+1 < qnt && matriz[x+1][y] == false && (room->room_type() != "Cela" || (room->room_type() == "Cela" && room->r_left)))
             {
+                if(type == "Cela")
+                    type += 'H';
+
             	room->r_right = new Room(this, sala + numero1 + numero2, type);
             	room->r_right->r_left = room;
 				//rooms->right = InsertRoom(*id, rooms, NULL, NULL, NULL);
@@ -92,8 +99,11 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
 		case TOP:
 			if(room->r_top != nullptr)
 				CreateRoom(room->r_top, id, x, y-1, qnt);
-			else if(y-1 >= 0 && matriz[x][y-1] == false)
+			else if(y-1 >= 0 && matriz[x][y-1] == false && (room->room_type() != "Cela" || (room->room_type() == "Cela" && room->r_botton)))
             {
+                if(type == "Cela")
+                    type += 'V';
+                
 				room->r_top = new Room(this, sala + numero1 + numero2, type);
 				room->r_top->r_botton = room;
                 matriz[x][y-1] = true;
@@ -110,8 +120,11 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
 		case BOTTOM:
 			if(room->r_botton != nullptr)
 				CreateRoom(room->r_botton, id, x, y+1, qnt);
-			else if(y+1 < qnt && matriz[x][y+1] == false && (room->type != "Cela" || (room->type == "Cela" && room->r_left)))
+			else if(y+1 < qnt && matriz[x][y+1] == false && (room->room_type() != "Cela" || (room->room_type() == "Cela" && room->r_top)))
             {
+                if(type == "Cela")
+                    type += 'V';
+                
 				room->r_botton = new Room(this, sala + numero1 + numero2, type);
 				room->r_botton->r_top = room;
                 matriz[x][y+1] = true;
