@@ -4,6 +4,9 @@
  * Licença: LGPL. Sem copyright.
  */
 #include <core/environment.h>
+#include <core/audiomanagerwrapper.h>
+#include <core/audiomanager.h>
+#include <core/music.h>
 #include "stage.h"
 #include "item.h"
 #include "map.h"
@@ -39,6 +42,11 @@ Stage::Stage(ObjectID id)
      player->set_position(600, 320);
 
      add_child(player);
+
+    AudioManagerWrapper();
+    Music* music = new Music (this, "Musica_abertura");
+    music->from_file("res/sounds/MusicaMenu.oog");
+    music->play("Musica_abertura", 1);
 }
 
 void

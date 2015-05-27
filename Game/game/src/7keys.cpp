@@ -6,7 +6,6 @@
  * Licença: LGPL. Sem copyright.
  */
 #include <ijengine/core/environment.h>
-
 #include "7keys.h"
 #include <ijengine/util/frontend.h>
 #include "titlescreen.h"
