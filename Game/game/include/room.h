@@ -6,7 +6,7 @@
 class Room: public Object
 {
 public:
-	Room(Object *parent, ObjectID id);
+	Room(Object *parent, ObjectID id, string type = "None");
 
 	Room *r_left;
 	Room *r_right;

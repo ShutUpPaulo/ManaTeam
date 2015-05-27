@@ -6,8 +6,8 @@
 #include <core/environment.h>
 #include <core/rect.h>
 
-Room::Room(Object *parent, ObjectID id)
-: Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr), type("None")
+Room::Room(Object *parent, ObjectID id, string type)
+: Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr), type(type)
 {
 	Item *piso = new Item(this,"piso",0,0,true);
 	piso->change_sprite("res/tile_sheets/piso1.png");
@@ -98,10 +98,6 @@ void Room::draw_itens(Room* room)
 
 	if(room->type == "None")
 	{
-
-	}
-	if(room->type != "Cela")
-	{
 		//Desenhando uma bancada
 		Item* stand_table = new Item(this, "bancada", 520, 240, false);
 		if(random_number == 1)
@@ -121,7 +117,15 @@ void Room::draw_itens(Room* room)
 			stand_table->set_h(240);
 			add_child(stand_table);
 		}
-	
+
+		random_number = rand()%2+1;
+		//
+	}
+	if(room->type == "Cela")
+	{
+		Item* cell_room = new Item(this, "sala de celas", 0, 0, false);
+		cell_room->set_h(1280);
+		cell_room->set_w(720);
 	}
 	if(room->type == "Final")
 	{
