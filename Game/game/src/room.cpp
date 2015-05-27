@@ -94,7 +94,7 @@ Room::Room(Object *parent, ObjectID id, string type)
 void Room::draw_itens(Room* room)
 {
 	//srand(time(NULL));
-	int random_number = rand()%2+1;
+	int random_number = rand()%10+1;
 
 	if(room->type == "None")
 	{
@@ -118,14 +118,64 @@ void Room::draw_itens(Room* room)
 			add_child(stand_table);
 		}
 
-		random_number = rand()%2+1;
-		//
+		random_number = rand()%10+1;
+		//Desenhando uma cadeira
+		Item *chair = new Item(this, "cadeira", rand() % 1098 + 80, rand() % 520 + 80, false);
+		if(random_number == 1)
+		{
+			chair->change_sprite("res/tile_sheets/Cadeira1.png");
+			chair->set_w(22);
+			chair->set_h(40);
+			add_child(chair);
+		}
+
+		chair = new Item(this, "cadeira", rand() % 1098 + 80, rand() % 520 + 80, false);
+		random_number = rand()%10+1;
+		if(random_number == 2)
+		{
+			chair->change_sprite("res/tile_sheets/Cadeira2.png");
+			chair->set_w(22);
+			chair->set_h(40);
+			add_child(chair);
+		}
+
+		//Desenhando cadeira e mesa
+		random_number = rand()%10+1;
+		Item *chair_n_table = new Item(this, "cadeira e mesa", rand() % 1060 + 80, rand() % 480 + 80, false);
+		if(random_number == 1)
+		{
+			chair_n_table->change_sprite("res/tile_sheets/CadeiraseMesa1.png");
+			chair_n_table->set_w(80);
+			chair_n_table->set_h(80);
+			add_child(chair_n_table);
+		}
+
+		random_number = rand()%10+1;
+		chair_n_table = new Item(this, "cadeira e mesa", rand() % 1060 + 80, rand() % 480 + 80, false);
+		if(random_number == 2)
+		{
+			chair_n_table->change_sprite("res/tile_sheets/CadeiraseMesa2.png");
+			chair_n_table->set_w(80);
+			chair_n_table->set_h(80);
+			add_child(chair_n_table);
+		}
+
+		random_number = rand()%10+1;
+		chair_n_table = new Item(this, "cadeira e mesa", rand() % 1060 + 80, rand() % 480 + 80, false);
+		if(random_number == 3)
+		{
+			chair_n_table->change_sprite("res/tile_sheets/CadeiraseMesa3.png");
+			chair_n_table->set_w(80);
+			chair_n_table->set_h(80);
+			add_child(chair_n_table);
+		}
 	}
 	if(room->type == "Cela")
 	{
 		Item* cell_room = new Item(this, "sala de celas", 0, 0, false);
 		cell_room->set_h(1280);
 		cell_room->set_w(720);
+		add_child(cell_room);
 	}
 	if(room->type == "Final")
 	{
@@ -133,7 +183,11 @@ void Room::draw_itens(Room* room)
 	}
 	if(room->type == "KeyRoom")
 	{
-	
+		//Item *key = new Item(this, "chave", rand() % 1160 + 80, rand() % 640 + 80, true);
+		Environment * env = Environment::get_instance();
+		Rect key {0,0,40,20};
+
+		env->canvas->fill(key, Color::YELLOW);
 	}	
 
 }
