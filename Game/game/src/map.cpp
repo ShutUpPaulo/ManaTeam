@@ -172,7 +172,6 @@ void Map::GenerateMap(int quantidade_salas)
     add_child(current_room);
 }
 
-
 Room *
 Map::room()
 {

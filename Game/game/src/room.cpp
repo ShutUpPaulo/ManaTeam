@@ -186,7 +186,6 @@ void Room::draw_itens(Room* room)
 	{
 		if(room->type == "CelaH")
 		{
-			cout << "achout" << endl;
 			Item *cell_room = new Item(this, "celas", 0, 0, true);
 			cell_room->change_sprite("res/tile_sheets/ConjuntodeCelas.png");
 			cell_room->set_w(1280);
