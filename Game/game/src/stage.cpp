@@ -47,7 +47,7 @@ Stage::Stage(ObjectID id)
 
     
 
-    Player2 *player = new Player2(this, "player");
+    Player2 *player = new Player2(this, "player", maps);
     player->set_position(600, 320);
     add_child(player);
 

@@ -9,6 +9,7 @@
 #define PLAYER2_H
 
 #include "core/sprite.h"
+#include "map.h"
 
 using std::pair;
 
@@ -19,7 +20,7 @@ public:
     typedef enum { MOVED, STOPPED } Event;
     typedef enum { LEFT, UP, RIGHT, DOWN } Direction;
 
-    Player2(Object *parent, const string& id);
+    Player2(Object *parent, const string& id, Map * current_map);
     ~Player2();
 
     Direction direction() const;
@@ -29,8 +30,11 @@ public:
     void set_moviment(double xaxis, double yaxis);
 
 private:
+    Map * current_map;
     class Impl;
     unique_ptr<Impl> m_impl;
+
+    void enter_room(Room *, Room *, int, int);
 };
 
 #endif
