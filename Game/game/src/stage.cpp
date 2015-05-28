@@ -11,6 +11,7 @@
 #include "item.h"
 #include "map.h"
 #include "player.h"
+ #include "player2.h"
 
 Stage::Stage(ObjectID id)
     : Level(id)
@@ -31,18 +32,24 @@ Stage::Stage(ObjectID id)
 //     //m_floor.set(x, y);
 //     //m_floor.set_dimensions(w, h);
 
- 	map<int,Animation*> actions;
+ 	/*map<int,Animation*> actions;
 	
-     actions[Player::IDLE] = new Animation("res/sprites/idle.png", 
+    actions[Player::IDLE] = new Animation("res/sprites/idle.png", 
          0, 0, 40, 81, 2,300, true);
  	actions[Player::RUNNING] = new Animation("res/sprites/running.png", 
-         0, 0, 40, 81, 8,50, true);
+         0, 0, 40, 81, 8,50, true);*/
 
-     Player *player = new Player(this, "player", actions, maps);
+     /*Player *player = new Player(this, "player", actions, maps);
 
      player->set_position(600, 320);
 
-     add_child(player);
+     add_child(player);*/
+
+    
+
+    Player2 *player = new Player2(this, "player");
+    player->set_position(600, 320);
+    add_child(player);
 
    /* AudioManagerWrapper();
     AudioManagerMusic * music2 = new AudioManagerMusic();
