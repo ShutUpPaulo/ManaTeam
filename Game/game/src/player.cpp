@@ -317,14 +317,17 @@ Player::update_self(unsigned long elapsed)
         }
         else if(aux[i]->type == "finaldoor")
         {
-            if (((posx + 40 > aux[i]->x()) && (posx + 40 < (aux[i]->x() + 80))) && ((posy + 40> aux[i]->y()) && (posy + 40 < (aux[i]->y() + 80))))
+            if(has_key())
             {
-                cout << "você ganhou o jogo!" << endl;
-                drop_key();
-                //Passa pro prox level
-                Level *next_level = new Level("stage","stage2");
-                next_level->set_next("stage2");
-            } 
+                if (((posx + 40 > aux[i]->x()) && (posx + 40 < (aux[i]->x() + 80))) && ((posy + 40> aux[i]->y()) && (posy + 40 < (aux[i]->y() + 80))))
+                {
+                    cout << "você ganhou o jogo!" << endl;
+                    drop_key();
+                    //Passa pro prox level
+                    Level *next_level = new Level("stage","stage2");
+                    next_level->set_next("stage2");
+                } 
+            }
         }
     }
 }
