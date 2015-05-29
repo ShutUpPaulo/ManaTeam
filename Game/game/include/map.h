@@ -11,6 +11,7 @@
 
 #include "room.h"
 
+
 using std::pair;
 using std::vector;
 
@@ -19,7 +20,7 @@ using std::vector;
 class Map: public Object
 {
 public:
-	Map();
+	Map(int qut_salas);
 
     enum Position {LEFT = 1, RIGHT = 2, TOP = 3, BOTTOM = 4};
 	Room * current_room;

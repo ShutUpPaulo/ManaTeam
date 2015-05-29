@@ -17,7 +17,7 @@ Square::Square(Object *parent, ObjectID id, double size)
     : Object(parent, id, 0, 0, size, size), m_speed(0), m_last(0)
 {
     Environment *env = Environment::get_instance();
-    env->events_manager->register_keyboard_event_listener(this);
+    env->events_manager->register_listener(this);
 
     double y = env->canvas->h()*0.6 - size;
     set_y(y);
@@ -26,7 +26,7 @@ Square::Square(Object *parent, ObjectID id, double size)
 Square::~Square()
 {
     Environment *env = Environment::get_instance();
-    env->events_manager->unregister_keyboard_event_listener(this);
+    env->events_manager->unregister_listener(this);
 }
 double
 Square::size()
@@ -35,7 +35,7 @@ Square::size()
 }
 
 bool
-Square::onKeyboardEvent(const KeyboardEvent& event)
+Square::on_event(const KeyboardEvent& event)
 {
     switch (event.state())
     {

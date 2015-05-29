@@ -1,12 +1,16 @@
 #include <core/rect.h>
+#include <core/circle.h>
 #include <core/keyboardevent.h>
 #include <core/environment.h>
+#include <core/level.h>
 
 #include <iostream>
 
+#include "item.h"
 #include "map.h"
 #include "room.h"
 #include "player.h"
+#include "stage.h"
 
 using namespace std;
 
@@ -18,7 +22,7 @@ public:
     virtual ~SpriteState() {}
     virtual void draw_self() {}
     virtual void update_self(unsigned long) {}
-    virtual bool onKeyboardEvent(const KeyboardEvent&) { return false; }
+    virtual bool on_event(const KeyboardEvent&) { return false; }
 };
 
 class Idle : public Player::SpriteState
@@ -104,10 +108,10 @@ private:
 
 
 Player::Player(Object *parent, ObjectID id,std::map<int,Animation*>actions, Map * current_map)
-    : Object(parent, id), m_left(0), m_right(0), m_up(0), m_down(0), m_last(0), m_state(IDLE), current_map(current_map)
+    : Object(parent, id), m_left(0), m_right(0), m_up(0), m_down(0), m_last(0), m_state(IDLE), current_map(current_map), key(false)
 {
     Environment *env = Environment::get_instance();
-    env->events_manager->register_keyboard_event_listener(this);
+    env->events_manager->register_listener(this);
 
     for (int state = IDLE; state < STATE_TOTAL; ++state)
     {
@@ -129,7 +133,7 @@ Player::Player(Object *parent, ObjectID id,std::map<int,Animation*>actions, Map 
 Player::~Player()
 {
     Environment *env = Environment::get_instance();
-    env->events_manager->unregister_keyboard_event_listener(this);
+    env->events_manager->unregister_listener(this);
 
     for (int state = IDLE; state < STATE_TOTAL; ++state)
     {
@@ -138,7 +142,7 @@ Player::~Player()
 }
 
 bool
-Player::onKeyboardEvent(const KeyboardEvent& event)
+Player::on_event(const KeyboardEvent& event)
 {
     switch (event.state())
     {
@@ -198,6 +202,19 @@ Player::onKeyboardEvent(const KeyboardEvent& event)
 void
 Player::draw_self()
 {
+    Environment * env = Environment::get_instance();
+
+    Rect darkness {0,0,1280,720};
+    Color m_fad, m_fad2;
+    m_fad.set_a(230);
+    env->canvas->set_blend_mode(Canvas::BLEND);
+    env->canvas->fill(darkness, m_fad);
+
+    Circle self_light{{x() + 30, y() + 30},100};
+    m_fad2 = Color::WHITE;
+    m_fad2.set_a(30);
+    env->canvas->fill(self_light, m_fad2);
+
     m_states[m_state]->draw_self();
 }
 
@@ -255,48 +272,73 @@ Player::update_self(unsigned long elapsed)
     set_x(x);
     set_y(y);
 
-   // printf("posx: %lf, posy: %lf\n",x,y);
 
+    /* Colisao com as portas */
     int posx,posy;
     posx = (int) x;
     posy = (int) y;
 
     if(posx <= 1 && ( posy >= 280 && posy <= 420) && current_map->current_room->r_left)
     {
-        printf("entrando sala esquerda, posx: %d, posy: %d\n", posx, posy);
+
         enter_room(current_map->current_room, current_map->current_room->r_left, 1120, posy);
     }
     else if(posx >= 1200 && ( posy >= 280 && posy <= 420) && current_map->current_room->r_right)
     {
-        printf("entrando sala direita, posx: %d, posy: %d\n", posx, posy);
+
         enter_room(current_map->current_room, current_map->current_room->r_right, 80, posy);
     }
     else if(posy <= 1  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_top)
     {
-        printf("entrando sala cima, posx: %d, posy: %d\n", posx, posy);
+
         enter_room(current_map->current_room, current_map->current_room->r_top, posx, 580);
     }
     else if(posy >= 620  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_botton)
     {
-        printf("entrando sala baixo, posx: %d, posy: %d\n", posx, posy);
+
         enter_room(current_map->current_room, current_map->current_room->r_botton, posx, 80);
     }
-    else
-    {
-        //printf("nao esta entrando em salas\n");
-    }
 
+
+
+    /*Colisoes com os itens */
+    vector <Item*> aux = current_map->current_room->items;
+
+    for(int i = 0; i < aux.size(); i++)
+    {
+        if(aux[i]->type == "key")
+        {
+            if (((posx + 40 > aux[i]->x()) && (posx + 40 < (aux[i]->x() + 32))) && ((posy + 40> aux[i]->y()) && (posy + 40 < (aux[i]->y() + 32))))
+            {
+                current_map->current_room->remove_child(aux[i]);
+                cout << "peguei a porra da chave" << endl;
+                pick_key();
+            } 
+        }
+        else if(aux[i]->type == "finaldoor")
+        {
+            if(has_key())
+            {
+                if (((posx + 40 > aux[i]->x()) && (posx + 40 < (aux[i]->x() + 80))) && ((posy + 40> aux[i]->y()) && (posy + 40 < (aux[i]->y() + 80))))
+                {
+                    cout << "você ganhou o jogo!" << endl;
+                    drop_key();
+                    //Passa pro prox level
+                    Level *next_level = new Level("stage","stage2");
+                    next_level->set_next("stage2");
+                } 
+            }
+        }
+    }
 }
 
 void
 Player::enter_room(Room * anterior, Room * nova, int posx, int posy)
 {
     set_position(posx, posy);
-    printf("entrou player->enterroom\n");
     current_map->enter_room(anterior, nova);
     
 }
-
 
 void
 Player::report_event(Event event)
@@ -329,4 +371,21 @@ Player::direction() const
         return 3;
     else
         return -1;
+}
+
+bool
+Player::has_key()
+{
+    return key;
+}
+
+void
+Player::pick_key()
+{
+    this->key = true;
+}
+void
+Player::drop_key()
+{
+    this->key = false;
 }

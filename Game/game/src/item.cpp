@@ -1,11 +1,13 @@
-#include "item.h"
+
 #include <iostream>
 #include <core/animation.h>
 #include <core/keyboardevent.h>
 #include <core/environment.h>
 
-Item::Item(Object *parent, ObjectID id, double posx, double posy, bool walk)
-    : Object(parent, id), walkable(walk)
+#include "item.h"
+
+Item::Item(Object *parent, ObjectID id, double posx, double posy, bool walk, string type)
+    : Object(parent, id), walkable(walk), type(type)
 {
     set_position(posx, posy);
     set_x(posx);
