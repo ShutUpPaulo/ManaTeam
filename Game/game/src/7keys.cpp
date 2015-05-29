@@ -6,7 +6,6 @@
  * Licença: LGPL. Sem copyright.
  */
 #include <ijengine/core/environment.h>
-
 #include "7keys.h"
 #include <ijengine/util/frontend.h>
 #include "titlescreen.h"
@@ -18,6 +17,8 @@ SevenKeys::SevenKeys()
     Environment *env = Environment::get_instance();
 
     env->video->set_fullscreen();
+   AudioManagerMusic * music2 = new AudioManagerMusic();
+   music2 -> play("res/sounds/Key.ogg", -1);
 }
 
 Level *

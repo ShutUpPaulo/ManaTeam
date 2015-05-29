@@ -51,12 +51,12 @@ Stage::Stage(ObjectID id)
     player->set_position(600, 320);
     add_child(player);
 
-   /* AudioManagerWrapper();
+   AudioManagerWrapper();
     AudioManagerMusic * music2 = new AudioManagerMusic();
-    Mix_Music * musix = Mix_LoadMUS("res/sounds/MusicaMenu.ogg");
-    Music * music = new Music (musix);
-    
-*/
+ //   Mix_Music * musica = Mix_LoadMUS("res/sounds/MusicaMenu.ogg");
+   // Music * song = new Music (musica);
+    music2 -> play("res/sounds/Fase1.ogg", -1);
+
 
 }
 
