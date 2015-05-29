@@ -29,7 +29,7 @@ SevenKeys::load_level(const string& id)
     }
     if (id == "logo")
     {
-        return new FrontEnd("logo", "tecnologias", "res/images/logoMT.png");
+        return new FrontEnd("logo", "tecnologias", "res/images/manateam.png");
     }
     else if (id == "tecnologias")
     {

@@ -19,7 +19,7 @@ TitleScreen::TitleScreen()
 {
     Environment *env = Environment::get_instance();
 
-     double w = env->canvas->w();
+    double w = env->canvas->w();
     double h = env->canvas->h();
 
     double bw = 100;
@@ -30,7 +30,7 @@ TitleScreen::TitleScreen()
 
     Button *ok = new Button(this, "ok", bw, bh);
     ok->set_position(bx, by);
-    ok->set_color(Color::RED,Color::WHITE);
+    ok->set_color(Color::RED,Color::BLUE);
     Button *exit = new Button(this, "exit", bw, bh);
     exit->set_position(bx, by + bh + 20);
     exit->set_color(Color::WHITE,Color::RED);
@@ -52,8 +52,8 @@ TitleScreen::draw_self()
     Environment *env = Environment::get_instance();
     env->canvas->clear(Color::WHITE);
 
-    shared_ptr<Texture> image = env->resources_manager->get_texture("res/images/sanatorio_Beelitz_26.png");
-    env->canvas->draw(image.get(), 1, 69.5 );
+    shared_ptr<Texture> image = env->resources_manager->get_texture("res/images/menuBackground.png");
+    env->canvas->draw(image.get(), 1, 0);
 }
 
 bool
