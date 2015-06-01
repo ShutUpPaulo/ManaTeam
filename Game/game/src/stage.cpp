@@ -5,6 +5,7 @@
  */
 #include <core/environment.h>
 #include <core/music.h>
+#include <core/soundeffect.h> 
 #include <core/audiomanager.h>
 #include <core/audiomanagerwrapper.h>
 #include "stage.h"
@@ -52,10 +53,10 @@ Stage::Stage(ObjectID id)
     add_child(player);
 
    AudioManagerWrapper();
-    AudioManagerMusic * music2 = new AudioManagerMusic();
- //   Mix_Music * musica = Mix_LoadMUS("res/sounds/MusicaMenu.ogg");
-   // Music * song = new Music (musica);
-    music2 -> play("res/sounds/Fase1.ogg", -1);
+    SoundEffect* alarme = new SoundEffect();
+    alarme ->play("res/sounds/Alarme2.ogg",1);
+ //   AudioManagerMusic * fase1 = new AudioManagerMusic();
+ //   fase1 -> play("res/sounds/Fase1.ogg", -1);
 
 
 }
