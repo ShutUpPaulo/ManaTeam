@@ -53,10 +53,8 @@ Stage::Stage(ObjectID id)
     add_child(player);
 
    AudioManagerWrapper();
-    SoundEffect* alarme = new SoundEffect();
-    alarme ->play("res/sounds/Alarme2.ogg",1);
- //   AudioManagerMusic * fase1 = new AudioManagerMusic();
- //   fase1 -> play("res/sounds/Fase1.ogg", -1);
+    AudioManagerMusic * fase1 = new AudioManagerMusic();
+    fase1 -> play("res/sounds/Fase1.ogg", -1);
 
 
 }
