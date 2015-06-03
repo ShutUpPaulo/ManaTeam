@@ -51,7 +51,7 @@ Data & Autor & Modificação
      O jogo baseia-se em dois gêneros: stealth e roguelike. Stealth é um gênero onde o jogador precisa evitar ser notado, utilizando da furtividade para evadir ou elaborar emboscadas para os antagonistas. Jogos do gênero empregam mecânicas como se esconder na sombra, em objetos do cenário, disfarces, e barulhos que podem alertar os inimigos. Roguelike é um subgênero, geralmente de jogos de RPG, que é caracterizado pela geração de mapas aleatórios durante a partida, mapas baseados em tile e permanent death.
 
 \section{Objetivo do jogo}
-O principal objetivo do jogo é fugir do santório. O jogador começa na ala de celas e precisa alcançar o térreo. Para finalizar cada fase será necessário encontrar uma chave específica que abra a porta que dá acesso ao andar inferior ou próxima ala.
+O principal objetivo do jogo é fugir do santório. O jogador começa na ala de celas e precisa alcançar o térreo. Para finalizar cada fase será necessário encontrar uma chave específica que abra a porta que dá acesso ao andar inferior ou à próxima ala.
  
 \section{Requisitos Tecnológicos}
 Para a atividade de desenvolvimento foi estabelecida a utilização das seguintes ferramentas:
@@ -244,7 +244,7 @@ O personagem possui as habilidades já descritas no tópico anterior: correr, ag
 Todas as habilidades estarão disponíveis ao jogador desde o início do jogo, e o jogador poderá ver como utilizá-las ao acessar  o menu do jogo.
 
 \subsection{Inventário}
-O personagem terá acesso á diversas armas ao longo do jogo, no entanto todas serão de curto alcançe. Para utilizá-las, o jogador deverá usar um dos dois tipos de ataque descritos anteriormente. A única arma que usará um controle diferenciado será a arma especial que é a seringa (o seu comando também já foi descrito na seção de controles). 
+O personagem terá acesso á diversas armas ao longo do jogo, no entanto todas serão de curto alcance. Para utilizá-las, o jogador deverá usar um dos dois tipos de ataque descritos anteriormente. A única arma que usará um controle diferenciado será a arma especial que é a seringa (o seu comando também já foi descrito na seção de controles). 
 
 Os itens serão dispostos no jogo de forma aleatória, de forma que cada item terá uma determinada chance de aparecer de acordo com a fase em que o jogador se encontra. Para trocar de arma, basta que o jogador utilize a opção interagir com itens, descrita no tópico de controles. O jogador só poderá ter uma arma comum e uma arma especial por vez. O mesmo vale para o item de recuperação de vida e sanidade (tópicos que serão melhor detalhados mais a frente). As armas, bem como o dano causado por cada uma delas, será descrito abaixo.
 
@@ -257,7 +257,7 @@ Ao ser atacado, o personagem não terá animação que represente o movimento de
 
 Não existirão combos no jogo.
 
-\section{Os medidores de saude do personagem}
+\section{Os medidores de saúde do personagem}
 \subsection{A vida}
 \begin{itemize}
 \item Aspectos gerais
@@ -273,7 +273,7 @@ O jogo apresentará um item que irá recuperar parte da vida do personagem, o ki
 
 A vida é afetada pelos fantasmas, pelos loucos e pelos policiais dentro do jogo. Como cada um irá afetar a vida do personagem será descrito em sessões mais a frente.
 
-O personagem possui 3 vidas e elas são apresentadas no iníco de cada fase. Dentro do jogo, ela é reperesentada pela barra vermelha que vai de 0 a 100\%. Ao ter a barra de vida reduzida a 0\% uma vida será descontada. Ao perder a vida, a partida é reiniciada e os itens conseguidos até o momento são mantidos
+O personagem possui 3 vidas e elas são apresentadas no início de cada fase. Dentro do jogo, ela é representada pela barra vermelha que vai de 0 a 100\%. Ao ter a barra de vida reduzida a 0\% uma vida será descontada. Ao perder a vida, a partida é reiniciada e os itens conseguidos até o momento são mantidos
 
 Ao perder as 3 vidas, a tela de \textit{Game Over} é apresentada e o jogo é reiniciado. Ao reiniciar a partida, o personagem irá perder todos os itens que tiver acumulado ao longo da partida.
 
@@ -288,12 +288,12 @@ A \textit{stamina}, ou 'resistência', do personagem irá reduzir gradativamente
 \end{itemize}
 A terceira e última barra apresentada no HUD tem importância igual ou até maior que a vida do personagem. Ela é o elemento principal do jogo pois interfere diretamente na mecânica do jogo. 
 
-A barra de sanidade define quão "mentalmente são" o personagem se encontra. Ela pode ser reduzida ao entrar em contato com os fantasmas ou abater um guarda. 
+A barra de sanidade define quão \lq\lq mentalmente são\rq\rq\ o personagem se encontra. Ela pode ser reduzida ao entrar em contato com os fantasmas ou abater um guarda. 
 
 \begin{itemize}
 \item Efeitos \textit{in game}
 \end{itemize}
-Ao ter a sanidade reduzida abaixo dos 40\% a frequência da música mudará e a tela irá começar a tremer com uma frequência proporcinal à redução da sanidade. Além disso, os fantasmas existentes no jogo irão se mexer com maior velocidade.
+Ao ter a sanidade reduzida abaixo dos 40\% a frequência da música mudará e a tela irá começar a tremer com uma frequência proporcional à redução da sanidade. Além disso, os fantasmas existentes no jogo irão se mexer com maior velocidade.
 
 \begin{itemize}
 \item Como recuperar a sanidade
@@ -301,7 +301,7 @@ Ao ter a sanidade reduzida abaixo dos 40\% a frequência da música mudará e a 
 
 A sanidade pode ser recuperada de duas formas: perdendo a vida durante o jogo ou recuperando através de um item presente no jogo: a pílula da sanidade.
 
-A  pílula da sanidade recupera 30\% da sanidade do player. No entanto, por se tratar de um medicamento considerado "forte" o personagem terá uma redução na velocidade de 50\% por 10 segundos. Após esse período, o personagem voltará a ter a velocidade normal.
+A  pílula da sanidade recupera 30\% da sanidade do player. No entanto, por se tratar de um medicamento considerado \lq\lq forte\rq\rq o personagem terá uma redução na velocidade de 50\% por 10 segundos. Após esse período, o personagem voltará a ter a velocidade normal.
 
 \section{Principais Personagens do Mundo do Jogo}
 
@@ -310,7 +310,7 @@ O personagem principal do jogo é o Edmond Gauthier, no entanto, alguns outro pe
 \subsection{Fantasma dos soldados fuzilados}
 Como previamente descrito na história do jogo, Edmond não consegue lidar com algumas mortes, como no caso de alguns soldados que, embora inimigos, não morreram de forma digna, segundo o pensamento do Edmond. 
 	
-	A forma do personagem tem o objetivo de lembrar o Edmond sobre o significado daquele personagem. Isso justifica os furos que o mesmo tem no corpo, representando os tiros disparados nos soldados fuzilados. [INSERIR AQUI IMAGEM E DESCRIÇÃO DO FANTASMA IN GAME E VERSÀO CUTSCENE]
+	A forma do personagem tem o objetivo de lembrar o Edmond sobre o significado daquele personagem. Isso justifica os furos que o mesmo tem no corpo, representando os tiros disparados nos soldados fuzilados. [INSERIR AQUI IMAGEM E DESCRIÇÃO DO FANTASMA IN GAME E VERSÃO CUTSCENE]
 	
 	Esse fantasma aparece para o Edmond na primeira fase para impedi-lo de alcançar o andar inferior.
 
