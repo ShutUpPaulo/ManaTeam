@@ -43,6 +43,9 @@
 *.bak
 *.log
 *.aux
+*.idx
+*.toc
+*~
 
 # IJE
 /IJE_Manateam/*
