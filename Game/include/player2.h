@@ -29,6 +29,8 @@ public:
     const pair<double, double>& moviment() const;
     void set_moviment(double xaxis, double yaxis);
 
+    static ActionID hitExitDoorID;
+
 private:
     Map * current_map;
     class Impl;

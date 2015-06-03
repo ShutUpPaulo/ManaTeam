@@ -7,8 +7,11 @@
  */
 #include "player2.h"
 
+#include "core/level.h"
 #include "core/environment.h"
 #include "core/keyboardevent.h"
+
+ActionID Player2::hitExitDoorID { "hitExitDoorID()" };
 
 using std::make_pair;
 
@@ -399,8 +402,10 @@ public:
                 //{
                     if (((posx + 40 > aux[i]->x()) && (posx + 40 < (aux[i]->x() + 80))) && ((posy + 40> aux[i]->y()) && (posy + 40 < (aux[i]->y() + 80))))
                     {
-                        cout << "você ganhou o jogo!" << endl;
+//                        cout << "você ganhou o jogo!" << endl;
                         //drop_key();
+
+                        m_player2->notify(Player2::hitExitDoorID, "stage2");
                         //Passa pro prox level
                         //Level *next_level = new Level("stage","stage2");
                         //next_level->set_next("stage2");

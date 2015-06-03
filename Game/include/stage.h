@@ -11,8 +11,6 @@
 #include <core/level.h>
 #include <core/rect.h>
 
-
-
 #include "map.h"
 #include "room.h"
 
@@ -24,6 +22,7 @@ private:
     Rect m_floor;
 
     void draw_self();
+    bool on_message(Object *object, MessageID id, Parameters p);
 };
 
 #endif
