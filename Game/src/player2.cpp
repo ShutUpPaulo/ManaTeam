@@ -18,9 +18,9 @@ using std::make_pair;
 class Player2::Impl
 {
 public:
-    Impl(Player2 *player2, Map * current_map)
+    Impl(Player2 *player2, Map *current_map)
         : m_player2(player2), m_direction(Player2::LEFT),
-        m_moviment(make_pair(0.0, 0.0)), current_map(current_map)
+        m_moviment(make_pair(0.0, 0.0)), m_current_map(current_map)
     {
     }
 
@@ -34,19 +34,18 @@ public:
         m_moviment = make_pair(xaxis, yaxis);
     }
 
-    void enter_room(Room * anterior, Room * nova, int posx, int posy)
+    void set_current(Room *nova, int posx, int posy)
     {
         m_player2->set_x(posx);
         m_player2->set_y(posy);
-        current_map->enter_room(anterior, nova);
-        
+        m_current_map->set_current(nova);
     }
 
 private:
     Player2 *m_player2;
     Direction m_direction;
     pair<double, double> m_moviment;
-    Map * current_map;
+    Map *m_current_map;
 };
 
 class Idle : public SpriteState
@@ -270,17 +269,8 @@ public:
         return false;
     }
 
-    void enter_room(Room * anterior, Room * nova, int posx, int posy)
-    {
-        m_player2->set_x(posx);
-        m_player2->set_y(posy);
-        current_map->enter_room(anterior, nova);
-        
-    }
-
     void update(unsigned long elapsed)
     {
-
         if (m_left)
         {
             m_player2->set_direction(Player2::LEFT);
@@ -363,44 +353,44 @@ public:
         if(posx <= 5 && ( posy >= 280 && posy <= 420) && current_map->current_room->r_left)
         {
 
-            enter_room(current_map->current_room, current_map->current_room->r_left, 1120, posy);
+            m_player2->set_current(current_map->current_room->r_left, 1120, posy);
         }
         else if(posx >= 1200 && ( posy >= 280 && posy <= 420) && current_map->current_room->r_right)
         {
 
-            enter_room(current_map->current_room, current_map->current_room->r_right, 80, posy);
+            m_player2->set_current(current_map->current_room->r_right, 80, posy);
         }
         else if(posy <= 5  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_top)
         {
 
-            enter_room(current_map->current_room, current_map->current_room->r_top, posx, 580);
+            m_player2->set_current(current_map->current_room->r_top, posx, 580);
         }
         else if(posy >= 620  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_botton)
         {
 
-            enter_room(current_map->current_room, current_map->current_room->r_botton, posx, 80);
+            m_player2->set_current(current_map->current_room->r_botton, posx, 80);
         }
 
 
         /*Colisoes com os itens */
-        vector <Item*> aux = current_map->current_room->items;
+        list <Object *> auxs = current_map->current_room->items;
 
-        for(int i = 0; i < aux.size(); i++)
+        for (auto aux : auxs)
         {
-            if(aux[i]->type == "key")
+            if(aux->id() == "key")
             {
-                if (((posx + 30 > aux[i]->x()) && (posx + 30 < (aux[i]->x() + 32))) && ((posy + 30> aux[i]->y()) && (posy + 30 < (aux[i]->y() + 32))))
+                if (((posx + 30 > aux->x()) && (posx + 30 < (aux->x() + 32))) && ((posy + 30> aux->y()) && (posy + 30 < (aux->y() + 32))))
                 {
-                    current_map->current_room->remove_child(aux[i]);
-                    cout << "peguei a porra da chave" << endl;
+                    current_map->current_room->remove_child(aux);
+                    cout << "peguei a chave" << endl;
                     //pick_key();
                 } 
             }
-            else if(aux[i]->type == "finaldoor")
+            else if(aux->id() == "finaldoor")
             {
                 //if(has_key())
                 //{
-                    if (((posx + 40 > aux[i]->x()) && (posx + 40 < (aux[i]->x() + 80))) && ((posy + 40> aux[i]->y()) && (posy + 40 < (aux[i]->y() + 80))))
+                    if (((posx + 40 > aux->x()) && (posx + 40 < (aux->x() + 80))) && ((posy + 40> aux->y()) && (posy + 40 < (aux->y() + 80))))
                     {
 //                        cout << "você ganhou o jogo!" << endl;
                         //drop_key();
@@ -424,8 +414,8 @@ private:
     Map * current_map;
 };
 
-Player2::Player2(Object *parent, const string& id, Map * current_map)
-    : Sprite(parent, id), current_map(current_map), m_impl(new Player2::Impl(this, current_map))
+Player2::Player2(Object *parent, const string& id, Map *current_map)
+    : Sprite(parent, id), m_impl(new Player2::Impl(this, current_map))
 {
     add_state(IDLE, new Idle(this));
     add_state(RUNNING, new Running(this, current_map));
@@ -469,7 +459,7 @@ Player2::set_moviment(double xaxis, double yaxis)
 }
 
 void
-Player2::enter_room(Room * anterior, Room * nova, int posx, int posy)
+Player2::set_current(Room * nova, int posx, int posy)
 {
-    m_impl->enter_room(anterior, nova, posx, posy);
+    m_impl->set_current(nova, posx, posy);
 }

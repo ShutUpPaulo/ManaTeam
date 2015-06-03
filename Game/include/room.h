@@ -3,14 +3,14 @@
 
 
 #include <core/object.h>
-#include <vector>
+#include <list>
 
 #include "item.h"
 
 
 
 
-using std::vector;
+using std::list;
 
 class Room: public Object
 {
@@ -27,15 +27,21 @@ public:
 	void check_entry();
 	string room_type();
 
-	vector <Item*> items;
+	list <Object *> items;
 
-	void add_vector(Item *);
-	vector<Item*> get_vector();
+	void add_list(Object *);
+	const list<Object *>& get_itens();
+
 private:
 	void draw_id(Room *,Room *, int, int);
 	void draw_self();
 	void draw_itens(Room *);
-	
+
+    void update_self(unsigned long);
+
+    void add_door(char direction, int x, int y);
+
+    bool m_doors;
 };
 
 #endif

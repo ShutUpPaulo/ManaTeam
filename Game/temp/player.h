@@ -17,7 +17,7 @@ using std::unique_ptr;
 class Player : public Object, Listener
 {
 public:
-Player(Object *parent, ObjectID id,std::map<int,Animation*> actions, Map * current_map);
+    Player(Object *parent, ObjectID id, std::map<int,Animation*> actions, Map * current_map);
     ~Player();
 
     bool on_event(const KeyboardEvent& event);

@@ -10,13 +10,13 @@ using namespace std;
 class Item : public Object
 {
 public:
-    Item(Object *parent, ObjectID id, double posx, double posy, bool walk, string type = "none");
+    Item(Object *parent, ObjectID id, double x, double y, double w, double h, bool walk);
     ~Item();
     
 	void change_sprite(string);
 
-	string type;
     bool walkable;
+
 private:
 	string current_sprite;
 

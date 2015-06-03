@@ -20,7 +20,7 @@ public:
     typedef enum { MOVED, STOPPED } Event;
     typedef enum { LEFT, UP, RIGHT, DOWN } Direction;
 
-    Player2(Object *parent, const string& id, Map * current_map);
+    Player2(Object *parent, const string& id, Map *current_map);
     ~Player2();
 
     Direction direction() const;
@@ -31,12 +31,11 @@ public:
 
     static ActionID hitExitDoorID;
 
+    void set_current(Room *room, int x, int y);
+
 private:
-    Map * current_map;
     class Impl;
     unique_ptr<Impl> m_impl;
-
-    void enter_room(Room *, Room *, int, int);
 };
 
 #endif

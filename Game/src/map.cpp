@@ -1,4 +1,4 @@
-#include <vector>
+#include <list>
 #include <utility>
 #include <ijengine/core/environment.h>
 #include <ijengine/core/rect.h>
@@ -141,7 +141,6 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
 // Generate all the map
 void Map::GenerateMap(int quantidade_salas)
 {
-	int id = 0;
     srand(time(NULL));
 	
     int x = rand() % quantidade_salas/2 + 1;
@@ -155,18 +154,16 @@ void Map::GenerateMap(int quantidade_salas)
         }
     }
 
-	Room *room = new Room(this,"sala 00", "None");
+	Room *room = new Room(this, "sala 00", "None");
+    current_room = room;
 
 	matriz[x][y] = true;
-    
-    id+=1;
-	for(id = 1;id < quantidade_salas; id++)
+
+	for(int id = 1; id < quantidade_salas; id++)
 	{	
 		CreateRoom(room, &id, x, y, quantidade_salas);
 	}
-
-    current_room = room;
-    add_child(current_room);
+//    add_child(current_room);
 }
 
 Room *
@@ -176,13 +173,25 @@ Map::room()
 }
 
 void
-Map::enter_room(Room * anterior, Room * nova)
+Map::set_current(Room *nova)
 {
-	remove_child(anterior);
-	add_child(nova);
 	current_room = nova;
 }
 
 void Map::draw_self()
 {
+    if (current_room)
+        current_room->draw();
+}
+
+const list<Object *>&
+Map::itens() const
+{
+    return current_room->get_itens();
+}
+
+void
+Map::update_self(unsigned long elapsed)
+{
+    current_room->update(elapsed);
 }

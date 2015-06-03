@@ -14,14 +14,23 @@
 #include "map.h"
 #include "room.h"
 
+class Player2;
+class Map;
+
 class Stage : public Level
 {
 public:
     Stage(ObjectID id);
+
+    static ActionID colisionID;
+
 private:
-    Rect m_floor;
+    Player2 *m_player;
+    Map *m_map;
 
     void draw_self();
+    void update_self(unsigned long);
+
     bool on_message(Object *object, MessageID id, Parameters p);
 };
 

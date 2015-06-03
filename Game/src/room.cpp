@@ -9,87 +9,17 @@
 #include "room.h"
 
 Room::Room(Object *parent, ObjectID id, string type)
-: Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr), type(type)
+: Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr), type(type),
+    m_doors(false)
 {
-	Item *piso = new Item(this,"piso",0,0,true);
+	Item *piso = new Item(this,"piso",0,0, 1280, 720, true);
 	piso->change_sprite("res/tile_sheets/piso1.png");
-	piso->set_w(1280);
-	piso->set_h(720);
 	add_child(piso);
 
-	Item *paredes = new Item(this,"parede",0,0,true);
+	Item *paredes = new Item(this,"parede",0,0, 1280, 720, true);
 	paredes->change_sprite("res/tile_sheets/paredes.png");
-	paredes->set_w(1280);
-	paredes->set_h(720);
 	add_child(paredes);
-	// Item *piso;
-	// for(int i = 0; i < 22; i++)
-	// {
-	// 	for(int j = 0; j < 12; j++)
-	// 	{
-	// 		piso = new Item(this,"piso",i*60,j*60,true);
-	// 		piso->change_sprite("res/tile_sheets/tile1.png");
-	 		
-	// 	}
-	// }
 
-	// /*Adicionando cantos*/
-	// Item *canto = new Item(this,"canto", 0, 0,false);
-	// canto->change_sprite("res/tile_sheets/canto1.png");
-	// canto->set_w(80);
-	// canto->set_h(80);
-	// add_child(canto);
-
-	// canto = new Item(this,"canto", 1200, 0,false);
-	// canto->change_sprite("res/tile_sheets/canto2.png");
-	// canto->set_w(80);
-	// canto->set_h(80);
-	// add_child(canto);
-
-	// canto = new Item(this,"canto", 0, 640,false);
-	// canto->change_sprite("res/tile_sheets/canto4.png");
-	// canto->set_w(80);
-	// canto->set_h(80);
-	// add_child(canto);
-
-	// canto = new Item(this,"canto", 1200, 640,false);
-	// canto->change_sprite("res/tile_sheets/canto3.png");
-	// canto->set_w(80);
-	// canto->set_h(80);
-	// add_child(canto);
-
-	// /*Adicionando paredes */
-	// Item *parede;
-	// for(int x = 1; x < 15; x++)
-	// {
-	// 	parede = new Item(this, "parede", x*80, 0, false);
-	// 	parede->change_sprite("res/tile_sheets/parede2.png");
-	// 	parede->set_w(80);
-	// 	parede->set_h(80);
-	// 	add_child(parede);
-
-	// 	parede = new Item(this, "parede", x*80, 640, false);
-	// 	parede->change_sprite("res/tile_sheets/parede4.png");
-	// 	parede->set_w(80);
-	// 	parede->set_h(80);
-	// 	add_child(parede);
-	// }
-	// for(int y = 1; y < 8; y++ )
-	// {
-	// 	parede = new Item(this, "parede", 0, y*80, false);
-	// 	parede->change_sprite("res/tile_sheets/parede1.png");
-	// 	parede->set_w(80);
-	// 	parede->set_h(80);
-	// 	add_child(parede);
-
-	// 	parede = new Item(this, "parede", 1200, y*80, false);
-	// 	parede->change_sprite("res/tile_sheets/parede3.png");
-	// 	parede->set_w(80);
-	// 	parede->set_h(80);
-	// 	add_child(parede);
-	// }
-
-	/*Gerando os itens aleatóriamente na sala*/
 	draw_itens(this);
 }
 
@@ -113,74 +43,58 @@ void Room::draw_itens(Room* room)
 	if(this->room_type() != "Cela")
 	{
 		//Desenhando uma bancada
-		Item* stand_table = new Item(this, "bancada", 520, 240, false);
+		Item* stand_table = new Item(this, "bancada", 520, 240, 240, 240, false);
 		if(random_number == 1)
 		{
 			stand_table->change_sprite("res/tile_sheets/Bancadaa1.png");
-
-			stand_table->set_w(240);
-			stand_table->set_h(240);
 			add_child(stand_table);
 		}
 			
 		else if(random_number == 2)
 		{
 			stand_table->change_sprite("res/tile_sheets/Bancadaa2.png");
-
-			stand_table->set_w(240);
-			stand_table->set_h(240);
 			add_child(stand_table);
 		}
 
 		random_number = rand()%10+1;
 		//Desenhando uma cadeira
-		Item *chair = new Item(this, "cadeira", rand() % 1098 + 80, rand() % 520 + 80, false);
+		Item *chair = new Item(this, "cadeira", rand() % 1098 + 80, rand() % 520 + 80, 22, 40, false);
 		if(random_number == 1)
 		{
 			chair->change_sprite("res/tile_sheets/Cadeira1.png");
-			chair->set_w(22);
-			chair->set_h(40);
 			add_child(chair);
 		}
 
-		chair = new Item(this, "cadeira", rand() % 1098 + 80, rand() % 520 + 80, false);
+		chair = new Item(this, "cadeira", rand() % 1098 + 80, rand() % 520 + 80, 22, 40, false);
 		random_number = rand()%10+1;
 		if(random_number == 2)
 		{
 			chair->change_sprite("res/tile_sheets/Cadeira2.png");
-			chair->set_w(22);
-			chair->set_h(40);
 			add_child(chair);
 		}
 
 		//Desenhando cadeira e mesa
 		random_number = rand()%10+1;
-		Item *chair_n_table = new Item(this, "cadeira e mesa", rand() % 1060 + 80, rand() % 480 + 80, false);
+		Item *chair_n_table = new Item(this, "cadeira e mesa", rand() % 1060 + 80, rand() % 480 + 80, 80, 80, false);
 		if(random_number == 1)
 		{
 			chair_n_table->change_sprite("res/tile_sheets/CadeiraseMesa1.png");
-			chair_n_table->set_w(80);
-			chair_n_table->set_h(80);
 			add_child(chair_n_table);
 		}
 
 		random_number = rand()%10+1;
-		chair_n_table = new Item(this, "cadeira e mesa", rand() % 1060 + 80, rand() % 480 + 80, false);
+		chair_n_table = new Item(this, "cadeira e mesa", rand() % 1060 + 80, rand() % 480 + 80, 64, 38, false);
 		if(random_number == 2)
 		{
 			chair_n_table->change_sprite("res/tile_sheets/CadeiraseMesa2.png");
-			chair_n_table->set_w(64);
-			chair_n_table->set_h(38);
 			add_child(chair_n_table);
 		}
 
 		random_number = rand()%10+1;
-		chair_n_table = new Item(this, "cadeira e mesa", rand() % 1060 + 80, rand() % 480 + 80, false);
+		chair_n_table = new Item(this, "cadeira e mesa", rand() % 1060 + 80, rand() % 480 + 80, 80, 80, false);
 		if(random_number == 3)
 		{
 			chair_n_table->change_sprite("res/tile_sheets/CadeiraseMesa3.png");
-			chair_n_table->set_w(80);
-			chair_n_table->set_h(80);
 			add_child(chair_n_table);
 		}
 	}
@@ -188,10 +102,8 @@ void Room::draw_itens(Room* room)
 	{
 		if(room->type == "CelaH")
 		{
-			Item *cell_room = new Item(this, "celas", 0, 0, true);
+			Item *cell_room = new Item(this, "celas", 0, 0, 1280, 720, true);
 			cell_room->change_sprite("res/tile_sheets/ConjuntodeCelas.png");
-			cell_room->set_w(1280);
-			cell_room->set_h(720);
 			add_child(cell_room);
 		}
 
@@ -202,26 +114,24 @@ void Room::draw_itens(Room* room)
 	}
 	if(this->room_type() == "KeyRoom")
 	{
-		Item *key = new Item(this, "key", rand() % 900 + 80, rand() % 500 + 80, true, "key");
+		Item *key = new Item(this, "key", rand() % 900 + 80, rand() % 500 + 80, 32, 32, true);
 		key->change_sprite("res/itens/key.png");
-		key->set_w(32);
-		key->set_h(32);
 		add_child(key);
-		add_vector(key);
+		add_list(key);
 	}	
 
 }
 
 void
-Room::add_vector(Item * item)
+Room::add_list(Object  * item)
 {
 	this->items.push_back(item);
 }
 
-vector <Item*>
-Room::get_vector()
+const list<Object *>&
+Room::get_itens()
 {
-	return this->items;
+	return children();
 }
 
 
@@ -294,12 +204,11 @@ void Room::draw_self()
 
 	Item *porta;
 
-	if(this->r_left)
+/*	if(this->r_left)
 	{
 		Rect l_door {0, 320, 80, 80};
 		env->canvas->draw(l_door, Color::WHITE);
 
-		/*Adicionando portas */
 		porta = new Item(this,"porta", 0, 320, true);
 		porta->change_sprite("res/tile_sheets/porta1.png");
 		porta->set_w(80);
@@ -342,51 +251,84 @@ void Room::draw_self()
 		add_child(porta);
 
 	}
-
+*/
 	if(this->type == "Final")
 	{
 		if(this->r_right)
 		{
 			/*Adicionando portas */
-			porta = new Item(this,"finaldoor", 0, 320, true, "finaldoor");
+			porta = new Item(this,"finaldoor", 0, 320, 80, 80, true);
 			porta->change_sprite("res/door/porta1.png");
-			porta->set_w(80);
-			porta->set_h(80);
 			add_child(porta);
-			add_vector(porta);
+			add_list(porta);
 		}
 		if(this->r_botton)
 		{
-			porta = new Item(this,"finaldoor", 600, 0, true, "finaldoor");
+			porta = new Item(this,"finaldoor", 600, 0, 80, 80, true);
 			porta->change_sprite("res/door/porta2.png");
-			porta->set_w(80);
-			porta->set_h(80);
 			add_child(porta);
-			add_vector(porta);
+			add_list(porta);
 
 		}
 		if(this->r_left)
 		{
-			porta = new Item(this,"finaldoor", 1200, 320, true, "finaldoor");
+			porta = new Item(this,"finaldoor", 1200, 320, 80, 80, true);
 			porta->change_sprite("res/door/porta3.png");
-			porta->set_w(80);
-			porta->set_h(80);
 			add_child(porta);
-			add_vector(porta);
+			add_list(porta);
 
 		}
 		if(this->r_top)
 		{
-			porta = new Item(this,"finaldoor", 600, 640, true, "finaldoor");
+			porta = new Item(this,"finaldoor", 600, 640, 80, 80, true);
 			porta->change_sprite("res/door/porta4.png");
-			porta->set_w(80);
-			porta->set_h(80);
 			add_child(porta);
-			add_vector(porta);
+			add_list(porta);
 		}
 	}
 	env->canvas->draw(this->type, 1100, 320,Color::WHITE);
+}
 
+void
+Room::add_door(char direction, int x, int y)
+{
+    char doorID[128];
+    sprintf(doorID, "porta%c%s", direction, id().c_str());
+	Item *porta = new Item(this, doorID, x, y, 80, 80, true);
 
+    char door_sprite[256];
+    sprintf(door_sprite, "res/tile_sheets/porta%c.png", direction);
+	porta->change_sprite(door_sprite);
 
+	add_child(porta);
+}
+
+void
+Room::update_self(unsigned long)
+{
+    if (not m_doors)
+    {
+printf("Atualizando as portas...\n");
+	    if (r_left)
+	    {
+            add_door('l', 0, 320);
+        }
+
+        if (r_right)
+        {
+            add_door('r', 1200, 320);
+        }
+
+        if (r_top)
+        {
+            add_door('t', 600, 0);
+        }
+
+        if (r_botton)
+        {
+            add_door('b', 600, 640);
+        }
+
+        m_doors = true;
+    }
 }

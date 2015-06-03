@@ -12,7 +12,7 @@
 #include "stage.h"
 
 SevenKeys::SevenKeys()
-    : Game("fone")
+    : Game("stage1")
 {
     Environment *env = Environment::get_instance();
 

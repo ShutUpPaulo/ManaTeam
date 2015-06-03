@@ -6,12 +6,9 @@
 
 #include "item.h"
 
-Item::Item(Object *parent, ObjectID id, double posx, double posy, bool walk, string type)
-    : Object(parent, id), walkable(walk), type(type)
+Item::Item(Object *parent, ObjectID id, double x, double y, double w, double h, bool walk)
+    : Object(parent, id, x, y, w, h), walkable(walk) 
 {
-    set_position(posx, posy);
-    set_x(posx);
-    set_y(posy);
 }
 
 Item::~Item()
