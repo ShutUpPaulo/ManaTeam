@@ -22,23 +22,28 @@ TitleScreen::TitleScreen()
     double w = env->canvas->w();
     double h = env->canvas->h();
 
-    double bw = 100;
-    double bh = 50;
+    set_dimensions(w, h);
 
-    double bx = (w - bw)/2;
-    double by = h/2;
+    Button *ok = new Button(this, "ok", "res/buttons/new-game.png",
+        "res/buttons/new-game-selected.png");
+    ok->align_to(this, Object::CENTER, Object::MIDDLE);
 
-    Button *ok = new Button(this, "ok", bw, bh);
-    ok->set_position(bx, by);
-    ok->set_color(Color::RED,Color::BLUE);
-    Button *exit = new Button(this, "exit", bw, bh);
-    exit->set_position(bx, by + bh + 20);
-    exit->set_color(Color::WHITE,Color::RED);
+    Button *settings = new Button(this, "settings", "res/buttons/set-up.png",
+        "res/buttons/set-up-selected.png");
+    settings->align_to(this, Object::CENTER, Object::NONE);
+    settings->set_y(ok->y() + ok->h() + 20);
+
+    Button *exit = new Button(this, "exit", "res/buttons/exit.png",
+        "res/buttons/exit-selected.png");
+    exit->align_to(this, Object::CENTER, Object::NONE);
+    exit->set_y(settings->y() + settings->h() + 20);
 
     ok->add_observer(this);
+    settings->add_observer(this);
     exit->add_observer(this);
 
     add_child(ok);
+    add_child(settings);
     add_child(exit);
 }
 
@@ -74,6 +79,9 @@ TitleScreen::on_message(Object *object, MessageID id, Parameters)
     if (button->id() == "ok")
     {
         set_next("stage1");
+    } else if (button->id() == "settings")
+    {
+        //set_next("options");
     }
 
     finish();
