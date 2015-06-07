@@ -35,7 +35,8 @@ Room::Room(Object *parent, ObjectID id, string type)
 		}
 	}
 
-	draw_itens(this);
+	randomize_items();
+	//draw_itens(this);
 }
 
 string Room::room_type()
@@ -46,10 +47,16 @@ string Room::room_type()
 	return this->type;
 }
 
-void Room::draw_itens(Room* room)
+void Room::randomize_items()
+{
+	int random_number = rand()%10+1;
+}
+
+void Room::draw_items(Room* room, string item_name, int pos_x, int pos_y, bool fixo, bool walkable)
 {
 	//srand(time(NULL));
-	int random_number = rand()%10+1;
+	if(fixo)
+	Item* stand_table = new Item(this, item_name, 520, 240, 240, 240, false);
 
 	if(this->room_type() == "None")
 	{
@@ -132,6 +139,8 @@ void Room::draw_itens(Room* room)
 		Item *key = new Item(this, "key", rand() % 900 + 80, rand() % 500 + 80, 32, 32, true);
 		key->change_sprite("res/itens/key.png");
 		add_child(key);
+
+
 	}	
 
 }
@@ -143,7 +152,7 @@ Room::add_list(Object  * item)
 }
 
 const list<Object *>&
-Room::get_itens()
+Room::get_items()
 {
 	return children();
 }
@@ -271,20 +280,20 @@ void Room::draw_self()
 		if(this->r_right)
 		{
 			/*Adicionando portas */
-			porta = new Item(this,"finaldoor", 0, 320, 80, 80, true);
+			porta = new Item(this,"finalDoor", 0, 320, 80, 80, true);
 			porta->change_sprite("res/door/porta1.png");
 			add_child(porta);
 		}
 		else if(this->r_botton)
 		{
-			porta = new Item(this,"finaldoor", 600, 0, 80, 80, true);
+			porta = new Item(this,"finalDoor", 600, 0, 80, 80, true);
 			porta->change_sprite("res/door/porta2.png");
 			add_child(porta);
 			
 		}
 		else if(this->r_left)
 		{
-			porta = new Item(this,"finaldoor", 1200, 320, 80, 80, true);
+			porta = new Item(this,"finalDoor", 1200, 320, 80, 80, true);
 			porta->change_sprite("res/door/porta3.png");
 			add_child(porta);
 		
@@ -292,7 +301,7 @@ void Room::draw_self()
 		}
 		if(this->r_top)
 		{
-			porta = new Item(this,"finaldoor", 600, 640, 80, 80, true);
+			porta = new Item(this,"finalDoor", 600, 640, 80, 80, true);
 			porta->change_sprite("res/door/porta4.png");
 			add_child(porta);
 		
@@ -319,7 +328,6 @@ void
 Room::remove_item(Object *item)
 {
 	remove_child(item);
-	printf("Entrou no room remove item!\n");
 }
 
 void

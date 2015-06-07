@@ -169,7 +169,6 @@ void Map::GenerateMap(int quantidade_salas)
 void
 Map::remove_item(Object *item)
 {
-    printf("Entrou no map remove item!\n");
     current_room->remove_item(item);
 }
 

@@ -30,17 +30,18 @@ public:
 	list <Object *> items;
 
 	void add_list(Object *);
-	const list<Object *>& get_itens();
+	const list<Object *>& get_items();
 	void remove_item(Object *);
 
 private:
 	void draw_id(Room *,Room *, int, int);
 	void draw_self();
-	void draw_itens(Room *);
+	void draw_items(Room *);
 
     void update_self(unsigned long);
 
     void add_door(char direction, int x, int y);
+    void randomize_items();
 
     bool m_doors;
 };

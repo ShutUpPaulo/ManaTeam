@@ -42,7 +42,7 @@ void
 Stage::update_self(unsigned long)
 {
 //printf("\n\nPlayer: (%.1f, %.1f) -- %.1f x %.1f\n", m_player->x(), m_player->y(), m_player->w(), m_player->h());
-    const list<Object *>& itens = m_map->itens();
+    const list<Object *> itens = m_map->itens();
 
     for (auto item : itens)
     {
@@ -64,6 +64,11 @@ Stage::update_self(unsigned long)
             {
                 printf("Pegou a chave!\n");
                 m_map->remove_item(item);
+            }
+            if(item->id() == "finalDoor")
+            {
+                finish();
+                m_player->notify(Player2::hitExitDoorID, "stage2");
             }
         }
     }
