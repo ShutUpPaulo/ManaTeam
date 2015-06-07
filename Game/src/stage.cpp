@@ -20,7 +20,7 @@ ActionID Stage::colisionID = "colisionID()";
 Stage::Stage(ObjectID id)
     : Level(id)
 {
-    int quantidade_de_salas = 2;
+    int quantidade_de_salas = 3;
     m_map = new Map(quantidade_de_salas);
     add_child(m_map);
 
@@ -41,12 +41,12 @@ Stage::Stage(ObjectID id)
 void
 Stage::update_self(unsigned long)
 {
-printf("\n\nPlayer: (%.1f, %.1f) -- %.1f x %.1f\n", m_player->x(), m_player->y(), m_player->w(), m_player->h());
+//printf("\n\nPlayer: (%.1f, %.1f) -- %.1f x %.1f\n", m_player->x(), m_player->y(), m_player->w(), m_player->h());
     const list<Object *>& itens = m_map->itens();
 
     for (auto item : itens)
     {
-printf("\n\nItem [%s]: (%.1f, %.1f) -- %.1f x %.1f\n", item->id().c_str(), item->x(), item->y(), item->w(), item->h());
+//printf("\n\nItem [%s]: (%.1f, %.1f) -- %.1f x %.1f\n", item->id().c_str(), item->x(), item->y(), item->w(), item->h());
         Rect a = m_player->bounding_box();
         Rect b = item->bounding_box();
         Rect c = a.intersection(b);
@@ -58,7 +58,13 @@ printf("\n\nItem [%s]: (%.1f, %.1f) -- %.1f x %.1f\n", item->id().c_str(), item-
                 c.y(), c.w(), c.h());
 
             notify(Stage::colisionID, message);
-            printf("Player acertou o item [%s]\n", item->id().c_str());
+            //printf("Player acertou o item [%s]\n", item->id().c_str(), item->x(), item->y());
+
+            if(item->id() == "key")
+            {
+                printf("Pegou a chave!\n");
+                m_map->remove_item(item);
+            }
         }
     }
 }

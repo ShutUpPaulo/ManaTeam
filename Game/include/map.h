@@ -28,8 +28,9 @@ public:
 
 	void set_current(Room *room);
 	void GenerateMap(int);
+	void remove_item(Object* );
 	
-    const list<Object *>& itens() const;
+    const list<Object *>& itens() ;
 
 private:
     bool matriz[50][50];

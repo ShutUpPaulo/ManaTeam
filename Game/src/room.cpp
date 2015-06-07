@@ -12,13 +12,28 @@ Room::Room(Object *parent, ObjectID id, string type)
 : Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr), type(type),
     m_doors(false)
 {
-	Item *piso = new Item(this,"piso",0,0, 1280, 720, true);
-	piso->change_sprite("res/tile_sheets/piso1.png");
-	add_child(piso);
 
-	Item *paredes = new Item(this,"parede",0,0, 1280, 720, true);
-	paredes->change_sprite("res/tile_sheets/paredes.png");
-	add_child(paredes);
+
+	// Item *piso = new Item(this,"piso",0,0, 1280, 720, true);
+	// piso->change_sprite("res/tile_sheets/piso1.png");
+	// add_child(piso);
+
+	// Item *paredes = new Item(this,"parede",0,0, 1280, 720, true);
+	// paredes->change_sprite("res/tile_sheets/paredes.png");
+	// add_child(paredes);
+
+	Item *piso;
+	char str_piso[256]; 
+	for(int i = 1; i < 15; i++)
+	{
+		for(int j = 1; j < 8; j++)
+		{
+			sprintf(str_piso, "piso%d%d", i, j);
+			piso = new Item(this,str_piso,i*80,j*80,80,80,true);
+			piso->change_sprite("res/tile_sheets/tile1.png");
+	 		add_child(piso);
+		}
+	}
 
 	draw_itens(this);
 }
@@ -117,7 +132,6 @@ void Room::draw_itens(Room* room)
 		Item *key = new Item(this, "key", rand() % 900 + 80, rand() % 500 + 80, 32, 32, true);
 		key->change_sprite("res/itens/key.png");
 		add_child(key);
-		add_list(key);
 	}	
 
 }
@@ -260,22 +274,20 @@ void Room::draw_self()
 			porta = new Item(this,"finaldoor", 0, 320, 80, 80, true);
 			porta->change_sprite("res/door/porta1.png");
 			add_child(porta);
-			add_list(porta);
 		}
-		if(this->r_botton)
+		else if(this->r_botton)
 		{
 			porta = new Item(this,"finaldoor", 600, 0, 80, 80, true);
 			porta->change_sprite("res/door/porta2.png");
 			add_child(porta);
-			add_list(porta);
-
+			
 		}
-		if(this->r_left)
+		else if(this->r_left)
 		{
 			porta = new Item(this,"finaldoor", 1200, 320, 80, 80, true);
 			porta->change_sprite("res/door/porta3.png");
 			add_child(porta);
-			add_list(porta);
+		
 
 		}
 		if(this->r_top)
@@ -283,7 +295,7 @@ void Room::draw_self()
 			porta = new Item(this,"finaldoor", 600, 640, 80, 80, true);
 			porta->change_sprite("res/door/porta4.png");
 			add_child(porta);
-			add_list(porta);
+		
 		}
 	}
 	env->canvas->draw(this->type, 1100, 320,Color::WHITE);
@@ -304,11 +316,18 @@ Room::add_door(char direction, int x, int y)
 }
 
 void
+Room::remove_item(Object *item)
+{
+	remove_child(item);
+	printf("Entrou no room remove item!\n");
+}
+
+void
 Room::update_self(unsigned long)
 {
     if (not m_doors)
     {
-printf("Atualizando as portas...\n");
+//printf("Atualizando as portas...\n");
 	    if (r_left)
 	    {
             add_door('l', 0, 320);

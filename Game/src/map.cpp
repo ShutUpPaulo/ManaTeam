@@ -166,6 +166,13 @@ void Map::GenerateMap(int quantidade_salas)
 //    add_child(current_room);
 }
 
+void
+Map::remove_item(Object *item)
+{
+    printf("Entrou no map remove item!\n");
+    current_room->remove_item(item);
+}
+
 Room *
 Map::room()
 {
@@ -185,7 +192,7 @@ void Map::draw_self()
 }
 
 const list<Object *>&
-Map::itens() const
+Map::itens() 
 {
     return current_room->get_itens();
 }

@@ -53,7 +53,7 @@ class Idle : public SpriteState
 public:
     Idle(Player2 *player2)
         : m_player2(player2), m_animation(new Animation("res/sprites/idle.png",
-            0, 0, 41, 81, 1, 500, true)), m_left(0), m_right(0), m_top(0), m_down(0)
+            0, 0, 70, 70, 2, 1000, true)), m_left(0), m_right(0), m_top(0), m_down(0)
     {
     }
 
@@ -174,7 +174,7 @@ class Running : public SpriteState
 public:
     Running(Player2 *player2, Map * current_map)
         : m_player2(player2), m_animation(
-        new Animation("res/sprites/running.png", 0, 0, 60, 60, 8, 60, true)),
+        new Animation("res/sprites/running.png", 0, 0, 70, 70, 8, 60, true)),
         m_left(0), m_right(0), m_top(0), m_down(0), m_last(0), current_map(current_map)
     {
     }

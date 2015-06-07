@@ -31,6 +31,7 @@ public:
 
 	void add_list(Object *);
 	const list<Object *>& get_itens();
+	void remove_item(Object *);
 
 private:
 	void draw_id(Room *,Room *, int, int);
