@@ -27,7 +27,7 @@ public:
 private:
     Player2 *m_player;
     Map *m_map;
-
+    int m_num_id;
     void draw_self();
     void update_self(unsigned long);
 

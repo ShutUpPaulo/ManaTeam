@@ -31,7 +31,7 @@ Room::Room(Object *parent, ObjectID id, string type)
 			sprintf(str_piso, "piso%d%d", i, j);
 			piso = new Item(this,str_piso,i*80,j*80,80,80,true);
 			piso->change_sprite("res/tile_sheets/tile1.png");
-	 		add_child(piso);
+	 		//add_child(piso);
 		}
 	}
 
@@ -49,16 +49,52 @@ string Room::room_type()
 
 void Room::randomize_items()
 {
-	int random_number = rand()%10+1;
+	string item_name;
+
+	int random_number = rand()%100;
+
+	if(random_number <= 20)
+	{
+		if(random_number <= 10)
+			item_name = "Bancadaa1";
+		else
+			item_name = "Bancadaa2";
+		draw_items(item_name, 520, 240, 240, 240, false);
+	}
+	
+	random_number = rand()%100;
+
+	if(random_number <= 30)
+	{
+		while(random_number <= 40)
+		{
+			if(random_number <= 20)
+				item_name = "Cadeira1";
+			else
+				item_name = "Cadeira2";
+			draw_items(item_name, rand() % 1098 + 80, rand() % 520 + 80, 22, 40, false);
+
+			random_number = rand()%100;
+		}
+		
+	}
+
+
+
 }
 
-void Room::draw_items(Room* room, string item_name, int pos_x, int pos_y, bool fixo, bool walkable)
+void Room::draw_items(string item_name, int pos_x, int pos_y, int width, int height, bool walkable)
 {
-	//srand(time(NULL));
-	if(fixo)
-	Item* stand_table = new Item(this, item_name, 520, 240, 240, 240, false);
+	char src_item[256];
+	sprintf(src_item, "res/tile_sheets/%s.png", item_name.c_str());
+	printf("%s\n", src_item);
+	
+	Item* item = new Item(this, item_name, pos_x, pos_y, width, height, walkable);
 
-	if(this->room_type() == "None")
+	item->change_sprite(src_item);
+	add_child(item);
+}
+	/*if(this->room_type() == "None")
 	{
 
 	}
@@ -80,7 +116,7 @@ void Room::draw_items(Room* room, string item_name, int pos_x, int pos_y, bool f
 
 		random_number = rand()%10+1;
 		//Desenhando uma cadeira
-		Item *chair = new Item(this, "cadeira", rand() % 1098 + 80, rand() % 520 + 80, 22, 40, false);
+		Item *chair = new Item(this, "cadeira", , rand() % 520 + 80, 22, 40, false);
 		if(random_number == 1)
 		{
 			chair->change_sprite("res/tile_sheets/Cadeira1.png");
@@ -143,7 +179,7 @@ void Room::draw_items(Room* room, string item_name, int pos_x, int pos_y, bool f
 
 	}	
 
-}
+}*/
 
 void
 Room::add_list(Object  * item)

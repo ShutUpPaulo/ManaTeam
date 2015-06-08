@@ -11,6 +11,8 @@
 #include "titlescreen.h"
 #include "stage.h"
 
+ #include <cstring>
+
 SevenKeys::SevenKeys()
     : Game("fone")
 {
@@ -42,12 +44,13 @@ SevenKeys::load_level(const string& id)
     } else if (id == "title")
     {
         return new TitleScreen();
-    } else if (id == "stage1")
+    } else 
     {
-        return new Stage("stage1");
-    } else if (id == "stage2")
-    {
-        return new Stage("stage2");
+
+        if (strstr(id.c_str(), "stage"))
+        {
+            return new Stage(id);
+        }
     }
 
 

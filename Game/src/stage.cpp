@@ -20,7 +20,13 @@ ActionID Stage::colisionID = "colisionID()";
 Stage::Stage(ObjectID id)
     : Level(id)
 {
-    int quantidade_de_salas = 3;
+    char aux[3];
+    *aux = *(id.c_str() + 5);
+    printf("aux: %s\n", aux);
+    m_num_id = atoi(aux);
+    printf("%d\n", m_num_id);
+
+    int quantidade_de_salas = 2 + m_num_id + (m_num_id - 1) * 2;
     m_map = new Map(quantidade_de_salas);
     add_child(m_map);
 
@@ -68,7 +74,9 @@ Stage::update_self(unsigned long)
             if(item->id() == "finalDoor")
             {
                 finish();
-                m_player->notify(Player2::hitExitDoorID, "stage2");
+                char new_stage[256];
+                sprintf(new_stage, "stage%d", m_num_id+1);
+                m_player->notify(Player2::hitExitDoorID, new_stage);
             }
         }
     }

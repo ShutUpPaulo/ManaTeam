@@ -193,7 +193,7 @@ void Map::draw_self()
 const list<Object *>&
 Map::itens() 
 {
-    return current_room->get_itens();
+    return current_room->get_items();
 }
 
 void
