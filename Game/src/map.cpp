@@ -157,24 +157,6 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
 	}
 }
 
-/*Room*
-Map::send_previous_room(int id)
-{
-    for (Room* room : room_list)
-    {
-        char aux[256];
-        sprintf(aux, "sala %d", id);
-
-        if(!strcmp(room->id().c_str(), aux))
-        {
-            return room;
-        }
-    }
-
-    return current_room;
-}*/
-
-
 // Generate all the map
 void Map::GenerateMap(int quantidade_salas)
 {
