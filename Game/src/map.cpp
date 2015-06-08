@@ -20,15 +20,33 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
 	int randomVar;
     int randomType = rand() % 3; 
     string type;
-    int num = *id;
-    char numero1, numero2;
 	
-	randomVar = rand() % 4+1;
+	randomVar = rand() % 100+1;
 
-	string sala = "sala ";
+    if(randomVar <= 25)
+    {
+        randomVar = LEFT;
+    }
 
-	numero1 = num/10 + 48;
-	numero2 = num % 10 + 48;
+    if(randomVar > 25 && randomVar <= 50)
+    {
+        randomVar = RIGHT;
+    }
+
+    if(randomVar > 50 && randomVar <= 75)
+    {
+        randomVar = TOP;
+    }
+
+    if(randomVar > 75 && randomVar <= 100)
+    {
+        randomVar = BOTTOM;
+    }
+
+    printf("%d\n", randomVar);
+
+    char sala[256];
+    sprintf(sala, "sala %d", *id);
 
     if(randomType < 2)
         type = "None";
@@ -57,12 +75,12 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
                 if(type == "Cela")
                     type += 'H';
 
-            	room->Room::r_left = new Room(this, sala + numero1 + numero2, type);
-            	room->r_left->r_right = room;
-				//rooms->left = InsertRoom(*id, NULL, NULL, rooms, NULL);
+            	room->Room::r_left = new Room(this, sala, type);
+                room->r_left->r_right = room;
+                room_list.push_back(room->r_left);
+                room->r_left->pos_x = x-1;
+                room->r_left->pos_y = y;
                 matriz[x-1][y] = true;
-                //add_child(room->r_left);
-                //*id+=1;
             }	
             else
             {
@@ -79,12 +97,12 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
                 if(type == "Cela")
                     type += 'H';
 
-            	room->r_right = new Room(this, sala + numero1 + numero2, type);
-            	room->r_right->r_left = room;
-				//rooms->right = InsertRoom(*id, rooms, NULL, NULL, NULL);
+            	room->r_right = new Room(this, sala, type);
+                room->r_right->r_left = room;
+                room_list.push_back(room->r_right);
+                room->r_right->pos_x = x+1;
+                room->r_right->pos_y = y;
                 matriz[x+1][y] = true;
-                //add_child(room->r_right);
-                //*id+=1;
             }
             else
             {   
@@ -101,11 +119,12 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
                 if(type == "Cela")
                     type += 'V';
                 
-				room->r_top = new Room(this, sala + numero1 + numero2, type);
-				room->r_top->r_botton = room;
+				room->r_top = new Room(this, sala, type);
+                room->r_top->r_botton = room;
+                room_list.push_back(room->r_top);
+                room->r_top->pos_x = x;
+                room->r_top->pos_y = y-1;
                 matriz[x][y-1] = true;
-                //add_child(room->r_top);
-                //*id+=1;
             }
             else
             {   
@@ -122,11 +141,12 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
                 if(type == "Cela")
                     type += 'V';
                 
-				room->r_botton = new Room(this, sala + numero1 + numero2, type);
+				room->r_botton = new Room(this, sala, type);
 				room->r_botton->r_top = room;
+                room_list.push_back(room->r_botton);
+                room->r_botton->pos_x = x;
+                room->r_botton->pos_y = y+1;
                 matriz[x][y+1] = true;
-                //add_child(room->r_botton);
-                //*id+=1;
             }
             else
             {
@@ -137,14 +157,31 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
 	}
 }
 
+/*Room*
+Map::send_previous_room(int id)
+{
+    for (Room* room : room_list)
+    {
+        char aux[256];
+        sprintf(aux, "sala %d", id);
+
+        if(!strcmp(room->id().c_str(), aux))
+        {
+            return room;
+        }
+    }
+
+    return current_room;
+}*/
+
 
 // Generate all the map
 void Map::GenerateMap(int quantidade_salas)
 {
-    srand(time(NULL));
 	
-    int x = rand() % quantidade_salas/2 + 1;
-    int y = x;
+    int x = 25;
+    int y = 25;
+    int id = 1;
 
     for(int i = 0; i < 10; i++)
     {
@@ -154,18 +191,27 @@ void Map::GenerateMap(int quantidade_salas)
         }
     }
 
-	Room *room = new Room(this, "sala 00", "None");
+	Room *room = new Room(this, "sala 0", "None");
+    room_list.push_back(room);
     current_room = room;
+    last_room = room;
 
 	matriz[x][y] = true;
 
+    Room * aux = room_list.at(rand() % id);
+    aux->pos_x = x;
+    aux->pos_y = y;
+
 	for(int id = 1; id < quantidade_salas; id++)
 	{	
-		CreateRoom(room, &id, x, y, quantidade_salas);
+        Room * aux = room_list.at(rand() % id);
+        
+        cout << "Criando na sala" << aux->id() << endl;
+		CreateRoom(aux, &id, aux->pos_x, aux->pos_y, quantidade_salas);
+        aux ++;
 	}
-//    add_child(current_room);
 }
-
+    
 void
 Map::remove_item(Object *item)
 {

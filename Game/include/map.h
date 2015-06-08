@@ -7,6 +7,7 @@
 #include <iostream>
 #include <ctime>
 #include <list>
+#include <vector>
 #include <utility>
 
 #include "room.h"
@@ -14,6 +15,7 @@
 
 using std::pair;
 using std::list;
+using std::vector;
 
 #define MAX 25
 
@@ -26,6 +28,7 @@ public:
 	Room * current_room;
 	Room * room();
 
+
 	void set_current(Room *room);
 	void GenerateMap(int);
 	void remove_item(Object* );
@@ -33,9 +36,10 @@ public:
     const list<Object *>& itens() ;
 
 private:
+	vector <Room*> room_list;
+	Room * last_room;
     bool matriz[50][50];
 	void CreateRoom(Room *, int*, int, int, int);
-
 	void draw_self();
     void update_self(unsigned long);
 };

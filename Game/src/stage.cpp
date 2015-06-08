@@ -26,7 +26,7 @@ Stage::Stage(ObjectID id)
     m_num_id = atoi(aux);
     printf("%d\n", m_num_id);
 
-    int quantidade_de_salas = 2 + m_num_id + (m_num_id - 1) * 2;
+    int quantidade_de_salas = 30 + m_num_id + (m_num_id - 1) * 2;
     m_map = new Map(quantidade_de_salas);
     add_child(m_map);
 

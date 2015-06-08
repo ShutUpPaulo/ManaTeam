@@ -23,6 +23,8 @@ public:
 	Room *r_botton;
 
 	string type;
+	int pos_x;
+	int pos_y;
 
 	void check_entry();
 	string room_type();
