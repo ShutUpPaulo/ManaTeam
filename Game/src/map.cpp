@@ -161,14 +161,17 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
 void Map::GenerateMap(int quantidade_salas)
 {
 	
-    int x = 25;
-    int y = 25;
+    int x = quantidade_salas/2;
+    int y = quantidade_salas/2;
     int id = 1;
 
-    for(int i = 0; i < 10; i++)
+    **matriz = (bool**) malloc(sizeof(bool*)*(quantidade_salas));
+
+    for(int i = 0; i < quantidade_salas; i++)
     {
-        for(int j = 0; j < 10; j++)
-        {
+    	matriz[i] = (bool*) malloc(sizeof(bool)*(quantidade_salas));
+        for(int j = 0; j < quantidade_salas; j++)
+	        {
             matriz[i][j] = false;
         }
     }

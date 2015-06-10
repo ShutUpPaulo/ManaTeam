@@ -17,7 +17,7 @@ using std::pair;
 using std::list;
 using std::vector;
 
-#define MAX 25
+#define MAX_ROOM 60
 
 class Map: public Object
 {
@@ -38,7 +38,7 @@ public:
 private:
 	vector <Room*> room_list;
 	Room * last_room;
-    bool matriz[50][50];
+    bool **matriz;
 	void CreateRoom(Room *, int*, int, int, int);
 	void draw_self();
     void update_self(unsigned long);
