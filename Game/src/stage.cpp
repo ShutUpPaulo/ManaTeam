@@ -12,7 +12,7 @@
 #include "stage.h"
 #include "item.h"
 #include "map.h"
-#include "player2.h"
+#include "player.h"
 
 
 ActionID Stage::colisionID = "colisionID()";
@@ -26,11 +26,11 @@ Stage::Stage(ObjectID id)
     m_num_id = atoi(aux);
     printf("%d\n", m_num_id);
 
-    int quantidade_de_salas = 30 + m_num_id + (m_num_id - 1) * 2;
+    int quantidade_de_salas = 6 + m_num_id + (m_num_id - 1) * 2;
     m_map = new Map(quantidade_de_salas);
     add_child(m_map);
 
-    m_player = new Player2(this, "player", m_map);
+    m_player = new Player(this, "player", m_map);
     m_player->set_position(600, 320);
     m_player->add_observer(this);
 
@@ -70,13 +70,17 @@ Stage::update_self(unsigned long)
             {
                 printf("Pegou a chave!\n");
                 m_map->remove_item(item);
+                m_player->get_key();
             }
             if(item->id() == "finalDoor")
             {
-                finish();
-                char new_stage[256];
-                sprintf(new_stage, "stage%d", m_num_id+1);
-                m_player->notify(Player2::hitExitDoorID, new_stage);
+                if(m_player->has_key() == true)
+                {
+                    finish();
+                    char new_stage[256];
+                    sprintf(new_stage, "stage%d", m_num_id+1);
+                    m_player->notify(Player::hitExitDoorID, new_stage);
+                }
             }
         }
     }
@@ -92,7 +96,7 @@ Stage::draw_self()
 bool
 Stage::on_message(Object *, MessageID id, Parameters p)
 {
-    if (id == Player2::hitExitDoorID)
+    if (id == Player::hitExitDoorID)
     {
         set_next(p);
         finish();

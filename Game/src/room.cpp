@@ -49,6 +49,7 @@ string Room::room_type()
 
 void Room::randomize_items()
 {
+	string item_path;
 	string item_name;
 
 	int random_number = rand()%100;
@@ -56,10 +57,14 @@ void Room::randomize_items()
 	if(random_number <= 20)
 	{
 		if(random_number <= 10)
+		{	item_path = "res/tile_sheets/Bancadaa1.png";
 			item_name = "Bancadaa1";
+		}
 		else
+		{	item_path = "res/tile_sheets/Bancadaa2.png";
 			item_name = "Bancadaa2";
-		draw_items(item_name, 520, 240, 240, 240, false);
+		}	
+			draw_items(item_path, item_name, 520, 240, 240, 240, false);
 	}
 	
 	random_number = rand()%100;
@@ -69,29 +74,35 @@ void Room::randomize_items()
 		while(random_number <= 40)
 		{
 			if(random_number <= 20)
+			{	item_path = "res/tile_sheets/Cadeira1.png";
 				item_name = "Cadeira1";
+			}
 			else
+			{
+				item_path = "res/tile_sheets/Cadeira2.png";
 				item_name = "Cadeira2";
-			draw_items(item_name, rand() % 1098 + 80, rand() % 520 + 80, 22, 40, false);
+			}
+			draw_items(item_path, item_name, rand() % 1098 + 80, rand() % 520 + 80, 22, 40, false);
 
 			random_number = rand()%100;
 		}
 		
 	}
-
+	if(this->room_type() == "KeyRoom")
+	{
+		item_path = "res/itens/key.png";
+		item_name = "key";
+		draw_items(item_path, item_name, rand() % 900 + 80, rand() % 500 + 80, 32, 32, true);
+	}	
 
 
 }
 
-void Room::draw_items(string item_name, int pos_x, int pos_y, int width, int height, bool walkable)
+void Room::draw_items(string item_path, string item_name, int pos_x, int pos_y, int width, int height, bool walkable)
 {
-	char src_item[256];
-	sprintf(src_item, "res/tile_sheets/%s.png", item_name.c_str());
-	printf("%s\n", src_item);
-	
 	Item* item = new Item(this, item_name, pos_x, pos_y, width, height, walkable);
 
-	item->change_sprite(src_item);
+	item->change_sprite(item_path);
 	add_child(item);
 }
 	/*if(this->room_type() == "None")

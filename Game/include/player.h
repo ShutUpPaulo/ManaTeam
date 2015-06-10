@@ -13,15 +13,15 @@
 
 using std::pair;
 
-class Player2 : public Sprite
+class Player : public Sprite
 {
 public:
     typedef enum { NONE, IDLE, RUNNING } State;
     typedef enum { MOVED, STOPPED } Event;
     typedef enum { LEFT, UP, RIGHT, DOWN } Direction;
 
-    Player2(Object *parent, const string& id, Map *current_map);
-    ~Player2();
+    Player(Object *parent, const string& id, Map *current_map);
+    ~Player();
 
     Direction direction() const;
     void set_direction(Direction direction);
@@ -32,10 +32,14 @@ public:
     static ActionID hitExitDoorID;
 
     void set_current(Room *room, int x, int y);
+    void get_key();
+    bool has_key();
 
 private:
     class Impl;
     unique_ptr<Impl> m_impl;
+    bool m_key;
+
 };
 
 #endif

@@ -14,7 +14,7 @@
 #include "map.h"
 #include "room.h"
 
-class Player2;
+class Player;
 class Map;
 
 class Stage : public Level
@@ -25,7 +25,7 @@ public:
     static ActionID colisionID;
 
 private:
-    Player2 *m_player;
+    Player *m_player;
     Map *m_map;
     int m_num_id;
     void draw_self();

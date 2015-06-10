@@ -1,26 +1,27 @@
 /*
- * Implementação da classe Player2.
+ * Implementação da classe Player.
  *
  * Autor: Edson Alves
  * Data: 15/05/2015
  * Licença: LGPL. Sem copyright.
  */
-#include "player2.h"
+#include "player.h"
 
 #include "core/level.h"
 #include "core/environment.h"
 #include "core/keyboardevent.h"
 
-ActionID Player2::hitExitDoorID { "hitExitDoorID()" };
+ActionID Player::hitExitDoorID { "hitExitDoorID()" };
+//ActionID Player::hitKeyID{"hitKeyID()"};
 
 using std::make_pair;
 
-class Player2::Impl
+class Player::Impl
 {
 public:
-    Impl(Player2 *player2, Map *current_map)
-        : m_player2(player2), m_direction(Player2::LEFT),
-        m_moviment(make_pair(0.0, 0.0)), m_current_map(current_map)
+    Impl(Player *player, Map *current_map, bool key)
+        : m_player(player), m_direction(Player::LEFT),
+        m_moviment(make_pair(0.0, 0.0)), m_current_map(current_map), m_key(key)
     {
     }
 
@@ -36,23 +37,32 @@ public:
 
     void set_current(Room *nova, int posx, int posy)
     {
-        m_player2->set_x(posx);
-        m_player2->set_y(posy);
+        m_player->set_x(posx);
+        m_player->set_y(posy);
         m_current_map->set_current(nova);
     }
 
+    void get_key()
+    {
+        m_key = true;
+    }
+    bool has_key()
+    {
+        return m_key;
+    }
 private:
-    Player2 *m_player2;
+    Player *m_player;
     Direction m_direction;
     pair<double, double> m_moviment;
     Map *m_current_map;
+    bool m_key;
 };
 
 class Idle : public SpriteState
 {
 public:
-    Idle(Player2 *player2)
-        : m_player2(player2), m_animation(new Animation("res/sprites/idle.png",
+    Idle(Player *player)
+        : m_player(player), m_animation(new Animation("res/sprites/idle.png",
             0, 0, 70, 70, 2, 1000, true)), m_left(0), m_right(0), m_top(0), m_down(0)
     {
     }
@@ -61,7 +71,7 @@ public:
 
     void enter(int)
     {
-        m_player2->set_dimensions(m_animation->w(), m_animation->h());
+        m_player->set_dimensions(m_animation->w(), m_animation->h());
         m_right = m_left = m_down = m_top = 0;
     }
 
@@ -127,7 +137,7 @@ public:
 
     void draw()
     {
-        m_animation->draw(m_player2->x(), m_player2->y());
+        m_animation->draw(m_player->x(), m_player->y());
     }
 
     void update(unsigned long elapsed)
@@ -136,35 +146,35 @@ public:
 
         if (m_left)
         {
-            m_player2->set_moviment(-1.0, 0.0);
-            m_player2->set_direction(Player2::LEFT);
-            m_player2->report_event(Player2::MOVED);
+            m_player->set_moviment(-1.0, 0.0);
+            m_player->set_direction(Player::LEFT);
+            m_player->report_event(Player::MOVED);
         } else if (m_right)
         {
-            m_player2->set_moviment(0.0, 0.0);
-            m_player2->set_direction(Player2::RIGHT);
-            m_player2->report_event(Player2::MOVED);
+            m_player->set_moviment(0.0, 0.0);
+            m_player->set_direction(Player::RIGHT);
+            m_player->report_event(Player::MOVED);
         }
         if (m_top)
         {
-            m_player2->set_moviment(0.0, -1.0);
-            m_player2->set_direction(Player2::UP);
-            m_player2->report_event(Player2::MOVED);
+            m_player->set_moviment(0.0, -1.0);
+            m_player->set_direction(Player::UP);
+            m_player->report_event(Player::MOVED);
         }else if (m_down)
         {
-            m_player2->set_moviment(0.0, 1.0);
-            m_player2->set_direction(Player2::DOWN);
-            m_player2->report_event(Player2::MOVED);
+            m_player->set_moviment(0.0, 1.0);
+            m_player->set_direction(Player::DOWN);
+            m_player->report_event(Player::MOVED);
         }
 
-        Player2::Direction dir = m_player2->direction();
+        Player::Direction dir = m_player->direction();
         int row = dir;
         m_animation->set_row(row);
         m_animation->update(elapsed);
     }
 
 private:
-    Player2 *m_player2;
+    Player *m_player;
     unique_ptr<Animation> m_animation;
     int m_left, m_right, m_top, m_down;
 };
@@ -172,10 +182,10 @@ private:
 class Running : public SpriteState
 {
 public:
-    Running(Player2 *player2, Map * current_map)
-        : m_player2(player2), m_animation(
+    Running(Player *player, Map * current_map, bool key)
+        : m_player(player), m_animation(
         new Animation("res/sprites/running.png", 0, 0, 70, 70, 8, 60, true)),
-        m_left(0), m_right(0), m_top(0), m_down(0), m_last(0), current_map(current_map)
+        m_left(0), m_right(0), m_top(0), m_down(0), m_last(0), current_map(current_map), m_key(key)
     {
     }
 
@@ -185,22 +195,22 @@ public:
 
     void enter(int from)
     {
-        m_player2->set_dimensions(m_animation->w(), m_animation->h());
+        m_player->set_dimensions(m_animation->w(), m_animation->h());
 
-        Player2::Direction dir = m_player2->direction();
+        Player::Direction dir = m_player->direction();
 
-        m_right = dir == Player2::RIGHT ? 1 : 0;
-        m_left = dir == Player2::LEFT ? 1 : 0;
-        m_top = dir == Player2::UP ? 1 : 0;
-        m_down = dir == Player2::DOWN ? 1 : 0;
+        m_right = dir == Player::RIGHT ? 1 : 0;
+        m_left = dir == Player::LEFT ? 1 : 0;
+        m_top = dir == Player::UP ? 1 : 0;
+        m_down = dir == Player::DOWN ? 1 : 0;
         m_last = 0;
 
-        if (from == Player2::IDLE)
+        if (from == Player::IDLE)
         {
-            auto moviment = m_player2->moviment();
+            auto moviment = m_player->moviment();
             double x = moviment.first * speed;
             double y = moviment.second * speed;
-            m_player2->set_moviment(x, y);
+            m_player->set_moviment(x, y);
         }
     }
 
@@ -210,7 +220,7 @@ public:
 
     void draw()
     {
-        m_animation->draw(m_player2->x(), m_player2->y());
+        m_animation->draw(m_player->x(), m_player->y());
     }
 
     bool on_event(const KeyboardEvent& event)
@@ -273,35 +283,35 @@ public:
     {
         if (m_left)
         {
-            m_player2->set_direction(Player2::LEFT);
-            m_player2->report_event(Player2::MOVED);
+            m_player->set_direction(Player::LEFT);
+            m_player->report_event(Player::MOVED);
         }else if (m_right)
         {
-            m_player2->set_direction(Player2::RIGHT);
-            m_player2->report_event(Player2::MOVED);
+            m_player->set_direction(Player::RIGHT);
+            m_player->report_event(Player::MOVED);
         }
         if (m_top)
         {
-            m_player2->set_direction(Player2::UP);
-            m_player2->report_event(Player2::MOVED);
+            m_player->set_direction(Player::UP);
+            m_player->report_event(Player::MOVED);
         } else if (m_down)
         {
-            m_player2->set_direction(Player2::DOWN);
-            m_player2->report_event(Player2::MOVED);
+            m_player->set_direction(Player::DOWN);
+            m_player->report_event(Player::MOVED);
         }
 
         if(!m_top && !m_down && !m_right && !m_left)
         {
-            m_player2->report_event(Player2::STOPPED);
+            m_player->report_event(Player::STOPPED);
         }
         else
         {
-            m_player2->set_moviment(speed*(m_right - m_left), speed*(m_down - m_top));
+            m_player->set_moviment(speed*(m_right - m_left), speed*(m_down - m_top));
         }
 
         
 
-        Player2::Direction dir = m_player2->direction();
+        Player::Direction dir = m_player->direction();
         int row = dir;
         m_animation->set_row(row);
 
@@ -310,38 +320,38 @@ public:
             m_last = elapsed;
         }
 
-        auto moviment = m_player2->moviment();
+        auto moviment = m_player->moviment();
         unsigned long delta = elapsed - m_last;
-        double x = m_player2->x() + (moviment.first * delta)/1000.0;
-        double y = m_player2->y() + (moviment.second * delta)/1000.0;
+        double x = m_player->x() + (moviment.first * delta)/1000.0;
+        double y = m_player->y() + (moviment.second * delta)/1000.0;
 
         /*limite da sala */
         Environment *env = Environment::get_instance();
 
-        if (x + m_player2->w() > env->canvas->w())
+        if (x + m_player->w() > env->canvas->w())
         {
-            x = env->canvas->w() - m_player2->w();
+            x = env->canvas->w() - m_player->w();
         }
 
-        if ((x >= env->canvas->w() - m_player2->w() and moviment.first > 0) or 
+        if ((x >= env->canvas->w() - m_player->w() and moviment.first > 0) or 
             (x <= 0 and moviment.first < 0))
         {
             x -= (moviment.first * delta)/1000.0;
         }
 
-        if (y + m_player2->h() > env->canvas->h())
+        if (y + m_player->h() > env->canvas->h())
         {
-            y = env->canvas->h() - m_player2->h();
+            y = env->canvas->h() - m_player->h();
         }
 
-        if ((y >= env->canvas->h() - m_player2->h() and moviment.second > 0) or 
+        if ((y >= env->canvas->h() - m_player->h() and moviment.second > 0) or 
             (y <= 0 and moviment.second < 0))
         {
             y -= (moviment.second * delta)/1000.0;
         }
 
-        m_player2->set_x(x);
-        m_player2->set_y(y);
+        m_player->set_x(x);
+        m_player->set_y(y);
 
         m_last = elapsed;
         m_animation->update(elapsed);
@@ -353,22 +363,22 @@ public:
         if(posx <= 5 && ( posy >= 280 && posy <= 420) && current_map->current_room->r_left)
         {
 
-            m_player2->set_current(current_map->current_room->r_left, 1120, posy);
+            m_player->set_current(current_map->current_room->r_left, 1120, posy);
         }
         else if(posx >= 1200 && ( posy >= 280 && posy <= 420) && current_map->current_room->r_right)
         {
 
-            m_player2->set_current(current_map->current_room->r_right, 80, posy);
+            m_player->set_current(current_map->current_room->r_right, 80, posy);
         }
         else if(posy <= 5  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_top)
         {
 
-            m_player2->set_current(current_map->current_room->r_top, posx, 580);
+            m_player->set_current(current_map->current_room->r_top, posx, 580);
         }
         else if(posy >= 620  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_botton)
         {
 
-            m_player2->set_current(current_map->current_room->r_botton, posx, 80);
+            m_player->set_current(current_map->current_room->r_botton, posx, 80);
         }
 
 
@@ -395,7 +405,7 @@ public:
 //                        cout << "você ganhou o jogo!" << endl;
                         //drop_key();
 
-                        m_player2->notify(Player2::hitExitDoorID, "stage2");
+                        m_player->notify(Player::hitExitDoorID, "stage2");
                         //Passa pro prox level
                         //Level *next_level = new Level("stage","stage2");
                         //next_level->set_next("stage2");
@@ -407,18 +417,19 @@ public:
     }
 
 private:
-    Player2 *m_player2;
+    Player *m_player;
     unique_ptr<Animation> m_animation;
     short m_left, m_right, m_top, m_down;
     unsigned long m_last;
     Map * current_map;
+    bool m_key;
 };
 
-Player2::Player2(Object *parent, const string& id, Map *current_map)
-    : Sprite(parent, id), m_impl(new Player2::Impl(this, current_map))
+Player::Player(Object *parent, const string& id, Map *current_map)
+    : Sprite(parent, id), m_impl(new Player::Impl(this, current_map, m_key)), m_key(false)
 {
     add_state(IDLE, new Idle(this));
-    add_state(RUNNING, new Running(this, current_map));
+    add_state(RUNNING, new Running(this, current_map, m_key));
 
     add_transition(MOVED, IDLE, RUNNING);
     add_transition(STOPPED, RUNNING, IDLE);
@@ -428,38 +439,50 @@ Player2::Player2(Object *parent, const string& id, Map *current_map)
     env->events_manager->register_listener(this);
 }
 
-Player2::~Player2()
+Player::~Player()
 {
     Environment *env = Environment::get_instance();
     env->events_manager->unregister_listener(this);
 }
 
-Player2::Direction
-Player2::direction() const
+Player::Direction
+Player::direction() const
 {
     return m_impl->direction();
 }
 
 void
-Player2::set_direction(Direction direction)
+Player::set_direction(Direction direction)
 {
     m_impl->set_direction(direction);
 }
 
 const pair<double, double>&
-Player2::moviment() const
+Player::moviment() const
 {
     return m_impl->moviment();
 }
 
 void
-Player2::set_moviment(double xaxis, double yaxis)
+Player::set_moviment(double xaxis, double yaxis)
 {
     m_impl->set_moviment(xaxis, yaxis);
 }
 
 void
-Player2::set_current(Room * nova, int posx, int posy)
+Player::set_current(Room * nova, int posx, int posy)
 {
     m_impl->set_current(nova, posx, posy);
+}
+
+void
+Player::get_key()
+{
+    m_impl->get_key();
+}
+
+bool
+Player::has_key()
+{
+    return m_impl->has_key();
 }

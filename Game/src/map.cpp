@@ -165,7 +165,7 @@ void Map::GenerateMap(int quantidade_salas)
     int y = quantidade_salas/2;
     int id = 1;
 
-    **matriz = (bool**) malloc(sizeof(bool*)*(quantidade_salas));
+    matriz = (bool**) malloc(sizeof(bool*)*(quantidade_salas));
 
     for(int i = 0; i < quantidade_salas; i++)
     {

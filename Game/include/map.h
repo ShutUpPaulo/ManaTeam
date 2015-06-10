@@ -17,8 +17,6 @@ using std::pair;
 using std::list;
 using std::vector;
 
-#define MAX_ROOM 60
-
 class Map: public Object
 {
 public:

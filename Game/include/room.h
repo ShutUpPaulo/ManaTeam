@@ -38,7 +38,7 @@ public:
 private:
 	void draw_id(Room *,Room *, int, int);
 	void draw_self();
-	void draw_items(string, int, int, int, int, bool);
+	void draw_items(string, string, int, int, int, int, bool);
 
     void update_self(unsigned long);
 
