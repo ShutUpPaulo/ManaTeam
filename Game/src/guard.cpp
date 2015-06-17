@@ -8,10 +8,13 @@
 
 using namespace std;
 
-Guard::Guard(Object *parent, ObjectID id, double x, double y)
+Guard::Guard(Object *parent, ObjectID id, double x, double y, bool walkable)
     : Object(parent, id, x, y), m_animation (new Animation("res/sprites/idle.png",
     	0, 0, 70, 70, 2, 1000, true)), m_direction(Guard::RIGHT), m_last(0)
 {
+    this->set_w(70);
+    this->set_h(70);
+    this->set_walkable(walkable);
     update_vision();
 }
 

@@ -32,13 +32,59 @@ Room::Room(Object *parent, ObjectID id, string type)
 			sprintf(str_piso, "piso%d%d", i, j);
 			piso = new Item(this,str_piso,i*80,j*80,80,80,true);
 			piso->change_sprite("res/tile_sheets/tile1.png");
-	 		//add_child(piso);
+	 		add_child(piso);
 		}
 	}
 
+	 /*Adicionando cantos*/
+	Item *canto;
+	canto = new Item(this,"canto01", 0, 0, 80, 80, false);
+	canto->change_sprite("res/tile_sheets/canto1.png");
+	add_child(canto);
+
+	canto = new Item(this,"canto02", 1200, 0, 80, 80, false);
+	canto->change_sprite("res/tile_sheets/canto2.png");
+	add_child(canto);
+
+	canto = new Item(this,"canto03", 0, 640, 80, 80, false);
+	canto->change_sprite("res/tile_sheets/canto4.png");
+	add_child(canto);
+
+	canto = new Item(this,"canto04", 1200, 640, 80, 80, false);
+	canto->change_sprite("res/tile_sheets/canto3.png");
+	add_child(canto);
+
+	/*Adicionando paredes */
+	/*Item *parede;
+	for(int x = 1; x < 15; x++)
+	{
+		char str_parede[256];
+		sprintf(str_parede, "parede0%d", x);
+		parede = new Item(this, str_parede, x*80, 0, 80, 80, false);
+		parede->change_sprite("res/tile_sheets/parede2.png");
+		add_child(parede);
+
+		parede = new Item(this, str_parede, x*80, 640, 80, 80, false);
+		parede->change_sprite("res/tile_sheets/parede4.png");
+		add_child(parede);
+
+	}
+	for(int y = 1; y < 8; y++ )
+	{
+		char str_parede[256];
+		sprintf(str_parede, "parede1%d",y );
+		parede = new Item(this, str_parede, 0, y*80, 80, 80, false);
+		parede->change_sprite("res/tile_sheets/parede1.png");
+		add_child(parede);
+
+		parede = new Item(this, str_parede, 1200, y*80, 80, 80, false);
+		parede->change_sprite("res/tile_sheets/parede3.png");
+		add_child(parede);
+	}*/
+
 	randomize_items();
 
-	Guard *guard = new Guard(this,"guard",rand()%1120+80,rand()%580+80);
+	Guard *guard = new Guard(this,"guard",rand()%1120+80,rand()%580+80, false);
 	add_child(guard);
 	//draw_itens(this);
 }
@@ -381,6 +427,33 @@ Room::remove_item(Object *item)
 	remove_child(item);
 }
 
+/*Item *parede;
+	for(int x = 1; x < 15; x++)
+	{
+		char str_parede[256];
+		sprintf(str_parede, "parede0%d", x);
+		parede = new Item(this, str_parede, x*80, 0, 80, 80, false);
+		parede->change_sprite("res/tile_sheets/parede2.png");
+		add_child(parede);
+
+		parede = new Item(this, str_parede, x*80, 640, 80, 80, false);
+		parede->change_sprite("res/tile_sheets/parede4.png");
+		add_child(parede);
+
+	}
+	for(int y = 1; y < 8; y++ )
+	{
+		char str_parede[256];
+		sprintf(str_parede, "parede1%d",y );
+		parede = new Item(this, str_parede, 0, y*80, 80, 80, false);
+		parede->change_sprite("res/tile_sheets/parede1.png");
+		add_child(parede);
+
+		parede = new Item(this, str_parede, 1200, y*80, 80, 80, false);
+		parede->change_sprite("res/tile_sheets/parede3.png");
+		add_child(parede);
+	}*/
+
 void
 Room::update_self(unsigned long)
 {
@@ -390,21 +463,147 @@ Room::update_self(unsigned long)
 	    if (r_left)
 	    {
             add_door('l', 0, 320);
+            for(int y = 1; y < 8; y++ )
+			{
+				if(y == 4)
+					continue;
+
+				Item *parede;
+				char str_parede[256];
+				sprintf(str_parede, "parede%d%d", 0, y);
+				parede = new Item(this, str_parede, 0, y*80, 80, 80, false);
+				parede->change_sprite("res/tile_sheets/parede1.png");
+				add_child(parede);
+			}
+        }
+        else
+        {
+        	for(int y = 1; y < 8; y++ )
+			{
+				Item *parede;
+				char str_parede[256];
+				sprintf(str_parede, "parede%d%d", 0, y);
+				parede = new Item(this, str_parede, 0, y*80, 80, 80, false);
+				parede->change_sprite("res/tile_sheets/parede1.png");
+				add_child(parede);
+			}
         }
 
         if (r_right)
         {
             add_door('r', 1200, 320);
+
+            for(int y = 1; y < 8; y++ )
+			{
+				if(y == 4)
+					continue;
+
+				Item *parede;
+				char str_parede[256];
+        		sprintf(str_parede, "parede%d%d", 14, y);
+				parede = new Item(this, str_parede, 1200, y*80, 80, 80, false);
+				parede->change_sprite("res/tile_sheets/parede3.png");
+				add_child(parede);
+			}
+        }
+        else
+        {
+        	for(int y = 1; y < 8; y++ )
+			{
+				Item *parede;
+				char str_parede[256];
+        		sprintf(str_parede, "parede%d%d", 14, y);
+				parede = new Item(this, str_parede, 1200, y*80, 80, 80, false);
+				parede->change_sprite("res/tile_sheets/parede3.png");
+				add_child(parede);
+			}
         }
 
         if (r_top)
         {
             add_door('t', 600, 0);
+
+            for(int x = 1; x < 15; x++)
+			{
+				if(x == 7 || x == 8)
+				{
+					Item *parede;
+					char str_parede[256];
+					sprintf(str_parede, "parede%d%d", 7, 0);
+					parede = new Item(this, str_parede, 520, 0, 80, 80, false);
+					parede->change_sprite("res/tile_sheets/parede2.png");
+					add_child(parede);
+
+					sprintf(str_parede, "parede%d%d", 8, 0);
+					parede = new Item(this, str_parede, 680, 0, 80, 80, false);
+					parede->change_sprite("res/tile_sheets/parede2.png");
+					add_child(parede);
+					continue;
+				}
+
+				Item *parede;
+				char str_parede[256];
+				sprintf(str_parede, "parede%d%d", x, 0);
+				parede = new Item(this, str_parede, x*80, 0, 80, 80, false);
+				parede->change_sprite("res/tile_sheets/parede2.png");
+				add_child(parede);
+			}
+
+
+        }
+        else
+        {
+        	for(int x = 1; x < 15; x++)
+			{
+				Item *parede;
+				char str_parede[256];
+				sprintf(str_parede, "parede%d%d", x, 0);
+				parede = new Item(this, str_parede, x*80, 0, 80, 80, false);
+				parede->change_sprite("res/tile_sheets/parede2.png");
+				add_child(parede);
+			}
         }
 
         if (r_botton)
         {
             add_door('b', 600, 640);
+            for(int x = 1; x < 15; x++)
+			{
+				if(x == 7 || x == 8)
+				{
+					Item *parede;
+					char str_parede[256];
+					sprintf(str_parede, "parede%d%d", 7, 0);
+					parede = new Item(this, str_parede, 520, 640, 80, 80, false);
+					parede->change_sprite("res/tile_sheets/parede4.png");
+					add_child(parede);
+
+					sprintf(str_parede, "parede%d%d", 8, 0);
+					parede = new Item(this, str_parede, 680, 640, 80, 80, false);
+					parede->change_sprite("res/tile_sheets/parede4.png");
+					add_child(parede);
+					continue;
+				}
+
+				Item *parede;
+				char str_parede[256];
+				sprintf(str_parede, "parede%d%d", x, 7);
+				parede = new Item(this, str_parede, x*80, 640, 80, 80, false);
+				parede->change_sprite("res/tile_sheets/parede4.png");
+				add_child(parede);
+			}
+        }
+        else
+        {
+        	for(int x = 1; x < 15; x++)
+			{
+				Item *parede;
+				char str_parede[256];
+				sprintf(str_parede, "parede%d%d", x, 7);
+				parede = new Item(this, str_parede, x*80, 640, 80, 80, false);
+				parede->change_sprite("res/tile_sheets/parede4.png");
+				add_child(parede);
+			}
         }
 
         m_doors = true;

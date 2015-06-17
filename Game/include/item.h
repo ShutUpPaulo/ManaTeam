@@ -9,13 +9,10 @@ using namespace std;
 class Item : public Object
 {
 public:
-    Item(Object *parent, ObjectID id, double x, double y, double w, double h, bool walk);
+    Item(Object *parent, ObjectID id, double x, double y, double w, double h, bool walkable);
     ~Item();
     
 	void change_sprite(string);
-
-    bool walkable;
-
 private:
 	string current_sprite;
 

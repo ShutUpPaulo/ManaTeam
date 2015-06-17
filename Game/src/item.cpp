@@ -6,9 +6,10 @@
 
 #include "item.h"
 
-Item::Item(Object *parent, ObjectID id, double x, double y, double w, double h, bool walk)
-    : Object(parent, id, x, y, w, h), walkable(walk) 
+Item::Item(Object *parent, ObjectID id, double x, double y, double w, double h, bool walkable)
+    : Object(parent, id, x, y, w, h)
 {
+    this->set_walkable(walkable);
 }
 
 Item::~Item()

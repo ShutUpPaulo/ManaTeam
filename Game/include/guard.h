@@ -15,7 +15,7 @@ public:
     typedef enum { MOVED, STOPPED } Event;
     typedef enum { LEFT, UP, RIGHT, DOWN } Direction;
 
-    Guard(Object *parent, ObjectID id, double x, double y);
+    Guard(Object *parent, ObjectID id, double x, double y, bool walkable);
     ~Guard();
 
     Direction direction();

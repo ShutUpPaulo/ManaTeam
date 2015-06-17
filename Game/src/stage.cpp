@@ -9,6 +9,8 @@
 #include <core/audiomanager.h>
 #include <core/audiomanagerwrapper.h>
 
+ #include <cmath>
+
 #include "stage.h"
 #include "item.h"
 #include "map.h"
@@ -49,7 +51,6 @@ Stage::update_self(unsigned long)
 {
 //printf("\n\nPlayer: (%.1f, %.1f) -- %.1f x %.1f\n", m_player->x(), m_player->y(), m_player->w(), m_player->h());
     const list<Object *> itens = m_map->itens();
-
     for (auto item : itens)
     {
 //printf("\n\nItem [%s]: (%.1f, %.1f) -- %.1f x %.1f\n", item->id().c_str(), item->x(), item->y(), item->w(), item->h());
@@ -58,56 +59,95 @@ Stage::update_self(unsigned long)
         Rect c = a.intersection(b);
 
 
-        if (c.w() != 0 and c.h() != 0)
+        //tratando colisoes diretas
+        if(item->walkable() == false)
         {
-            char message[512];
-            sprintf(message, "%s,%s,%.2f,%.2f,%.2f,%.2f", m_player->id().c_str(), item->id().c_str(), c.x(),
-                c.y(), c.w(), c.h());
-
-            notify(Stage::colisionID, message);
-            //printf("Player acertou o item [%s]\n", item->id().c_str(), item->x(), item->y());
-
-            if(item->id() == "key")
+            if (c.w() != 0 and c.h() != 0)
             {
-                printf("Pegou a chave!\n");
-                m_map->remove_item(item);
-                m_player->get_key();
-            }
-            if(item->id() == "finalDoor")
-            {
-                if(m_player->has_key() == true)
+                char message[512];
+                sprintf(message, "%s,%s,%.2f,%.2f,%.2f,%.2f", m_player->id().c_str(), item->id().c_str(), c.x(),
+                    c.y(), c.w(), c.h());
+                notify(Stage::colisionID, message);
+
+                //eixo x
+                if(abs(a.x() - b.x()) > abs(a.y() - b.y()))
                 {
-                    finish();
-                    char new_stage[256];
-                    sprintf(new_stage, "stage%d", m_num_id+1);
-                    m_player->notify(Player::hitExitDoorID, new_stage);
+                    if(a.x() < b.x())
+                    {
+                        m_player->set_x(b.x() - a.w());
+                    }
+                    else if(a.x() > b.x())
+                    {
+                        m_player->set_x(b.x() + b.w());
+                    }
+                }
+                else
+                {
+                //eixo y
+                    if(a.y() < b.y())
+                    {
+                        m_player->set_y(b.y() - a.h());
+                    }
+                    else if(a.y() > b.y())
+                    {
+                        m_player->set_y(b.y() + b.h());
+                    }
                 }
             }
         }
-        if(c.w() > 60 and c.h() > 60)
+        else
         {
-            if(item->id().find("sala"))
+
+            if (c.w() != 0 and c.h() != 0)
             {
-                if(item->x() == 0 && item->y() == 320)
+                char message[512];
+                sprintf(message, "%s,%s,%.2f,%.2f,%.2f,%.2f", m_player->id().c_str(), item->id().c_str(), c.x(),
+                    c.y(), c.w(), c.h());
+
+                notify(Stage::colisionID, message);
+                if(item->id() == "key")
                 {
-                    m_player->set_current(m_map->current_room->r_left, 1120, m_player->y());
+                    printf("Pegou a chave!\n");
+                    m_map->remove_item(item);
+                    m_player->get_key();
                 }
-                else if(item->x() == 1200 && item->y() == 320)
+                if(item->id() == "finalDoor")
                 {
-                    m_player->set_current(m_map->current_room->r_right, 80, m_player->y());
-                }
-                else if(item->x() == 600 && item->y() == 0)
-                {
-                    m_player->set_current(m_map->current_room->r_top, m_player->x(), 560);
-                }
-                else if(item->x() == 600 && item->y() == 640)
-                {
-                    m_player->set_current(m_map->current_room->r_botton, m_player->x(), 80);
+                    if(m_player->has_key() == true)
+                    {
+                        finish();
+                        char new_stage[256];
+                        sprintf(new_stage, "stage%d", m_num_id+1);
+                        m_player->notify(Player::hitExitDoorID, new_stage);
+                    }
                 }
             }
+            if(c.w() > 60 and c.h() > 60)
+            {
+                if(item->id().find("sala"))
+                {
+                    if(item->x() == 0 && item->y() == 320)
+                    {
+                        m_player->set_current(m_map->current_room->r_left, 1120, m_player->y());
+                    }
+                    else if(item->x() == 1200 && item->y() == 320)
+                    {
+                        m_player->set_current(m_map->current_room->r_right, 80, m_player->y());
+                    }
+                    else if(item->x() == 600 && item->y() == 0)
+                    {
+                        m_player->set_current(m_map->current_room->r_top, m_player->x(), 560);
+                    }
+                    else if(item->x() == 600 && item->y() == 640)
+                    {
+                        m_player->set_current(m_map->current_room->r_botton, m_player->x(), 80);
+                    }
+                }
 
+            }
         }
 
+        //Tratando visoes dos guardas
         if(item->id() == "guard")
         {
             const list<Object *> filhos = item->children();
@@ -122,7 +162,7 @@ Stage::update_self(unsigned long)
                 {
                     if(filho->id() == "visao")
                     {
-                        cout << "voce foi visto!" << endl;
+                        //cout << "voce foi visto!" << endl;
                     }
                 }
             }
