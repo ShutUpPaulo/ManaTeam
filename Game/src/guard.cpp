@@ -4,36 +4,96 @@
 #include "core/environment.h"
 #include "core/keyboardevent.h"
 
+#include <iostream>
+
+using namespace std;
+
 Guard::Guard(Object *parent, ObjectID id, double x, double y)
     : Object(parent, id, x, y), m_animation (new Animation("res/sprites/idle.png",
-    	0, 0, 70, 70, 2, 1000, true))
+    	0, 0, 70, 70, 2, 1000, true)), m_direction(Guard::RIGHT), m_last(0)
 {
+    update_vision();
 }
 
 Guard::~Guard()
 {
 }
 
-void 
-Guard::draw()
+Guard::Direction
+Guard::direction()
 {
-	m_animation->draw(this->x(), this->y());	
+    return m_direction;
 }
 
-//Alterar
+void
+Guard::update_vision()
+{
+    const list<Object *> filhos = this->children();
+
+    for (auto filho : filhos)
+    {
+        if(filho->id() == "visao")
+        {
+            remove_child(filho);
+        }
+    }
+
+    if(direction() == Guard::RIGHT)
+    {
+        Sight *visao = new Sight(this, "visao", this->x()+40, this->y(), 200, 80);
+        add_child(visao);
+    }
+    else if(direction() == Guard::LEFT)
+    {
+        Sight *visao = new Sight(this, "visao", this->x() - 200, this->y(), 240, 80);
+        add_child(visao);
+    }
+    else if(direction() == Guard::UP)
+    {
+        Sight *visao = new Sight(this, "visao", this->x(), this->y() - 200, 80, 240);
+        add_child(visao);
+    }
+    else if(direction() == Guard::DOWN)
+    {
+        Sight *visao = new Sight(this, "visao", this->x(), this->y() + 40, 80, 200);
+        add_child(visao);
+    }
+
+}
+
+void
+Guard::set_direction(Direction direction)
+{
+    m_direction = direction;
+}
+
 void
 Guard::draw_self()
 {
-    //const Color color { 80, 180, 205 };
-
     m_animation->draw(x(), y());
-    //Environment *env = Environment::get_instance();
-    //env->canvas->fill(bounding_box(), color);
 }
 
 void
-Guard::update(unsigned long elapsed)
+Guard::update_self(unsigned long elapsed)
 {
+    if(elapsed - m_last > 3000)
+    {
+        int random = rand()%100;
+
+        if(random < 25)
+            set_direction(Guard::LEFT);
+        else if(random < 50)
+            set_direction(Guard::UP);
+        else if(random < 75)
+            set_direction(Guard::RIGHT);
+        else
+            set_direction(Guard::DOWN);
+
+        m_last = elapsed;
+        update_vision();
+    }
+
+    m_animation->set_row(this->direction());
     set_x(this->x());
     set_y(this->y());
     //m_animation->set_row(rand()%4);

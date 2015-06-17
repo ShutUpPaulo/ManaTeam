@@ -43,8 +43,6 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
         randomVar = BOTTOM;
     }
 
-    printf("%d\n", randomVar);
-
     char sala[256];
     sprintf(sala, "sala %d", *id);
 
@@ -190,8 +188,6 @@ void Map::GenerateMap(int quantidade_salas)
 	for(int id = 1; id < quantidade_salas; id++)
 	{	
         Room * aux = room_list.at(rand() % id);
-        
-        cout << "Criando na sala" << aux->id() << endl;
 		CreateRoom(aux, &id, aux->pos_x, aux->pos_y, quantidade_salas);
         aux ++;
 	}

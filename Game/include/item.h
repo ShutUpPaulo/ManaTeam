@@ -2,7 +2,6 @@
 #define ITEM_H
 
 #include <core/object.h>
-#include <core/keyboardevent.h>
 #include <string>
 
 using namespace std;

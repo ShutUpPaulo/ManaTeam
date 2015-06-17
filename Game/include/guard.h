@@ -3,6 +3,7 @@
 
 #include "core/sprite.h"
 #include "room.h"
+#include "sight.h"
 
 using namespace std;
 
@@ -17,19 +18,16 @@ public:
     Guard(Object *parent, ObjectID id, double x, double y);
     ~Guard();
 
-    Direction direction() const;
+    Direction direction();
     void set_direction(Direction direction);
-
-    //const pair<double, double>& moviment() const;
-    //void set_moviment(double xaxis, double yaxis);
+    void update_vision();
 
 private:
-	//class Impl;
-    //unique_ptr<Impl> m_impl;
-    void draw();
     void draw_self();
-    void update(unsigned long elapsed);
+    void update_self(unsigned long elapsed);
     unique_ptr<Animation> m_animation;
+    Direction m_direction;
+    unsigned long m_last;
 
 };
 

@@ -57,6 +57,7 @@ Stage::update_self(unsigned long)
         Rect b = item->bounding_box();
         Rect c = a.intersection(b);
 
+
         if (c.w() != 0 and c.h() != 0)
         {
             char message[512];
@@ -102,6 +103,27 @@ Stage::update_self(unsigned long)
                 else if(item->x() == 600 && item->y() == 640)
                 {
                     m_player->set_current(m_map->current_room->r_botton, m_player->x(), 80);
+                }
+            }
+
+        }
+
+        if(item->id() == "guard")
+        {
+            const list<Object *> filhos = item->children();
+
+            for (auto filho : filhos)
+            {
+                Rect a2 = m_player->bounding_box();
+                Rect b2 = filho->bounding_box();
+                Rect c2 = a2.intersection(b2);
+
+                if (c2.w() != 0 and c2.h() != 0)
+                {
+                    if(filho->id() == "visao")
+                    {
+                        cout << "voce foi visto!" << endl;
+                    }
                 }
             }
         }
