@@ -324,54 +324,6 @@ void Room::draw_self()
 
 	Item *porta;
 
-/*	if(this->r_left)
-	{
-		Rect l_door {0, 320, 80, 80};
-		env->canvas->draw(l_door, Color::WHITE);
-
-		porta = new Item(this,"porta", 0, 320, true);
-		porta->change_sprite("res/tile_sheets/porta1.png");
-		porta->set_w(80);
-		porta->set_h(80);
-		add_child(porta);
-
-	}
-	if(this->r_top)
-	{
-		Rect t_door {600, 0, 80, 80};
-		env->canvas->draw(t_door, Color::WHITE);
-
-		porta = new Item(this,"porta", 600, 0, true);
-		porta->change_sprite("res/tile_sheets/porta2.png");
-		porta->set_w(80);
-		porta->set_h(80);
-		add_child(porta);
-
-	}
-	if(this->r_right)
-	{
-		Rect r_door {1200, 320, 80, 80};
-		env->canvas->draw(r_door, Color::WHITE);
-
-		porta = new Item(this,"porta", 1200, 320, true);
-		porta->change_sprite("res/tile_sheets/porta3.png");
-		porta->set_w(80);
-		porta->set_h(80);
-		add_child(porta);
-
-	}
-	if(this->r_botton)
-	{
-		Rect b_door {600, 640, 80, 80};
-		env->canvas->draw(b_door, Color::WHITE);
-		porta = new Item(this,"porta", 600, 640, true);
-		porta->change_sprite("res/tile_sheets/porta4.png");
-		porta->set_w(80);
-		porta->set_h(80);
-		add_child(porta);
-
-	}
-*/
 	if(this->type == "Final")
 	{
 		if(this->r_right)
@@ -470,7 +422,7 @@ Room::update_self(unsigned long)
 
 				Item *parede;
 				char str_parede[256];
-				sprintf(str_parede, "parede%d%d", 0, y);
+				sprintf(str_parede, "parede_left");
 				parede = new Item(this, str_parede, 0, y*80, 80, 80, false);
 				parede->change_sprite("res/tile_sheets/parede1.png");
 				add_child(parede);
@@ -482,7 +434,7 @@ Room::update_self(unsigned long)
 			{
 				Item *parede;
 				char str_parede[256];
-				sprintf(str_parede, "parede%d%d", 0, y);
+				sprintf(str_parede, "parede_left");
 				parede = new Item(this, str_parede, 0, y*80, 80, 80, false);
 				parede->change_sprite("res/tile_sheets/parede1.png");
 				add_child(parede);
@@ -500,7 +452,7 @@ Room::update_self(unsigned long)
 
 				Item *parede;
 				char str_parede[256];
-        		sprintf(str_parede, "parede%d%d", 14, y);
+        		sprintf(str_parede, "parede_right");
 				parede = new Item(this, str_parede, 1200, y*80, 80, 80, false);
 				parede->change_sprite("res/tile_sheets/parede3.png");
 				add_child(parede);
@@ -512,7 +464,7 @@ Room::update_self(unsigned long)
 			{
 				Item *parede;
 				char str_parede[256];
-        		sprintf(str_parede, "parede%d%d", 14, y);
+        		sprintf(str_parede, "parede_right");
 				parede = new Item(this, str_parede, 1200, y*80, 80, 80, false);
 				parede->change_sprite("res/tile_sheets/parede3.png");
 				add_child(parede);
@@ -525,25 +477,22 @@ Room::update_self(unsigned long)
 
             for(int x = 1; x < 15; x++)
 			{
+				Item *parede;
+				char str_parede[256];
+				sprintf(str_parede, "parede_top");
 				if(x == 7 || x == 8)
 				{
-					Item *parede;
-					char str_parede[256];
-					sprintf(str_parede, "parede%d%d", 7, 0);
+					
 					parede = new Item(this, str_parede, 520, 0, 80, 80, false);
 					parede->change_sprite("res/tile_sheets/parede2.png");
 					add_child(parede);
 
-					sprintf(str_parede, "parede%d%d", 8, 0);
 					parede = new Item(this, str_parede, 680, 0, 80, 80, false);
 					parede->change_sprite("res/tile_sheets/parede2.png");
 					add_child(parede);
+					x++;
 					continue;
 				}
-
-				Item *parede;
-				char str_parede[256];
-				sprintf(str_parede, "parede%d%d", x, 0);
 				parede = new Item(this, str_parede, x*80, 0, 80, 80, false);
 				parede->change_sprite("res/tile_sheets/parede2.png");
 				add_child(parede);
@@ -557,7 +506,7 @@ Room::update_self(unsigned long)
 			{
 				Item *parede;
 				char str_parede[256];
-				sprintf(str_parede, "parede%d%d", x, 0);
+				sprintf(str_parede, "parede_top");
 				parede = new Item(this, str_parede, x*80, 0, 80, 80, false);
 				parede->change_sprite("res/tile_sheets/parede2.png");
 				add_child(parede);
@@ -569,25 +518,23 @@ Room::update_self(unsigned long)
             add_door('b', 600, 640);
             for(int x = 1; x < 15; x++)
 			{
+				Item *parede;
+				char str_parede[256];
+				sprintf(str_parede, "parede_bot");
 				if(x == 7 || x == 8)
 				{
-					Item *parede;
-					char str_parede[256];
-					sprintf(str_parede, "parede%d%d", 7, 0);
+					
 					parede = new Item(this, str_parede, 520, 640, 80, 80, false);
 					parede->change_sprite("res/tile_sheets/parede4.png");
 					add_child(parede);
 
-					sprintf(str_parede, "parede%d%d", 8, 0);
 					parede = new Item(this, str_parede, 680, 640, 80, 80, false);
 					parede->change_sprite("res/tile_sheets/parede4.png");
 					add_child(parede);
+					x++;
 					continue;
 				}
-
-				Item *parede;
-				char str_parede[256];
-				sprintf(str_parede, "parede%d%d", x, 7);
+				
 				parede = new Item(this, str_parede, x*80, 640, 80, 80, false);
 				parede->change_sprite("res/tile_sheets/parede4.png");
 				add_child(parede);
@@ -599,7 +546,7 @@ Room::update_self(unsigned long)
 			{
 				Item *parede;
 				char str_parede[256];
-				sprintf(str_parede, "parede%d%d", x, 7);
+				sprintf(str_parede, "parede_bot");
 				parede = new Item(this, str_parede, x*80, 640, 80, 80, false);
 				parede->change_sprite("res/tile_sheets/parede4.png");
 				add_child(parede);

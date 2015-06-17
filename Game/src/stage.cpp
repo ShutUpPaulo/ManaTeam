@@ -62,7 +62,22 @@ Stage::update_self(unsigned long)
         //tratando colisoes diretas
         if(item->walkable() == false)
         {
-            if (c.w() != 0 and c.h() != 0)
+            if(item->id() == "parede_top")
+            {
+                if (c.w() != 0 and c.h() > 50)
+                {
+                    char message[512];
+                    sprintf(message, "%s,%s,%.2f,%.2f,%.2f,%.2f", m_player->id().c_str(), item->id().c_str(), c.x(),
+                        c.y(), c.w(), c.h());
+                    notify(Stage::colisionID, message);
+
+                    if(a.y() > b.y())
+                    {
+                        m_player->set_y(b.y() + b.h() - 50);
+                    }
+                }
+            }
+            else if (c.w() != 0 and c.h() != 0)
             {
                 char message[512];
                 sprintf(message, "%s,%s,%.2f,%.2f,%.2f,%.2f", m_player->id().c_str(), item->id().c_str(), c.x(),
