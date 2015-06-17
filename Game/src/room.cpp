@@ -7,6 +7,7 @@
 
 #include "item.h"
 #include "room.h"
+#include "guard.h"
 
 Room::Room(Object *parent, ObjectID id, string type)
 : Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr), type(type),
@@ -36,6 +37,9 @@ Room::Room(Object *parent, ObjectID id, string type)
 	}
 
 	randomize_items();
+
+	Guard *guard = new Guard(this,"guard",rand()%1120+80,rand()%580+80);
+	add_child(guard);
 	//draw_itens(this);
 }
 

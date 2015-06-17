@@ -7,10 +7,9 @@
 
 #include "item.h"
 
-
-
-
 using std::list;
+
+class Guard;
 
 class Room: public Object
 {
@@ -36,6 +35,8 @@ public:
 	void remove_item(Object *);
 
 private:
+	Guard *m_guard;
+
 	void draw_id(Room *,Room *, int, int);
 	void draw_self();
 	void draw_items(string, string, int, int, int, int, bool);

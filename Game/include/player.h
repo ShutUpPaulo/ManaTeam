@@ -5,8 +5,8 @@
  * Data: 15/05/2015
  * Licença: LGPL. Sem copyright.
  */
-#ifndef PLAYER2_H
-#define PLAYER2_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include "core/sprite.h"
 #include "map.h"
