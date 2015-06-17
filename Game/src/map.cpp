@@ -195,6 +195,11 @@ void Map::GenerateMap(int quantidade_salas)
 		CreateRoom(aux, &id, aux->pos_x, aux->pos_y, quantidade_salas);
         aux ++;
 	}
+    for(int i=quantidade_salas-1; i>=0; i--)
+    {
+        free (matriz[i]);
+    }
+    free(matriz);
 }
     
 void
