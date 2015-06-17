@@ -356,64 +356,6 @@ public:
         m_last = elapsed;
         m_animation->update(elapsed);
 
-        int posx,posy;
-        posx = (int) x;
-        posy = (int) y;
-
-        if(posx <= 5 && ( posy >= 280 && posy <= 420) && current_map->current_room->r_left)
-        {
-
-            m_player->set_current(current_map->current_room->r_left, 1120, posy);
-        }
-        else if(posx >= 1200 && ( posy >= 280 && posy <= 420) && current_map->current_room->r_right)
-        {
-
-            m_player->set_current(current_map->current_room->r_right, 80, posy);
-        }
-        else if(posy <= 5  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_top)
-        {
-
-            m_player->set_current(current_map->current_room->r_top, posx, 580);
-        }
-        else if(posy >= 620  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_botton)
-        {
-
-            m_player->set_current(current_map->current_room->r_botton, posx, 80);
-        }
-
-
-        /*Colisoes com os itens */
-        list <Object *> auxs = current_map->current_room->items;
-
-        for (auto aux : auxs)
-        {
-            if(aux->id() == "key")
-            {
-                if (((posx + 30 > aux->x()) && (posx + 30 < (aux->x() + 32))) && ((posy + 30> aux->y()) && (posy + 30 < (aux->y() + 32))))
-                {
-                    current_map->current_room->remove_child(aux);
-                    cout << "peguei a chave" << endl;
-                    //pick_key();
-                } 
-            }
-            else if(aux->id() == "finaldoor")
-            {
-                //if(has_key())
-                //{
-                    if (((posx + 40 > aux->x()) && (posx + 40 < (aux->x() + 80))) && ((posy + 40> aux->y()) && (posy + 40 < (aux->y() + 80))))
-                    {
-//                        cout << "você ganhou o jogo!" << endl;
-                        //drop_key();
-
-                        m_player->notify(Player::hitExitDoorID, "stage2");
-                        //Passa pro prox level
-                        //Level *next_level = new Level("stage","stage2");
-                        //next_level->set_next("stage2");
-                    } 
-                //}
-            }
-        }
-
     }
 
 private:

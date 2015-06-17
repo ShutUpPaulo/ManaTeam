@@ -83,6 +83,28 @@ Stage::update_self(unsigned long)
                 }
             }
         }
+        if(c.w() > 60 and c.h() > 60)
+        {
+            if(item->id().find("sala"))
+            {
+                if(item->x() == 0 && item->y() == 320)
+                {
+                    m_player->set_current(m_map->current_room->r_left, 1120, m_player->y());
+                }
+                else if(item->x() == 1200 && item->y() == 320)
+                {
+                    m_player->set_current(m_map->current_room->r_right, 80, m_player->y());
+                }
+                else if(item->x() == 600 && item->y() == 0)
+                {
+                    m_player->set_current(m_map->current_room->r_top, m_player->x(), 560);
+                }
+                else if(item->x() == 600 && item->y() == 640)
+                {
+                    m_player->set_current(m_map->current_room->r_botton, m_player->x(), 80);
+                }
+            }
+        }
     }
 }
 
