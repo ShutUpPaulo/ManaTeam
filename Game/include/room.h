@@ -44,6 +44,8 @@ private:
     void update_self(unsigned long);
 
     void add_door(char direction, int x, int y);
+    void pre_drawing(const string item_name, string item_type, int percentage, 
+    	int pos_x, int pos_y, int width, int height, bool walkable);
     void randomize_items();
 
     bool m_doors;

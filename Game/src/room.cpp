@@ -4,6 +4,7 @@
 #include <core/font.h>
 #include <core/environment.h>
 #include <core/rect.h>
+#include <core/canvas.h>
 
 #include "item.h"
 #include "room.h"
@@ -13,15 +14,7 @@ Room::Room(Object *parent, ObjectID id, string type)
 : Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr), type(type),
     m_doors(false)
 {
-
-
-	// Item *piso = new Item(this,"piso",0,0, 1280, 720, true);
-	// piso->change_sprite("res/tile_sheets/piso1.png");
-	// add_child(piso);
-
-	// Item *paredes = new Item(this,"parede",0,0, 1280, 720, true);
-	// paredes->change_sprite("res/tile_sheets/paredes.png");
-	// add_child(paredes);
+	
 
 	Item *piso;
 	char str_piso[256]; 
@@ -54,37 +47,9 @@ Room::Room(Object *parent, ObjectID id, string type)
 	canto->change_sprite("res/tile_sheets/canto3.png");
 	add_child(canto);
 
-	/*Adicionando paredes */
-	/*Item *parede;
-	for(int x = 1; x < 15; x++)
-	{
-		char str_parede[256];
-		sprintf(str_parede, "parede0%d", x);
-		parede = new Item(this, str_parede, x*80, 0, 80, 80, false);
-		parede->change_sprite("res/tile_sheets/parede2.png");
-		add_child(parede);
-
-		parede = new Item(this, str_parede, x*80, 640, 80, 80, false);
-		parede->change_sprite("res/tile_sheets/parede4.png");
-		add_child(parede);
-
-	}
-	for(int y = 1; y < 8; y++ )
-	{
-		char str_parede[256];
-		sprintf(str_parede, "parede1%d",y );
-		parede = new Item(this, str_parede, 0, y*80, 80, 80, false);
-		parede->change_sprite("res/tile_sheets/parede1.png");
-		add_child(parede);
-
-		parede = new Item(this, str_parede, 1200, y*80, 80, 80, false);
-		parede->change_sprite("res/tile_sheets/parede3.png");
-		add_child(parede);
-	}*/
-
 	randomize_items();
 
-	Guard *guard = new Guard(this,"guard",rand()%1120+80,rand()%580+80, false);
+	Guard *guard = new Guard(this,"guard",rand()%1120+80,rand()%540+80, false);
 	add_child(guard);
 	//draw_itens(this);
 }
@@ -97,6 +62,32 @@ string Room::room_type()
 	return this->type;
 }
 
+void Room::pre_drawing(const string item_name, string item_type, 
+	int percentage, int pos_x, int pos_y, int width, int height, 
+	bool walkable)
+{
+	string item_path;
+
+	if (item_type == "item")
+	{
+		item_path = "res/items/.png";
+		item_path.insert(10, item_name);
+	}
+		
+	else
+	{
+		item_path = "res/tile_sheets/.png";
+		item_path.insert(16, item_name);
+	}
+		
+
+	if(rand()%100 <= percentage)
+	{
+		draw_items(item_path, item_name, pos_x, pos_y, width, height, 
+			walkable);
+	}
+}
+
 void Room::randomize_items()
 {
 	string item_path;
@@ -104,53 +95,90 @@ void Room::randomize_items()
 
 	int random_number = rand()%100;
 
-	if(random_number <= 20)
+	if(rand()%100 <= 50)
+		pre_drawing("Bancada1", "tile_sheet", 20, 520, 240, 240, 240, false);
+	else	
+		pre_drawing("Bancada2", "tile_sheet", 20, 520, 240, 240, 240, false);
+
+	while(random_number <= 40)
 	{
-		if(random_number <= 10)
-		{	item_path = "res/tile_sheets/Bancadaa1.png";
-			item_name = "Bancadaa1";
-		}
+		if(random_number <= 20)
+			pre_drawing("Cadeira1", "tile_sheet", 100, rand() % 1098 + 80, 
+			rand() % 520 + 80, 22, 40, false);
 		else
-		{	item_path = "res/tile_sheets/Bancadaa2.png";
-			item_name = "Bancadaa2";
-		}	
-			draw_items(item_path, item_name, 520, 240, 240, 240, false);
+			pre_drawing("Cadeira2", "tile_sheet", 100, rand() % 1098 + 80, 
+			rand() % 520 + 80, 22, 40, false);
+
+		random_number = rand()%100;
+	}	
+
+	random_number = rand()%100;	
+
+	while(random_number <= 40)
+	{
+		if(random_number <= 13)
+			pre_drawing("CadeiraseMesa1", "tile_sheet", 100, rand() % 1060 + 80, 
+				rand() % 480 + 80, 80, 80, false);
+		else if(random_number <= 13)	
+			pre_drawing("CadeiraseMesa2", "tile_sheet", 100, rand() % 1060 + 80, 
+				rand() % 480 + 80, 80, 80, false);
+		else
+			pre_drawing("CadeiraseMesa3", "tile_sheet", 100, rand() % 1060 + 80, 
+				rand() % 480 + 80, 80, 80, false);
+
+		random_number = rand()%100;
 	}
-	
+
 	random_number = rand()%100;
 
-	if(random_number <= 30)
+	while(random_number <= 40)
 	{
-		while(random_number <= 40)
-		{
-			if(random_number <= 20)
-			{	item_path = "res/tile_sheets/Cadeira1.png";
-				item_name = "Cadeira1";
-			}
-			else
-			{
-				item_path = "res/tile_sheets/Cadeira2.png";
-				item_name = "Cadeira2";
-			}
-			draw_items(item_path, item_name, rand() % 1098 + 80, rand() % 520 + 80, 22, 40, false);
+		if(random_number <= 20)
+			pre_drawing("Mesa1", "tile_sheet", 100, rand() % 1098 + 80, 
+			rand() % 520 + 80, 28, 64, false);
+		else
+			pre_drawing("Mesa2", "tile_sheet", 100, rand() % 1098 + 80, 
+			rand() % 520 + 80, 64, 38, false);
 
-			random_number = rand()%100;
-		}
-		
+		random_number = rand()%100;
 	}
+
+	random_number = rand()%100;
+
+	while(random_number <= 70)
+	{
+		pre_drawing("Papeis", "tile_sheet", 100, rand() % 1098 + 80, rand() % 520 + 80, 51, 30, true);
+		random_number = rand()%100;
+	}
+
+	random_number = rand()%100;
+
+	if(random_number <= 10)
+		pre_drawing("Pill", "item", 100, rand() % 1098 + 80, rand() % 520 + 80, 40, 40, true);
+
+	random_number = rand()%100;
+
+	if(random_number <= 20)
+		pre_drawing("Garrafa", "item", 100, rand() % 1098 + 80, rand() % 520 + 80, 10, 40, true);
+
+	random_number = rand()%100;
+
 	if(this->room_type() == "KeyRoom")
 	{
-		item_path = "res/itens/key.png";
+		item_path = "res/items/key.png";
 		item_name = "key";
-		draw_items(item_path, item_name, rand() % 900 + 80, rand() % 500 + 80, 32, 32, true);
+		draw_items(item_path, item_name, rand() % 900 + 80, 
+			rand() % 500 + 80, 40, 40, true);
 	}	
 
 
 }
 
-void Room::draw_items(string item_path, string item_name, int pos_x, int pos_y, int width, int height, bool walkable)
+void Room::draw_items(string item_path, string item_name, int pos_x, 
+	int pos_y, int width, int height, bool walkable)
 {
-	Item* item = new Item(this, item_name, pos_x, pos_y, width, height, walkable);
+	Item* item = new Item(this, item_name, pos_x, pos_y, width, height, 
+		walkable);
 
 	item->change_sprite(item_path);
 	add_child(item);

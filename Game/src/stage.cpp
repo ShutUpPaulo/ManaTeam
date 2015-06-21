@@ -40,7 +40,6 @@ Stage::Stage(ObjectID id)
 
     Environment *env = Environment::get_instance();
     env->music->play("res/sounds/Fase1.ogg", -1);
-//    env->sfx->play("res/sounds/Alarme2.ogg", 1);
 
     add_observer(m_player);
     add_observer(m_map);
