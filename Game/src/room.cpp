@@ -183,68 +183,7 @@ void Room::draw_items(string item_path, string item_name, int pos_x,
 	item->change_sprite(item_path);
 	add_child(item);
 }
-	/*if(this->room_type() == "None")
-	{
-
-	}
-	if(this->room_type() != "Cela")
-	{
-		//Desenhando uma bancada
-		Item* stand_table = new Item(this, "bancada", 520, 240, 240, 240, false);
-		if(random_number == 1)
-		{
-			stand_table->change_sprite("res/tile_sheets/Bancadaa1.png");
-			add_child(stand_table);
-		}
-			
-		else if(random_number == 2)
-		{
-			stand_table->change_sprite("res/tile_sheets/Bancadaa2.png");
-			add_child(stand_table);
-		}
-
-		random_number = rand()%10+1;
-		//Desenhando uma cadeira
-		Item *chair = new Item(this, "cadeira", , rand() % 520 + 80, 22, 40, false);
-		if(random_number == 1)
-		{
-			chair->change_sprite("res/tile_sheets/Cadeira1.png");
-			add_child(chair);
-		}
-
-		chair = new Item(this, "cadeira", rand() % 1098 + 80, rand() % 520 + 80, 22, 40, false);
-		random_number = rand()%10+1;
-		if(random_number == 2)
-		{
-			chair->change_sprite("res/tile_sheets/Cadeira2.png");
-			add_child(chair);
-		}
-
-		//Desenhando cadeira e mesa
-		random_number = rand()%10+1;
-		Item *chair_n_table = new Item(this, "cadeira e mesa", rand() % 1060 + 80, rand() % 480 + 80, 80, 80, false);
-		if(random_number == 1)
-		{
-			chair_n_table->change_sprite("res/tile_sheets/CadeiraseMesa1.png");
-			add_child(chair_n_table);
-		}
-
-		random_number = rand()%10+1;
-		chair_n_table = new Item(this, "cadeira e mesa", rand() % 1060 + 80, rand() % 480 + 80, 64, 38, false);
-		if(random_number == 2)
-		{
-			chair_n_table->change_sprite("res/tile_sheets/CadeiraseMesa2.png");
-			add_child(chair_n_table);
-		}
-
-		random_number = rand()%10+1;
-		chair_n_table = new Item(this, "cadeira e mesa", rand() % 1060 + 80, rand() % 480 + 80, 80, 80, false);
-		if(random_number == 3)
-		{
-			chair_n_table->change_sprite("res/tile_sheets/CadeiraseMesa3.png");
-			add_child(chair_n_table);
-		}
-	}
+	/*
 	if(this->room_type() == "Cela")
 	{
 		if(room->type == "CelaH")
@@ -406,33 +345,6 @@ Room::remove_item(Object *item)
 {
 	remove_child(item);
 }
-
-/*Item *parede;
-	for(int x = 1; x < 15; x++)
-	{
-		char str_parede[256];
-		sprintf(str_parede, "parede0%d", x);
-		parede = new Item(this, str_parede, x*80, 0, 80, 80, false);
-		parede->change_sprite("res/tile_sheets/parede2.png");
-		add_child(parede);
-
-		parede = new Item(this, str_parede, x*80, 640, 80, 80, false);
-		parede->change_sprite("res/tile_sheets/parede4.png");
-		add_child(parede);
-
-	}
-	for(int y = 1; y < 8; y++ )
-	{
-		char str_parede[256];
-		sprintf(str_parede, "parede1%d",y );
-		parede = new Item(this, str_parede, 0, y*80, 80, 80, false);
-		parede->change_sprite("res/tile_sheets/parede1.png");
-		add_child(parede);
-
-		parede = new Item(this, str_parede, 1200, y*80, 80, 80, false);
-		parede->change_sprite("res/tile_sheets/parede3.png");
-		add_child(parede);
-	}*/
 
 void
 Room::update_self(unsigned long)
