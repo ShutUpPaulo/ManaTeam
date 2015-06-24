@@ -1,57 +1,34 @@
 
 #include <string>
 #include <iostream>
+#include <list>
+
 #include <core/font.h>
-#include <core/environment.h>
 #include <core/rect.h>
+#include <core/environment.h>
 #include <core/canvas.h>
+#include <core/image.h>
 
 #include "item.h"
 #include "room.h"
 #include "guard.h"
 
+static int randint(int a, int b)
+{
+    int N = b - a + 1;
+    int r = rand() % N;
+
+    return a + r;
+}
+
 Room::Room(Object *parent, ObjectID id, string type)
 : Object(parent, id), r_left(nullptr), r_right(nullptr), r_top(nullptr), r_botton(nullptr), type(type),
     m_doors(false)
 {
-	
-
-	Item *piso;
-	char str_piso[256]; 
-	for(int i = 1; i < 15; i++)
-	{
-		for(int j = 1; j < 8; j++)
-		{
-			sprintf(str_piso, "piso%d%d", i, j);
-			piso = new Item(this,str_piso,i*80,j*80,80,80,true);
-			piso->change_sprite("res/tile_sheets/tile1.png");
-	 		add_child(piso);
-		}
-	}
-
-	 /*Adicionando cantos*/
-	Item *canto;
-	canto = new Item(this,"canto01", 0, 0, 80, 80, false);
-	canto->change_sprite("res/tile_sheets/canto1.png");
-	add_child(canto);
-
-	canto = new Item(this,"canto02", 1200, 0, 80, 80, false);
-	canto->change_sprite("res/tile_sheets/canto2.png");
-	add_child(canto);
-
-	canto = new Item(this,"canto03", 0, 640, 80, 80, false);
-	canto->change_sprite("res/tile_sheets/canto4.png");
-	add_child(canto);
-
-	canto = new Item(this,"canto04", 1200, 640, 80, 80, false);
-	canto->change_sprite("res/tile_sheets/canto3.png");
-	add_child(canto);
-
-	randomize_items();
-
-	Guard *guard = new Guard(this,"guard",rand()%1120+80,rand()%540+80, false);
-	add_child(guard);
-	//draw_itens(this);
+    fill_floor("tile1");
+    add_corners("canto");
+    add_guard("guard");
+    add_itens();
 }
 
 string Room::room_type()
@@ -62,152 +39,85 @@ string Room::room_type()
 	return this->type;
 }
 
-void Room::pre_drawing(const string item_name, string item_type, 
-	int percentage, int pos_x, int pos_y, int width, int height, 
-	bool walkable)
+void Room::add_itens()
 {
-	string item_path;
+    typedef struct _ItemInfo {
+        string name;
+        string type;
+        int variations;
+        int weight;
+        bool walkable;
+        bool unique;
+        int x, y;
+    } ItemInfo;
 
-	if (item_type == "item")
+    list<ItemInfo> items {
+        {"Bancada", "tile_sheet", 2, 20, false, true, 520, 240},
+        {"Cadeira", "tile_sheet", 2, 40, false, false, -1, -1},
+        {"CadeiraseMesa", "tile_sheet", 3, 40, false, false, -1, -1},
+        {"Mesa", "tile_sheet", 2, 40, false, false, -1, -1},
+        {"Papeis", "tile_sheet", 0, 70, true, false, -1, -1},
+        {"Pill", "tile_sheet", 0, 10, true, false, -1, -1},
+        {"Garrafa", "tile_sheet", 0, 20, true, false, -1, -1},
+    };
+
+    int total_weight = 0;
+
+    for (auto item : items)
+    {
+        total_weight += item.weight;
+    }
+
+	if (room_type() == "KeyRoom")
 	{
-		item_path = "res/items/.png";
-		item_path.insert(10, item_name);
-	}
-		
-	else
-	{
-		item_path = "res/tile_sheets/.png";
-		item_path.insert(16, item_name);
-	}
-		
-
-	if(rand()%100 <= percentage)
-	{
-		draw_items(item_path, item_name, pos_x, pos_y, width, height, 
-			walkable);
-	}
-}
-
-void Room::randomize_items()
-{
-	string item_path;
-	string item_name;
-
-	int random_number = rand()%100;
-
-	if(rand()%100 <= 50)
-		pre_drawing("Bancada1", "tile_sheet", 20, 520, 240, 240, 240, false);
-	else	
-		pre_drawing("Bancada2", "tile_sheet", 20, 520, 240, 240, 240, false);
-
-	while(random_number <= 40)
-	{
-		if(random_number <= 20)
-			pre_drawing("Cadeira1", "tile_sheet", 100, rand() % 1098 + 80, 
-			rand() % 520 + 80, 22, 40, false);
-		else
-			pre_drawing("Cadeira2", "tile_sheet", 100, rand() % 1098 + 80, 
-			rand() % 520 + 80, 22, 40, false);
-
-		random_number = rand()%100;
+		string path = "res/items/key.png";
+        Item* item = new Item(this, "key", path, 0, 0, true);
+        while (not place(item, -1, -1));
 	}	
 
-	random_number = rand()%100;	
+    static const int MAX_ITENS = 15;
+    int num_itens = randint(0, MAX_ITENS);
 
-	while(random_number <= 40)
-	{
-		if(random_number <= 13)
-			pre_drawing("CadeiraseMesa1", "tile_sheet", 100, rand() % 1060 + 80, 
-				rand() % 480 + 80, 80, 80, false);
-		else if(random_number <= 13)	
-			pre_drawing("CadeiraseMesa2", "tile_sheet", 100, rand() % 1060 + 80, 
-				rand() % 480 + 80, 80, 80, false);
-		else
-			pre_drawing("CadeiraseMesa3", "tile_sheet", 100, rand() % 1060 + 80, 
-				rand() % 480 + 80, 80, 80, false);
+    for (int i = 0; i < num_itens and (not items.empty()); ++i)
+    {
+        int p = randint(1, total_weight);
+        auto it = items.begin();
+        int total = it->weight;
 
-		random_number = rand()%100;
-	}
+        while (p > total)
+        {
+            ++it;
+            total += it->weight;
+        }
 
-	random_number = rand()%100;
+        char path[512];
 
-	while(random_number <= 40)
-	{
-		if(random_number <= 20)
-			pre_drawing("Mesa1", "tile_sheet", 100, rand() % 1098 + 80, 
-			rand() % 520 + 80, 28, 64, false);
-		else
-			pre_drawing("Mesa2", "tile_sheet", 100, rand() % 1098 + 80, 
-			rand() % 520 + 80, 64, 38, false);
+        if (it->variations)
+        {
+            int variation = randint(1, it->variations);
+            sprintf(path, "res/tile_sheets/%s%d.png", it->name.c_str(), variation);
+        } else
+        {
+            sprintf(path, "res/tile_sheets/%s.png", it->name.c_str());
+        }
 
-		random_number = rand()%100;
-	}
+        double x = it->x;
+        double y = it->y;
 
-	random_number = rand()%100;
+        Item* item = new Item(this, it->name, path, x, y, it->walkable);
 
-	while(random_number <= 70)
-	{
-		pre_drawing("Papeis", "tile_sheet", 100, rand() % 1098 + 80, rand() % 520 + 80, 51, 30, true);
-		random_number = rand()%100;
-	}
+        if (place(item, x, y))
+            add_child(item);
+        else
+            delete item;
 
-	random_number = rand()%100;
-
-	if(random_number <= 10)
-		pre_drawing("Pill", "item", 100, rand() % 1098 + 80, rand() % 520 + 80, 40, 40, true);
-
-	random_number = rand()%100;
-
-	if(random_number <= 20)
-		pre_drawing("Garrafa", "item", 100, rand() % 1098 + 80, rand() % 520 + 80, 10, 40, true);
-
-	random_number = rand()%100;
-
-	if(this->room_type() == "KeyRoom")
-	{
-		item_path = "res/items/key.png";
-		item_name = "key";
-		draw_items(item_path, item_name, rand() % 900 + 80, 
-			rand() % 500 + 80, 40, 40, true);
-	}	
-
-
+        if (it->unique)
+        {
+            total_weight -= it->weight;
+            items.erase(it);
+        }
+    }
 }
-
-void Room::draw_items(string item_path, string item_name, int pos_x, 
-	int pos_y, int width, int height, bool walkable)
-{
-	Item* item = new Item(this, item_name, pos_x, pos_y, width, height, 
-		walkable);
-
-	item->change_sprite(item_path);
-	add_child(item);
-}
-	/*
-	if(this->room_type() == "Cela")
-	{
-		if(room->type == "CelaH")
-		{
-			Item *cell_room = new Item(this, "celas", 0, 0, 1280, 720, true);
-			cell_room->change_sprite("res/tile_sheets/ConjuntodeCelas.png");
-			add_child(cell_room);
-		}
-
-	}
-	if(this->room_type() == "Final")
-	{
-
-	}
-	if(this->room_type() == "KeyRoom")
-	{
-		Item *key = new Item(this, "key", rand() % 900 + 80, rand() % 500 + 80, 32, 32, true);
-		key->change_sprite("res/itens/key.png");
-		add_child(key);
-
-
-	}	
-
-}*/
 
 void
 Room::add_list(Object  * item)
@@ -254,7 +164,6 @@ void Room::check_entry()
 void
 Room::draw_id(Room * anterior, Room * sala, int x, int y)
 {
-
 	Environment *env = Environment::get_instance();
 	shared_ptr <Font> font = env->resources_manager->get_font("res/fonts/TakaoExGothic.ttf");
 	env->canvas->set_font(font);
@@ -282,60 +191,15 @@ Room::draw_id(Room * anterior, Room * sala, int x, int y)
 	}
 }
 
-void Room::draw_self()
-{
-	Environment *env = Environment::get_instance();
-	draw_id(NULL, this, 640, 360);
-	Rect square {635, 355, 80, 40};
-	env->canvas->draw(square, Color::RED);
-
-	Item *porta;
-
-	if(this->type == "Final")
-	{
-		if(this->r_right)
-		{
-			/*Adicionando portas */
-			porta = new Item(this,"finalDoor", 0, 320, 80, 80, true);
-			porta->change_sprite("res/door/porta1.png");
-			add_child(porta);
-		}
-		else if(this->r_botton)
-		{
-			porta = new Item(this,"finalDoor", 600, 0, 80, 80, true);
-			porta->change_sprite("res/door/porta2.png");
-			add_child(porta);
-			
-		}
-		else if(this->r_left)
-		{
-			porta = new Item(this,"finalDoor", 1200, 320, 80, 80, true);
-			porta->change_sprite("res/door/porta3.png");
-			add_child(porta);
-		
-
-		}
-		if(this->r_top)
-		{
-			porta = new Item(this,"finalDoor", 600, 640, 80, 80, true);
-			porta->change_sprite("res/door/porta4.png");
-			add_child(porta);
-		
-		}
-	}
-	env->canvas->draw(this->type, 1100, 320,Color::WHITE);
-}
-
 void
 Room::add_door(char direction, int x, int y)
 {
     char doorID[128];
     sprintf(doorID, "porta%c%s", direction, id().c_str());
-	Item *porta = new Item(this, doorID, x, y, 80, 80, true);
-
     char door_sprite[256];
     sprintf(door_sprite, "res/tile_sheets/porta%c.png", direction);
-	porta->change_sprite(door_sprite);
+
+	Item *porta = new Item(this, doorID, door_sprite, x, y, true);
 
 	add_child(porta);
 }
@@ -351,7 +215,9 @@ Room::update_self(unsigned long)
 {
     if (not m_doors)
     {
-//printf("Atualizando as portas...\n");
+        Item *porta;
+        string path;
+
 	    if (r_left)
 	    {
             add_door('l', 0, 320);
@@ -361,10 +227,10 @@ Room::update_self(unsigned long)
 					continue;
 
 				Item *parede;
-				char str_parede[256];
-				sprintf(str_parede, "parede_left");
-				parede = new Item(this, str_parede, 0, y*80, 80, 80, false);
-				parede->change_sprite("res/tile_sheets/parede1.png");
+				char name[256];
+				sprintf(name, "parede_left");
+                path = "res/tile_sheets/parede1.png";
+				parede = new Item(this, name, path, 0, y*80, false);
 				add_child(parede);
 			}
         }
@@ -373,10 +239,10 @@ Room::update_self(unsigned long)
         	for(int y = 1; y < 8; y++ )
 			{
 				Item *parede;
-				char str_parede[256];
-				sprintf(str_parede, "parede_left");
-				parede = new Item(this, str_parede, 0, y*80, 80, 80, false);
-				parede->change_sprite("res/tile_sheets/parede1.png");
+				char name[256];
+				sprintf(name, "parede_left");
+                path = "res/tile_sheets/parede1.png";
+				parede = new Item(this, name, path, 0, y*80, false);
 				add_child(parede);
 			}
         }
@@ -391,10 +257,10 @@ Room::update_self(unsigned long)
 					continue;
 
 				Item *parede;
-				char str_parede[256];
-        		sprintf(str_parede, "parede_right");
-				parede = new Item(this, str_parede, 1200, y*80, 80, 80, false);
-				parede->change_sprite("res/tile_sheets/parede3.png");
+				char name[256];
+        		sprintf(name, "parede_right");
+                path = "res/tile_sheets/parede3.png";
+				parede = new Item(this, name, path, 1200, y*80, false);
 				add_child(parede);
 			}
         }
@@ -403,10 +269,10 @@ Room::update_self(unsigned long)
         	for(int y = 1; y < 8; y++ )
 			{
 				Item *parede;
-				char str_parede[256];
-        		sprintf(str_parede, "parede_right");
-				parede = new Item(this, str_parede, 1200, y*80, 80, 80, false);
-				parede->change_sprite("res/tile_sheets/parede3.png");
+				char name[256];
+        		sprintf(name, "parede_right");
+                path = "res/tile_sheets/parede3.png";
+				parede = new Item(this, name, path, 1200, y*80, false);
 				add_child(parede);
 			}
         }
@@ -418,23 +284,21 @@ Room::update_self(unsigned long)
             for(int x = 1; x < 15; x++)
 			{
 				Item *parede;
-				char str_parede[256];
-				sprintf(str_parede, "parede_top");
+				char name[256];
+				sprintf(name, "parede_top");
+                string path = "res/tile_sheets/parede2.png";
+
 				if(x == 7 || x == 8)
 				{
-					
-					parede = new Item(this, str_parede, 520, 0, 80, 80, false);
-					parede->change_sprite("res/tile_sheets/parede2.png");
+					parede = new Item(this, name, path, 520, 0, false);
 					add_child(parede);
 
-					parede = new Item(this, str_parede, 680, 0, 80, 80, false);
-					parede->change_sprite("res/tile_sheets/parede2.png");
+					parede = new Item(this, name, path, 680, 0, false);
 					add_child(parede);
 					x++;
 					continue;
 				}
-				parede = new Item(this, str_parede, x*80, 0, 80, 80, false);
-				parede->change_sprite("res/tile_sheets/parede2.png");
+				parede = new Item(this, name, path, x*80, 0, false);
 				add_child(parede);
 			}
 
@@ -444,11 +308,10 @@ Room::update_self(unsigned long)
         {
         	for(int x = 1; x < 15; x++)
 			{
-				Item *parede;
-				char str_parede[256];
-				sprintf(str_parede, "parede_top");
-				parede = new Item(this, str_parede, x*80, 0, 80, 80, false);
-				parede->change_sprite("res/tile_sheets/parede2.png");
+				char name[256];
+				sprintf(name, "parede_top");
+                string path = "res/tile_sheets/parede2.png";
+				Item *parede = new Item(this, name, path, x*80, 0, false);
 				add_child(parede);
 			}
         }
@@ -459,24 +322,23 @@ Room::update_self(unsigned long)
             for(int x = 1; x < 15; x++)
 			{
 				Item *parede;
-				char str_parede[256];
-				sprintf(str_parede, "parede_bot");
+				char name[256];
+				sprintf(name, "parede_bot");
+                string path = "res/tile_sheets/parede4.png";
+
 				if(x == 7 || x == 8)
 				{
-					
-					parede = new Item(this, str_parede, 520, 640, 80, 80, false);
-					parede->change_sprite("res/tile_sheets/parede4.png");
+					parede = new Item(this, name, path, 520, 640, false);
 					add_child(parede);
 
-					parede = new Item(this, str_parede, 680, 640, 80, 80, false);
-					parede->change_sprite("res/tile_sheets/parede4.png");
+					parede = new Item(this, name, path, 680, 640, false);
 					add_child(parede);
 					x++;
+
 					continue;
 				}
 				
-				parede = new Item(this, str_parede, x*80, 640, 80, 80, false);
-				parede->change_sprite("res/tile_sheets/parede4.png");
+				parede = new Item(this, name, path, x*80, 640, false);
 				add_child(parede);
 			}
         }
@@ -484,15 +346,163 @@ Room::update_self(unsigned long)
         {
         	for(int x = 1; x < 15; x++)
 			{
-				Item *parede;
-				char str_parede[256];
-				sprintf(str_parede, "parede_bot");
-				parede = new Item(this, str_parede, x*80, 640, 80, 80, false);
-				parede->change_sprite("res/tile_sheets/parede4.png");
+				char name[256];
+				sprintf(name, "parede_bot");
+                string path = "res/tile_sheets/parede4.png";
+				Item *parede = new Item(this, name, path, x*80, 640, false);
 				add_child(parede);
 			}
         }
 
+        if(this->type == "Final")
+        {
+            if(this->r_right)
+            {
+                // Adicionando portas
+                path = "res/door/porta1.png";
+                porta = new Item(this,"finalDoor", path, 0, 320, true);
+                add_child(porta);
+            }
+            else if(this->r_botton)
+            {
+                path = "res/door/porta2.png";
+                porta = new Item(this,"finalDoor", path, 600, 0, true);
+                add_child(porta);
+                
+            }
+            else if(this->r_left)
+            {
+                path = "res/door/porta3.png";
+                porta = new Item(this,"finalDoor", path, 1200, 320, true);
+                add_child(porta);
+            }
+            if(this->r_top)
+            {
+                path = "res/door/porta4.png";
+                porta = new Item(this,"finalDoor", path, 600, 640, true);
+                add_child(porta);
+            }
+        }
+
         m_doors = true;
     }
+}
+
+void
+Room::fill_floor(const string& name)
+{
+    char path[512];
+    sprintf(path, "res/tile_sheets/%s.png", name.c_str());
+
+    Image *image = new Image(nullptr, path);
+
+    if (not image)
+    {
+        return;
+    }
+
+    Environment *env = Environment::get_instance();
+    Canvas *canvas = env->canvas;
+
+    int w = canvas->w() / image->w();
+    int h = canvas->h() / image->h();
+
+    center_area.set_position(image->w(), image->h());
+    center_area.set_dimensions(canvas->w() - 2*image->w(), canvas->h() - 2*image->h());
+
+    for(int i = 1; i < w - 1; i++)
+	{
+		for(int j = 1; j < h - 1; j++)
+		{
+			Item *floor = new Item(this, "floor", path, i*image->w(), j*image->h(), true);
+	 		add_child(floor);
+		}
+	}
+
+    delete image;
+}
+
+void
+Room::add_corners(const string& name)
+{
+    Environment *env = Environment::get_instance();
+    Canvas *canvas = env->canvas;
+
+    for (int i = 0; i < 4; ++i)
+    {
+        char path[512];
+        sprintf(path, "res/tile_sheets/%s%d.png", name.c_str(), i + 1);
+
+        Image *image = new Image(nullptr, path);
+
+        if (not image)
+            continue;
+
+        double x = i % 3 ? canvas->w() - image->w() : 0;
+        double y = i/2 ? canvas->h() - image->h() : 0;
+
+        delete image;
+
+	    Item *corner = new Item(this, "corner", path, x, y, false);
+	    add_child(corner);
+    }
+}
+
+void
+Room::add_guard(const string& name)
+{
+	Guard *guard = new Guard(this, name, 0, 0, false);
+    place(guard, -1, -1);
+	add_child(guard);
+}
+
+bool
+Room::place(Object *object, double x, double y)
+{
+    int w = center_area.w();
+    int h = center_area.h();
+
+    int tries = 0;
+    bool ok, randomize = x < 0 and y < 0;
+
+    do {
+        ok = true;
+        ++tries;
+
+        if (randomize)
+        {
+            x = (rand() % w) + center_area.x();
+            y = (rand() % h) + center_area.y();
+        }
+
+        if (x + object->w() > w + center_area.x())
+            x = w + center_area.x() - object->w();
+
+        if (y + object->h() > h + center_area.y())
+            y = h + center_area.y() - object->h();
+
+        for (auto obj : children())
+        {
+            if (obj->walkable())
+                continue;
+
+            Rect a { x, y, object->w(), object->h() };
+            Rect b = obj->bounding_box();
+            Rect c = a.intersection(b);
+            
+            if (c.w() or c.h())
+            {
+                ok = false;
+                break;
+            }
+        }
+
+        if (tries > 10)
+            break;
+
+    } while (not ok and randomize);
+        
+    object->set_position(x, y);
+
+    return ok;
 }

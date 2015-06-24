@@ -3,6 +3,7 @@
 
 
 #include <core/object.h>
+#include <core/rect.h>
 #include <list>
 
 #include "item.h"
@@ -37,8 +38,10 @@ public:
 private:
 	Guard *m_guard;
 
+    bool m_doors;
+    Rect center_area;
+
 	void draw_id(Room *,Room *, int, int);
-	void draw_self();
 	void draw_items(string, string, int, int, int, int, bool);
 
     void update_self(unsigned long);
@@ -46,9 +49,13 @@ private:
     void add_door(char direction, int x, int y);
     void pre_drawing(const string item_name, string item_type, int percentage, 
     	int pos_x, int pos_y, int width, int height, bool walkable);
-    void randomize_items();
 
-    bool m_doors;
+    void fill_floor(const string& name);
+    void add_corners(const string& name);
+    void add_guard(const string& name);
+    void add_itens();
+
+    bool place(Object *object, double x, double y);
 };
 
 #endif
