@@ -28,11 +28,12 @@ Stage::Stage(ObjectID id)
     m_num_id = atoi(aux);
     printf("%d\n", m_num_id);
 
-    int quantidade_de_salas = 8 + m_num_id + (m_num_id - 1) * 2;
+    int quantidade_de_salas = 3 + m_num_id + (m_num_id - 1) * 2;
     m_map = new Map(quantidade_de_salas);
     add_child(m_map);
 
     m_player = new Player(this, "player", m_map);
+    m_player->set_strength(100.0);
     m_player->set_position(600, 320);
     m_player->add_observer(this);
 
@@ -57,10 +58,10 @@ Stage::update_self(unsigned long)
         Rect b = item->bounding_box();
         Rect c = a.intersection(b);
 
-
         //tratando colisoes diretas
         if(item->walkable() == false)
         {
+            
             if(item->id() == "parede_top")
             {
                 if (c.w() != 0 and c.h() > 50)
@@ -86,25 +87,55 @@ Stage::update_self(unsigned long)
                 //eixo x
                 if(abs(a.x() - b.x()) > abs(a.y() - b.y()))
                 {
-                    if(a.x() < b.x())
+                    if(m_player->strength() < item->mass())
                     {
-                        m_player->set_x(b.x() - a.w());
+                        if(a.x() < b.x())
+                        {
+                            m_player->set_x(b.x() - a.w());
+                        }
+                        else if(a.x() > b.x())
+                        {
+                            m_player->set_x(b.x() + b.w());
+                        }
                     }
-                    else if(a.x() > b.x())
+                    else
                     {
-                        m_player->set_x(b.x() + b.w());
+                        //cout << "Massa do item: " << item->mass() << endl;
+                        if(a.x() < b.x())
+                        {
+                            item->set_x(b.x() + 1);
+                        }
+                        else if(a.x() > b.x())
+                        {
+                            item->set_x(b.x() - 1);
+                        }   
                     }
                 }
                 else
                 {
                 //eixo y
-                    if(a.y() < b.y())
+                    if(m_player->strength() < item->mass())
                     {
-                        m_player->set_y(b.y() - a.h());
+                        if(a.y() < b.y())
+                        {
+                            m_player->set_y(b.y() - a.h());
+                        }
+                        else if(a.y() > b.y())
+                        {
+                            m_player->set_y(b.y() + b.h());
+                        }
                     }
-                    else if(a.y() > b.y())
+                    else if(m_player->strength() >= item->mass())
                     {
-                        m_player->set_y(b.y() + b.h());
+                        //cout << "Massa do item: " << item->mass() << endl;
+                        if(a.y() < b.y())
+                        {
+                            item->set_y(b.y() + 1);
+                        }
+                        else if(a.y() > b.y())
+                        {
+                            item->set_y(b.y() - 1);
+                        }
                     }
                 }
             }
@@ -119,12 +150,14 @@ Stage::update_self(unsigned long)
                     c.y(), c.w(), c.h());
 
                 notify(Stage::colisionID, message);
+                
                 if(item->id() == "key")
                 {
                     printf("Pegou a chave!\n");
                     m_map->remove_item(item);
                     m_player->get_key();
                 }
+
                 if(item->id() == "finalDoor")
                 {
                     if(m_player->has_key() == true)

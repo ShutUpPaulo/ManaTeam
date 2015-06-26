@@ -48,17 +48,18 @@ void Room::add_itens()
         int weight;
         bool walkable;
         bool unique;
+        double mass;
         int x, y;
     } ItemInfo;
 
     list<ItemInfo> items {
-        {"Bancada", "tile_sheet", 2, 20, false, true, 520, 240},
-        {"Cadeira", "tile_sheet", 2, 40, false, false, -1, -1},
-        {"CadeiraseMesa", "tile_sheet", 3, 40, false, false, -1, -1},
-        {"Mesa", "tile_sheet", 2, 40, false, false, -1, -1},
-        {"Papeis", "tile_sheet", 0, 70, true, false, -1, -1},
-        {"Pill", "tile_sheet", 0, 10, true, false, -1, -1},
-        {"Garrafa", "tile_sheet", 0, 20, true, false, -1, -1},
+        {"Bancada", "tile_sheet", 2, 20, false, true, INFINITE, 520, 240},
+        {"Cadeira", "tile_sheet", 2, 40, false, false, 5.0, -1, -1},
+        {"CadeiraseMesa", "tile_sheet", 3, 40, false, 25.0, false, -1, -1},
+        {"Mesa", "tile_sheet", 2, 40, false, false, 20.0, -1, -1},
+        {"Papeis", "tile_sheet", 0, 70, true, false, 0.0, -1, -1},
+        {"Pill", "tile_sheet", 0, 10, true, false, 0.0, -1, -1},
+        {"Garrafa", "tile_sheet", 0, 20, true, false, 0.0, -1, -1},
     };
 
     int total_weight = 0;
@@ -71,8 +72,11 @@ void Room::add_itens()
 	if (room_type() == "KeyRoom")
 	{
 		string path = "res/items/key.png";
-        Item* item = new Item(this, "key", path, 0, 0, true);
+        Item* item = new Item(this, "key", path, 300, 300, 1.0, true);
+        //place(item, 300,300);
         while (not place(item, -1, -1));
+        cout << "Entrou!" << cout;
+        add_child(item);
 	}	
 
     static const int MAX_ITENS = 15;
@@ -104,7 +108,7 @@ void Room::add_itens()
         double x = it->x;
         double y = it->y;
 
-        Item* item = new Item(this, it->name, path, x, y, it->walkable);
+        Item* item = new Item(this, it->name, path, x, y, it->mass, it->walkable);
 
         if (place(item, x, y))
             add_child(item);
@@ -199,7 +203,7 @@ Room::add_door(char direction, int x, int y)
     char door_sprite[256];
     sprintf(door_sprite, "res/tile_sheets/porta%c.png", direction);
 
-	Item *porta = new Item(this, doorID, door_sprite, x, y, true);
+	Item *porta = new Item(this, doorID, door_sprite, x, y, INFINITE, true);
 
 	add_child(porta);
 }
@@ -230,7 +234,7 @@ Room::update_self(unsigned long)
 				char name[256];
 				sprintf(name, "parede_left");
                 path = "res/tile_sheets/parede1.png";
-				parede = new Item(this, name, path, 0, y*80, false);
+				parede = new Item(this, name, path, 0, y*80, INFINITE, false);
 				add_child(parede);
 			}
         }
@@ -242,7 +246,7 @@ Room::update_self(unsigned long)
 				char name[256];
 				sprintf(name, "parede_left");
                 path = "res/tile_sheets/parede1.png";
-				parede = new Item(this, name, path, 0, y*80, false);
+				parede = new Item(this, name, path, 0, y*80, INFINITE, false);
 				add_child(parede);
 			}
         }
@@ -260,7 +264,7 @@ Room::update_self(unsigned long)
 				char name[256];
         		sprintf(name, "parede_right");
                 path = "res/tile_sheets/parede3.png";
-				parede = new Item(this, name, path, 1200, y*80, false);
+				parede = new Item(this, name, path, 1200, y*80, INFINITE, false);
 				add_child(parede);
 			}
         }
@@ -272,7 +276,7 @@ Room::update_self(unsigned long)
 				char name[256];
         		sprintf(name, "parede_right");
                 path = "res/tile_sheets/parede3.png";
-				parede = new Item(this, name, path, 1200, y*80, false);
+				parede = new Item(this, name, path, 1200, y*80, INFINITE, false);
 				add_child(parede);
 			}
         }
@@ -290,15 +294,15 @@ Room::update_self(unsigned long)
 
 				if(x == 7 || x == 8)
 				{
-					parede = new Item(this, name, path, 520, 0, false);
+					parede = new Item(this, name, path, 520, 0, INFINITE, false);
 					add_child(parede);
 
-					parede = new Item(this, name, path, 680, 0, false);
+					parede = new Item(this, name, path, 680, 0, INFINITE, false);
 					add_child(parede);
 					x++;
 					continue;
 				}
-				parede = new Item(this, name, path, x*80, 0, false);
+				parede = new Item(this, name, path, x*80, 0, INFINITE, false);
 				add_child(parede);
 			}
 
@@ -311,7 +315,7 @@ Room::update_self(unsigned long)
 				char name[256];
 				sprintf(name, "parede_top");
                 string path = "res/tile_sheets/parede2.png";
-				Item *parede = new Item(this, name, path, x*80, 0, false);
+				Item *parede = new Item(this, name, path, x*80, 0, INFINITE, false);
 				add_child(parede);
 			}
         }
@@ -328,17 +332,17 @@ Room::update_self(unsigned long)
 
 				if(x == 7 || x == 8)
 				{
-					parede = new Item(this, name, path, 520, 640, false);
+					parede = new Item(this, name, path, 520, 640, INFINITE, false);
 					add_child(parede);
 
-					parede = new Item(this, name, path, 680, 640, false);
+					parede = new Item(this, name, path, 680, 640, INFINITE, false);
 					add_child(parede);
 					x++;
 
 					continue;
 				}
 				
-				parede = new Item(this, name, path, x*80, 640, false);
+				parede = new Item(this, name, path, x*80, 640, INFINITE, false);
 				add_child(parede);
 			}
         }
@@ -349,7 +353,7 @@ Room::update_self(unsigned long)
 				char name[256];
 				sprintf(name, "parede_bot");
                 string path = "res/tile_sheets/parede4.png";
-				Item *parede = new Item(this, name, path, x*80, 640, false);
+				Item *parede = new Item(this, name, path, x*80, 640, INFINITE, false);
 				add_child(parede);
 			}
         }
@@ -360,26 +364,26 @@ Room::update_self(unsigned long)
             {
                 // Adicionando portas
                 path = "res/door/porta1.png";
-                porta = new Item(this,"finalDoor", path, 0, 320, true);
+                porta = new Item(this,"finalDoor", path, 0, 320, INFINITE, true);
                 add_child(porta);
             }
             else if(this->r_botton)
             {
                 path = "res/door/porta2.png";
-                porta = new Item(this,"finalDoor", path, 600, 0, true);
+                porta = new Item(this,"finalDoor", path, 600, 0, INFINITE, true);
                 add_child(porta);
                 
             }
             else if(this->r_left)
             {
                 path = "res/door/porta3.png";
-                porta = new Item(this,"finalDoor", path, 1200, 320, true);
+                porta = new Item(this,"finalDoor", path, 1200, 320, INFINITE, true);
                 add_child(porta);
             }
             if(this->r_top)
             {
                 path = "res/door/porta4.png";
-                porta = new Item(this,"finalDoor", path, 600, 640, true);
+                porta = new Item(this,"finalDoor", path, 600, 640, INFINITE, true);
                 add_child(porta);
             }
         }
@@ -414,7 +418,7 @@ Room::fill_floor(const string& name)
 	{
 		for(int j = 1; j < h - 1; j++)
 		{
-			Item *floor = new Item(this, "floor", path, i*image->w(), j*image->h(), true);
+			Item *floor = new Item(this, "floor", path, i*image->w(), j*image->h(), INFINITE, true);
 	 		add_child(floor);
 		}
 	}
@@ -443,7 +447,7 @@ Room::add_corners(const string& name)
 
         delete image;
 
-	    Item *corner = new Item(this, "corner", path, x, y, false);
+	    Item *corner = new Item(this, "corner", path, x, y, INFINITE, false);
 	    add_child(corner);
     }
 }
@@ -451,7 +455,7 @@ Room::add_corners(const string& name)
 void
 Room::add_guard(const string& name)
 {
-	Guard *guard = new Guard(this, name, 0, 0, false);
+	Guard *guard = new Guard(this, name, 0, 0, 60, false);
     place(guard, -1, -1);
 	add_child(guard);
 }

@@ -21,7 +21,7 @@ class Player::Impl
 public:
     Impl(Player *player, Map *current_map, bool key)
         : m_player(player), m_direction(Player::LEFT),
-        m_moviment(make_pair(0.0, 0.0)), m_current_map(current_map), m_key(key)
+        m_moviment(make_pair(0.0, 0.0)), m_current_map(current_map), m_key(key), m_strength(0.0)
     {
     }
 
@@ -42,6 +42,16 @@ public:
         m_current_map->set_current(nova);
     }
 
+    void set_strength(double strength)
+    {
+        m_strength = strength;
+    }
+
+    double strength()
+    {
+        return m_strength;
+    }
+
     void get_key()
     {
         m_key = true;
@@ -56,6 +66,7 @@ private:
     pair<double, double> m_moviment;
     Map *m_current_map;
     bool m_key;
+    double m_strength;
 };
 
 class Idle : public SpriteState
@@ -415,6 +426,19 @@ void
 Player::set_current(Room * nova, int posx, int posy)
 {
     m_impl->set_current(nova, posx, posy);
+}
+
+void
+Player::set_strength(double strength)
+{
+    m_impl->set_strength(strength);
+}
+
+
+double
+Player::strength()
+{
+    return m_impl->strength();
 }
 
 void

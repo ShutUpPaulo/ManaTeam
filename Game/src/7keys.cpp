@@ -14,7 +14,7 @@
  #include <cstring>
 
 SevenKeys::SevenKeys()
-    : Game("stage1")
+    : Game("fone")
 {
     Environment *env = Environment::get_instance();
 

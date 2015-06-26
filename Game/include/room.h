@@ -1,12 +1,13 @@
 #ifndef ROOM_H
 #define ROOM_H
 
-
 #include <core/object.h>
 #include <core/rect.h>
 #include <list>
 
 #include "item.h"
+
+#define INFINITE 99999.9
 
 using std::list;
 

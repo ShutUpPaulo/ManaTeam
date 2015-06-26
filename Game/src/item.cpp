@@ -6,9 +6,10 @@
 
 #include "item.h"
 
-Item::Item(Object *parent, ObjectID id, const string& path, double x, double y, bool walkable)
+Item::Item(Object *parent, ObjectID id, const string& path, double x, double y, double mass, bool walkable)
     : Image(parent, path)
 {
     set_position(x, y);
     set_walkable(walkable);
+    set_mass(mass);
 }

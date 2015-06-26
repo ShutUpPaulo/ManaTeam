@@ -32,6 +32,11 @@ public:
     static ActionID hitExitDoorID;
 
     void set_current(Room *room, int x, int y);
+
+    double strength();
+
+    void set_strength(double strength = 0.0);
+
     void get_key();
     bool has_key();
 
