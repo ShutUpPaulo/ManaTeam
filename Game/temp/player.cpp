@@ -311,7 +311,7 @@ Player::update_self(unsigned long elapsed)
             if (((posx + 40 > aux[i]->x()) && (posx + 40 < (aux[i]->x() + 32))) && ((posy + 40> aux[i]->y()) && (posy + 40 < (aux[i]->y() + 32))))
             {
                 current_map->current_room->remove_child(aux[i]);
-                cout << "peguei a porra da chave" << endl;
+                cout << "peguei a chave" << endl;
                 pick_key();
             } 
         }

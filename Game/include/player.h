@@ -37,13 +37,14 @@ public:
 
     void set_strength(double strength = 0.0);
 
+    void set_key(bool input);
     void get_key();
     bool has_key();
 
 private:
     class Impl;
     unique_ptr<Impl> m_impl;
-    bool m_key;
+    bool m_key = false;
 
 };
 

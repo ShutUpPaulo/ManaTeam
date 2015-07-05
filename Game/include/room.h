@@ -16,7 +16,7 @@ class Guard;
 class Room: public Object
 {
 public:
-	Room(Object *parent, ObjectID id, string type = "None");
+	Room(Object *parent, ObjectID id, string type = "None", Room *left = nullptr, Room *top = nullptr, Room *right = nullptr, Room *botton = nullptr);
 
 	Room *r_left;
 	Room *r_right;
@@ -47,14 +47,18 @@ private:
 
     void update_self(unsigned long);
 
-    void add_door(char direction, int x, int y);
+    void add_door(string type, char direction, int x, int y);
     void pre_drawing(const string item_name, string item_type, int percentage, 
     	int pos_x, int pos_y, int width, int height, bool walkable);
 
     void fill_floor(const string& name);
+    void add_walls(const string& name);
     void add_corners(const string& name);
     void add_guard(const string& name);
     void add_itens();
+    void notify_creation(const string& position);
+    void add_final_door();
+
 
     bool place(Object *object, double x, double y);
 };

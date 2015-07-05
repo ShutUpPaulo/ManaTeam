@@ -73,8 +73,7 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
                 if(type == "Cela")
                     type += 'H';
 
-            	room->Room::r_left = new Room(this, sala, type);
-                room->r_left->r_right = room;
+            	room->Room::r_left = new Room(this, sala, type, nullptr, nullptr, room, nullptr);
                 room_list.push_back(room->r_left);
                 room->r_left->pos_x = x-1;
                 room->r_left->pos_y = y;
@@ -95,8 +94,7 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
                 if(type == "Cela")
                     type += 'H';
 
-            	room->r_right = new Room(this, sala, type);
-                room->r_right->r_left = room;
+            	room->r_right = new Room(this, sala, type, room, nullptr, nullptr, nullptr);
                 room_list.push_back(room->r_right);
                 room->r_right->pos_x = x+1;
                 room->r_right->pos_y = y;
@@ -117,8 +115,7 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
                 if(type == "Cela")
                     type += 'V';
                 
-				room->r_top = new Room(this, sala, type);
-                room->r_top->r_botton = room;
+				room->r_top = new Room(this, sala, type, nullptr, nullptr, nullptr, room);
                 room_list.push_back(room->r_top);
                 room->r_top->pos_x = x;
                 room->r_top->pos_y = y-1;
@@ -139,8 +136,7 @@ void Map::CreateRoom(Room *room, int *id,int x, int y, int qnt)
                 if(type == "Cela")
                     type += 'V';
                 
-				room->r_botton = new Room(this, sala, type);
-				room->r_botton->r_top = room;
+				room->r_botton = new Room(this, sala, type, nullptr, room, nullptr, nullptr);
                 room_list.push_back(room->r_botton);
                 room->r_botton->pos_x = x;
                 room->r_botton->pos_y = y+1;
@@ -174,7 +170,7 @@ void Map::GenerateMap(int quantidade_salas)
         }
     }
 
-	Room *room = new Room(this, "sala 0", "None");
+	Room *room = new Room(this, "sala 0", "None", nullptr, nullptr, nullptr, nullptr);
     room_list.push_back(room);
     current_room = room;
     last_room = room;

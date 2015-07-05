@@ -36,6 +36,7 @@ Stage::Stage(ObjectID id)
     m_player->set_strength(100.0);
     m_player->set_position(600, 320);
     m_player->add_observer(this);
+    m_player->set_key(false);
 
     add_child(m_player);
 
@@ -151,17 +152,18 @@ Stage::update_self(unsigned long)
 
                 notify(Stage::colisionID, message);
                 
-                if(item->id() == "key")
+                if(item->id() == "res/items/key.png")
                 {
                     printf("Pegou a chave!\n");
                     m_map->remove_item(item);
                     m_player->get_key();
                 }
 
-                if(item->id() == "finalDoor")
+                if(item->id() == "res/door/portal.png" ||item->id() == "res/door/portat.png" || item->id() =="res/door/portar.png" || item->id() =="res/door/portab.png")
                 {
                     if(m_player->has_key() == true)
                     {
+                        m_player->set_key(false);
                         finish();
                         char new_stage[256];
                         sprintf(new_stage, "stage%d", m_num_id+1);

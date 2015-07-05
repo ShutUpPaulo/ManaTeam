@@ -56,6 +56,10 @@ public:
     {
         m_key = true;
     }
+    void set_key(bool input)
+    {
+        m_key = input;
+    }
     bool has_key()
     {
         return m_key;
@@ -445,6 +449,12 @@ void
 Player::get_key()
 {
     m_impl->get_key();
+}
+
+void
+Player::set_key(bool input)
+{
+    m_impl->set_key(input);
 }
 
 bool
