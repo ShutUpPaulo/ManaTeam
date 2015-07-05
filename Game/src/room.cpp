@@ -229,9 +229,15 @@ Room::add_door(string type, char direction, int x, int y)
     sprintf(doorID, "porta%c%s", direction, id().c_str());
     char door_sprite[256];
     if(type == "normal")
+    {
         sprintf(door_sprite, "res/tile_sheets/porta%c.png", direction);
+        sprintf(doorID, "porta%c%s", direction, id().c_str());
+    }
     else if (type == "finalDoor")
+    {
+        sprintf(doorID, "stage");
         sprintf(door_sprite, "res/door/porta%c.png", direction);
+    }
 
 	Item *porta = new Item(this, doorID, door_sprite, x, y, INFINITE, true);
 

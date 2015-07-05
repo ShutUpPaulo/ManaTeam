@@ -169,11 +169,15 @@ Stage::update_self(unsigned long)
                         sprintf(new_stage, "stage%d", m_num_id+1);
                         m_player->notify(Player::hitExitDoorID, new_stage);
                     }
+                    else
+                    {
+
+                    }
                 }
             }
             if(c.w() > 60 and c.h() > 60)
             {
-                if(item->id().find("sala"))
+                if(item->id() == "res/tile_sheets/portal.png" ||item->id() == "res/tile_sheets/portat.png" || item->id() =="res/tile_sheets/portar.png" || item->id() =="res/tile_sheets/portab.png")
                 {
                     if(item->x() == 0 && item->y() == 320)
                     {
