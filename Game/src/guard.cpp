@@ -105,7 +105,7 @@ void
 Guard::update_direction(unsigned long elapsed)
 {
 
-    if(type == "easy" || type == "hard")
+    if(type == "easy")
     {
         if(elapsed - m_last > 1000)
         {
@@ -130,6 +130,24 @@ Guard::update_direction(unsigned long elapsed)
             int test = ((int)direction() + 2) % 4;
             Direction new_direction = (Direction)test;
             set_direction(new_direction);
+
+            m_last = elapsed;
+        }
+    }
+    else if(type == "hard")
+    {
+        if(elapsed - m_last > 5000)
+        {
+            int random = rand()%100;
+
+            if(random < 25)
+                set_direction(Guard::LEFT);
+            else if(random < 50)
+                set_direction(Guard::UP);
+            else if(random < 75)
+                set_direction(Guard::RIGHT);
+            else
+                set_direction(Guard::DOWN);
 
             m_last = elapsed;
         }

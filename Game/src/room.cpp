@@ -471,9 +471,24 @@ Room::add_corners(const string& name)
 void
 Room::add_guard(const string& name)
 {
-	Guard *guard = new Guard(this, name, 0, 0, 60, false, "normal", randint(0,3));
-    place(guard, -1, -1);
-	add_child(guard);
+
+    string type = "easy";
+    int random = randint(0,2);
+
+    if(random < 1)
+        type = "easy";
+    if(random < 2)
+        type = "normal";
+    else
+        type = "hard";
+
+
+    for(int i = 0; i < (stage_id / 3) + 1; i++)
+    {
+        Guard *guard = new Guard(this, name, 0, 0, 60, false, type, randint(0,3));
+        place(guard, -1, -1);
+	    add_child(guard);
+    }
 }
 
 bool
