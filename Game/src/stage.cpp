@@ -9,7 +9,7 @@
 #include <core/audiomanager.h>
 #include <core/audiomanagerwrapper.h>
 
- #include <cmath>
+#include <cmath>
 
 #include "stage.h"
 #include "item.h"
@@ -29,11 +29,14 @@ Stage::Stage(ObjectID id)
     printf("%d\n", m_num_id);
 
     int quantidade_de_salas = 3 + m_num_id + (m_num_id - 1) * 2;
-    m_map = new Map(quantidade_de_salas);
+    m_map = new Map(quantidade_de_salas,m_num_id);
     add_child(m_map);
+
+    double life = 100.0;
 
     m_player = new Player(this, "player", m_map);
     m_player->set_strength(100.0);
+    m_player->set_life(life);
     m_player->set_position(600, 320);
     m_player->add_observer(this);
     m_player->set_key(false);
@@ -51,8 +54,8 @@ void
 Stage::update_self(unsigned long)
 {
 //printf("\n\nPlayer: (%.1f, %.1f) -- %.1f x %.1f\n", m_player->x(), m_player->y(), m_player->w(), m_player->h());
-    const list<Object *> itens = m_map->itens();
-    for (auto item : itens)
+    const list<Object *> items = m_map->items();
+    for (auto item : items)
     {
 //printf("\n\nItem [%s]: (%.1f, %.1f) -- %.1f x %.1f\n", item->id().c_str(), item->x(), item->y(), item->w(), item->h());
         Rect a = m_player->bounding_box();
@@ -62,8 +65,7 @@ Stage::update_self(unsigned long)
         //tratando colisoes diretas
         if(item->walkable() == false)
         {
-            
-            if(item->id() == "parede_top")
+            if(item->id() == "res/tile_sheets/paredet.png")
             {
                 if (c.w() != 0 and c.h() > 50)
                 {
@@ -193,7 +195,7 @@ Stage::update_self(unsigned long)
                     }
                     else if(item->x() == 600 && item->y() == 640)
                     {
-                        m_player->set_current(m_map->current_room->r_botton, m_player->x(), 80);
+                        m_player->set_current(m_map->current_room->r_bottom, m_player->x(), 80);
                     }
                 }
 
@@ -215,7 +217,12 @@ Stage::update_self(unsigned long)
                 {
                     if(filho->id() == "visao")
                     {
-                        //cout << "voce foi visto!" << endl;
+                        cout << "voce foi visto!" << endl;
+                        /*double life = m_player->set_life();
+                        life--;
+                        if(life <= 0)
+                            cout << "Game Over" << endl;
+                        */
                     }
                 }
             }

@@ -33,8 +33,12 @@ public:
 
     void set_current(Room *room, int x, int y);
 
+    double life();
+    double sanity();
     double strength();
 
+    void set_life(double life = 100.0);
+    void set_sanity(double sanity = 100.0);
     void set_strength(double strength = 0.0);
 
     void set_key(bool input);

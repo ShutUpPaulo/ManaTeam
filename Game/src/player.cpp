@@ -21,7 +21,8 @@ class Player::Impl
 public:
     Impl(Player *player, Map *current_map, bool key)
         : m_player(player), m_direction(Player::LEFT),
-        m_moviment(make_pair(0.0, 0.0)), m_current_map(current_map), m_key(key), m_strength(0.0)
+        m_moviment(make_pair(0.0, 0.0)), m_current_map(current_map), 
+        m_key(key), m_strength(0.0), m_life(100.0), m_sanity(100.0)
     {
     }
 
@@ -52,6 +53,26 @@ public:
         return m_strength;
     }
 
+    void set_life(double life)
+    {
+        m_life = life;
+    }
+
+    double life()
+    {
+        return m_life;
+    }
+
+    void set_sanity(double sanity)
+    {
+        m_sanity = sanity;
+    }
+
+    double sanity()
+    {
+        return m_sanity;
+    }
+
     void get_key()
     {
         m_key = true;
@@ -64,6 +85,7 @@ public:
     {
         return m_key;
     }
+
 private:
     Player *m_player;
     Direction m_direction;
@@ -71,14 +93,28 @@ private:
     Map *m_current_map;
     bool m_key;
     double m_strength;
+    double m_life;
+    double m_sanity;
 };
+
+// class Catching : public SpriteState
+// {
+// public: 
+//     Catching(Player *player)
+//         : m_player(player), m_animation(new Animation("res/sprites/idle.png",
+//             0, 0, 70, 70, 2, 1000, true)), m_left(0), m_right(0), m_top(0), 
+//         m_down(0)
+
+//     ~Catching() {}
+// }
 
 class Idle : public SpriteState
 {
 public:
     Idle(Player *player)
         : m_player(player), m_animation(new Animation("res/sprites/idle.png",
-            0, 0, 70, 70, 2, 1000, true)), m_left(0), m_right(0), m_top(0), m_down(0)
+            0, 0, 70, 70, 2, 1000, true)), m_left(0), m_right(0), m_top(0), 
+        m_down(0)
     {
     }
 
@@ -200,7 +236,8 @@ public:
     Running(Player *player, Map * current_map, bool key)
         : m_player(player), m_animation(
         new Animation("res/sprites/running.png", 0, 0, 70, 70, 8, 60, true)),
-        m_left(0), m_right(0), m_top(0), m_down(0), m_last(0), current_map(current_map), m_key(key)
+        m_left(0), m_right(0), m_top(0), m_down(0), m_last(0), 
+        current_map(current_map), m_key(key)
     {
     }
 
@@ -383,7 +420,8 @@ private:
 };
 
 Player::Player(Object *parent, const string& id, Map *current_map)
-    : Sprite(parent, id), m_impl(new Player::Impl(this, current_map, m_key)), m_key(false)
+    : Sprite(parent, id), m_impl(new Player::Impl(this, current_map, m_key)),
+     m_key(false)
 {
     add_state(IDLE, new Idle(this));
     add_state(RUNNING, new Running(this, current_map, m_key));
@@ -438,11 +476,35 @@ Player::set_strength(double strength)
     m_impl->set_strength(strength);
 }
 
+void
+Player::set_life(double life)
+{
+    m_impl->set_life(life);
+}
+
+void
+Player::set_sanity(double sanity)
+{
+    m_impl->set_sanity(sanity);
+}
+
 
 double
 Player::strength()
 {
     return m_impl->strength();
+}
+
+double
+Player::life()
+{
+    return m_impl->life();
+}
+
+double
+Player::sanity()
+{
+    return m_impl->sanity();
 }
 
 void

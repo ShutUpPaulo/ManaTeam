@@ -293,15 +293,15 @@ Player::update_self(unsigned long elapsed)
 
         enter_room(current_map->current_room, current_map->current_room->r_top, posx, 580);
     }
-    else if(posy >= 620  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_botton)
+    else if(posy >= 620  && ( posx >= 600 && posx <= 680) && current_map->current_room->r_bottom)
     {
 
-        enter_room(current_map->current_room, current_map->current_room->r_botton, posx, 80);
+        enter_room(current_map->current_room, current_map->current_room->r_bottom, posx, 80);
     }
 
 
 
-    /*Colisoes com os itens */
+    /*Colisoes com os items */
     vector <Item*> aux = current_map->current_room->items;
 
     for(int i = 0; i < aux.size(); i++)

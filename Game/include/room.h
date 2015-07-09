@@ -16,14 +16,15 @@ class Guard;
 class Room: public Object
 {
 public:
-	Room(Object *parent, ObjectID id, string type = "None", Room *left = nullptr, Room *top = nullptr, Room *right = nullptr, Room *botton = nullptr);
+	Room(Object *parent, ObjectID id, string type = "None", Room *left = nullptr, Room *top = nullptr, Room *right = nullptr, Room *bottom = nullptr, int stage_id = 1);
 
 	Room *r_left;
 	Room *r_right;
 	Room *r_top;
-	Room *r_botton;
+	Room *r_bottom;
 
 	string type;
+	int stage_id;
 	int pos_x;
 	int pos_y;
 
@@ -55,7 +56,7 @@ private:
     void add_walls(const string& name);
     void add_corners(const string& name);
     void add_guard(const string& name);
-    void add_itens();
+    void add_items(int stage_id);
     void notify_creation(const string& position);
     void add_final_door();
 
