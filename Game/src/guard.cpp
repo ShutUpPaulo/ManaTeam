@@ -81,7 +81,7 @@ Guard::walk(unsigned long elapsed)
 {
     if(type == "easy")
         return;
-    else if(type == "normal")
+    else if(type == "normal" || type == "hard")
     {
         unsigned speed = 1;
 
@@ -89,11 +89,11 @@ Guard::walk(unsigned long elapsed)
         {
             if(direction() == Guard::RIGHT || direction() == Guard::LEFT)
             {
-                set_x(x() - speed + (speed * direction())); //( (1 + direction() * -1 ) * speed));
+                set_x(x() - speed + (speed * direction()));
             }
             if(direction() == Guard::UP || direction() == Guard::DOWN)
             {
-                set_y(y() - 2 * speed + (speed * direction())); //( (2 + direction() * -1 ) * speed));
+                set_y(y() - 2 * speed + (speed * direction()));
             }
         }
     }
@@ -105,7 +105,7 @@ void
 Guard::update_direction(unsigned long elapsed)
 {
 
-    if(type == "easy")
+    if(type == "easy" || type == "hard")
     {
         if(elapsed - m_last > 1000)
         {
