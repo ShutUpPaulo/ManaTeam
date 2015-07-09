@@ -23,9 +23,9 @@ static int randint(int a, int b)
     return a + r;
 }
 
-Room::Room(Object *parent, ObjectID id, string type, Room *left, Room *top, Room *right, Room *bottom, int stage_id)
+Room::Room(Object *parent, ObjectID id, string type, Room *left, Room *top, Room *right, Room *bottom, int s_id)
 : Object(parent, id), r_left(left), r_right(right), r_top(top), r_bottom(bottom), type(type),
-    m_doors(false), stage_id(stage_id)
+    m_doors(false), stage_id(s_id)
 {
     fill_floor("tile1");
     add_walls("parede");
@@ -92,8 +92,8 @@ void Room::add_items(int stage_id)
             {"Mesa", "tile_sheet", 2, 40, false, false, 20.0, -1, -1},
             {"Papeis", "tile_sheet", 0, 70, true, false, 0.0, -1, -1},
             {"Pill", "item", 0, 10, true, false, 0.0, -1, -1},
-            {"Garrafa", "item", 0, 20, true, false, 0.0, -1, -1},
-            {"Relogio", "tile_sheet", 0, 40, true, false, 20.0, -1, -1},
+            {"Garrafa", "item", 0, 10, true, false, 0.0, -1, -1},
+            {"Relogio", "tile_sheet", 0, 5, true, false, 20.0, -1, -1},
         }; 
 
     }
@@ -107,7 +107,7 @@ void Room::add_items(int stage_id)
             {"Cama", "tile_sheet", 0, 40, false, false, 20.0, -1, -1},
             {"Papeis", "tile_sheet", 0, 70, true, false, 0.0, -1, -1},
             {"Pill", "item", 0, 10, true, false, 0.0, -1, -1},
-            {"Garrafa", "item", 0, 20, true, false, 0.0, -1, -1},
+            {"Garrafa", "item", 0, 5, true, false, 0.0, -1, -1},
             {"MesaHospitalar", "tile_sheet", 0, 40, false, false, 25.0, -1, -1},
             {"MesaHospitalarCust", "tile_sheet", 0, 40, false, false, 5.0, -1, -1},
             {"PiaGrande", "tile_sheet", 0, 40, false, false, 5.0, -1, -1},
@@ -254,28 +254,35 @@ void
 Room::add_door(string type, char direction, int x, int y)
 {
     char doorID[128];
-    sprintf(doorID, "porta%c%s", direction, id().c_str());
     char door_sprite[256];
+    int stages = 1;
+        if(stage_id > 2)
+            stages = 3;
+
     if(type == "normal")
     {
-        sprintf(door_sprite, "res/tile_sheets/porta%c.png", direction);
+        sprintf(door_sprite, "res/tile_sheets/porta%d%c.png", stages, direction);
         sprintf(doorID, "porta%c%s", direction, id().c_str());
+        Item *porta = new Item(this, "door", door_sprite, x, y, INFINITE, true);
+
+        add_child(porta);
     }
     else if (type == "finalDoor")
     {
         sprintf(doorID, "stage");
         sprintf(door_sprite, "res/door/porta%c.png", direction);
+        Item *porta = new Item(this, "finalDoor", door_sprite, x, y, INFINITE, true);
+
+        add_child(porta);
     }
 
-	Item *porta = new Item(this, doorID, door_sprite, x, y, INFINITE, true);
-
-	add_child(porta);
+	
 
     const list<Object *> items = this->children();
     for (auto item : items)
     {
         char buffer[256];
-        sprintf(buffer, "res/tile_sheets/parede%c.png", direction);
+        sprintf(buffer, "parede", stages, direction);
         if(strcmp(item->id().c_str(), buffer) == 0)
         {
             if((item->x() > x - item->w() && item->x() < x + item->w()) && item->y() == y)
@@ -291,32 +298,25 @@ Room::add_final_door()
 {
     double x = 0 + (r_top || r_bottom)*600 + (bool)r_left*1200;
     double y = 0 + (r_left || r_right)*320 + (bool)r_top*640;
-    string path;
     char dir;
     if(this->r_right)
     {
-        path = "res/door/porta1.png";
         dir = 'l';
     }
     else if(this->r_bottom)
     {
-        path = "res/door/porta2.png";  
         dir = 't';     
     }
     else if(this->r_left)
     {
-        path = "res/door/porta3.png";
         dir = 'r';
     }
     if(this->r_top)
     {
-        path = "res/door/porta4.png";
         dir = 'b';
     }
 
     add_door("finalDoor", dir, x, y);
-    //Item *porta = new Item(this,"finalDoor", path, x, y, INFINITE, true);
-    //add_child(porta);
 }
 
 void
@@ -343,7 +343,7 @@ Room::fill_floor(const string& name)
     char path[512];
     sprintf(path, "res/tile_sheets/%s.png", name.c_str());
 
-    Image *image = new Image(nullptr, path);
+    Image *image = new Image(nullptr, name, path);
 
     if (not image)
     {
@@ -363,7 +363,7 @@ Room::fill_floor(const string& name)
 	{
 		for(int j = 1; j < h - 1; j++)
 		{
-			Item *floor = new Item(this, "floor", path, i*image->w(), j*image->h(), INFINITE, true);
+			Item *floor = new Item(this, name, path, i*image->w(), j*image->h(), INFINITE, true);
 	 		add_child(floor);
 		}
 	}
@@ -377,13 +377,19 @@ Room::add_walls(const string& name)
     Environment *env = Environment::get_instance();
     Canvas *canvas = env->canvas;
 
+    cout << stage_id << endl;
+
     char pos[4] = {'l', 't', 'r', 'b'};
     for (int i = 0; i < 4; ++i)
     {
         char path[512];
-        sprintf(path, "res/tile_sheets/%s%c.png", name.c_str(), pos[i]);
+        int stages = 1;
+        if(stage_id > 2)
+            stages = 3;
+        
+        sprintf(path, "res/tile_sheets/%s%d%c.png", name.c_str(), stages, pos[i]);
 
-        Image *image = new Image(nullptr, path);
+        Image *image = new Image(nullptr, name, path);
 
         if (not image)
         {
@@ -399,7 +405,7 @@ Room::add_walls(const string& name)
                 double x = i % 2 ? image->w()*j : i/2 * (canvas->w() - image->w());
                 double y = i % 2 ? i/2 * (canvas->h() - image->h()) : image->h()*k;
 
-                Item *wall = new Item(this, "parede", path, x, y, INFINITE, false);
+                Item *wall = new Item(this, name, path, x, y, INFINITE, false);
                 add_child(wall);
             }
             
@@ -417,9 +423,15 @@ Room::add_corners(const string& name)
     for (int i = 0; i < 4; ++i)
     {
         char path[512];
-        sprintf(path, "res/tile_sheets/%s%d.png", name.c_str(), i + 1);
+        if(stage_id < 3)
+            sprintf(path, "res/tile_sheets/%s%d.png", name.c_str(), i + 1);
+        else
+        {
+            int stages = 3; // stage id apos 3 sera sempre 3
+            sprintf(path, "res/tile_sheets/%s%d%d.png", name.c_str(),stages, i + 1);
+        }
 
-        Image *image = new Image(nullptr, path);
+        Image *image = new Image(nullptr, name, path);
 
         if (not image)
             continue;
@@ -429,7 +441,7 @@ Room::add_corners(const string& name)
 
         delete image;
 
-	    Item *corner = new Item(this, "corner", path, x, y, INFINITE, false);
+	    Item *corner = new Item(this, name, path, x, y, INFINITE, false);
 	    add_child(corner);
     }
 }

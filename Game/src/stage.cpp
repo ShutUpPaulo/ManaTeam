@@ -24,10 +24,7 @@ Stage::Stage(ObjectID id)
 {
     char aux[3];
     *aux = *(id.c_str() + 5);
-    printf("aux: %s\n", aux);
     m_num_id = atoi(aux);
-    printf("%d\n", m_num_id);
-
     int quantidade_de_salas = 3 + m_num_id + (m_num_id - 1) * 2;
     m_map = new Map(quantidade_de_salas,m_num_id);
     add_child(m_map);
@@ -107,10 +104,12 @@ Stage::update_self(unsigned long)
                         if(a.x() < b.x())
                         {
                             item->set_x(b.x() + 1);
+                            m_player->set_x(b.x() - a.w());
                         }
                         else if(a.x() > b.x())
                         {
                             item->set_x(b.x() - 1);
+                            m_player->set_x(b.x() + b.w());
                         }   
                     }
                 }
@@ -134,10 +133,12 @@ Stage::update_self(unsigned long)
                         if(a.y() < b.y())
                         {
                             item->set_y(b.y() + 1);
+                            m_player->set_y(b.y() - a.h());
                         }
                         else if(a.y() > b.y())
                         {
                             item->set_y(b.y() - 1);
+                            m_player->set_y(b.y() + b.h());
                         }
                     }
                 }
@@ -154,14 +155,14 @@ Stage::update_self(unsigned long)
 
                 notify(Stage::colisionID, message);
                 
-                if(item->id() == "res/items/key.png")
+                if(item->id() == "key")
                 {
                     printf("Pegou a chave!\n");
                     m_map->remove_item(item);
                     m_player->get_key();
                 }
 
-                if(item->id() == "res/door/portal.png" ||item->id() == "res/door/portat.png" || item->id() =="res/door/portar.png" || item->id() =="res/door/portab.png")
+                if(item->id() == "finalDoor")//"res/door/portal.png" ||item->id() == "res/door/portat.png" || item->id() =="res/door/portar.png" || item->id() =="res/door/portab.png")
                 {
                     if(m_player->has_key() == true)
                     {
@@ -179,7 +180,7 @@ Stage::update_self(unsigned long)
             }
             if(c.w() > 60 and c.h() > 60)
             {
-                if(item->id() == "res/tile_sheets/portal.png" ||item->id() == "res/tile_sheets/portat.png" || item->id() =="res/tile_sheets/portar.png" || item->id() =="res/tile_sheets/portab.png")
+                if(item->id() == "door") //"res/tile_sheets/portal.png" ||item->id() == "res/tile_sheets/portat.png" || item->id() =="res/tile_sheets/portar.png" || item->id() =="res/tile_sheets/portab.png")
                 {
                     if(item->x() == 0 && item->y() == 320)
                     {

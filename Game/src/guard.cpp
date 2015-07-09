@@ -93,7 +93,6 @@ Guard::update_self(unsigned long elapsed)
             set_direction(Guard::DOWN);
 
         m_last = elapsed;
-        update_vision();
     }
 
     m_animation->set_row(this->direction());
@@ -101,6 +100,7 @@ Guard::update_self(unsigned long elapsed)
     set_y(this->y());
     //m_animation->set_row(rand()%4);
     m_animation->update(elapsed);
+    update_vision();
 }
 
     
