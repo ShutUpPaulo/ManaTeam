@@ -45,6 +45,10 @@ public:
     void get_key();
     bool has_key();
 
+    void show_life();
+    void show_sanity();
+    void show_inventory();
+
 private:
     class Impl;
     unique_ptr<Impl> m_impl;

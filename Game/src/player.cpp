@@ -6,7 +6,7 @@
  * Licença: LGPL. Sem copyright.
  */
 #include "player.h"
-
+#include "core/rect.h"
 #include "core/level.h"
 #include "core/environment.h"
 #include "core/keyboardevent.h"
@@ -85,6 +85,35 @@ public:
     {
         return m_key;
     }
+    void show_life()
+    {
+        Environment *env = Environment::get_instance();
+        Rect healthbar {(double)env->canvas->w()/15, (double)env->canvas->h()/18, m_player->life()*2, 12};
+        env->canvas->fill(healthbar, Color::RED);
+    }
+    void show_sanity()
+    {
+        Environment *env = Environment::get_instance();
+        Rect sanitybar {(double)env->canvas->w()/15, (double)env->canvas->h()/13, m_player->sanity()*2, 12};
+        env->canvas->fill(sanitybar, Color::GREEN);
+    }
+
+    void show_inventory()
+    {
+        Environment *env = Environment::get_instance();
+        double size = env->canvas->w()/40;
+
+        Rect item1 {(double)(env->canvas->w() * 1/35), (double)env->canvas->h() * 25/30, size, size};
+        Rect item2 {(double)env->canvas->w() * 1/35 + size, (double)env->canvas->h() * 25/30 - size, size, size};
+        Rect item3 {(double)env->canvas->w() * 1/35 + 2*size, (double)env->canvas->h() * 25/30, size, size};
+        Rect item4 {(double)env->canvas->w() * 1/35 + size, (double)env->canvas->h() * 25/30 + size, size, size};
+        Rect not_item {(double)env->canvas->w() * 1/35 + size, (double)env->canvas->h() * 25/30, size, size};
+        env->canvas->draw(item1, Color::WHITE);
+        env->canvas->draw(item2, Color::WHITE);
+        env->canvas->draw(item3, Color::WHITE);
+        env->canvas->draw(item4, Color::WHITE);
+        env->canvas->fill(not_item, Color::WHITE);
+    }
 
 private:
     Player *m_player;
@@ -96,17 +125,6 @@ private:
     double m_life;
     double m_sanity;
 };
-
-// class Catching : public SpriteState
-// {
-// public: 
-//     Catching(Player *player)
-//         : m_player(player), m_animation(new Animation("res/sprites/idle.png",
-//             0, 0, 70, 70, 2, 1000, true)), m_left(0), m_right(0), m_top(0), 
-//         m_down(0)
-
-//     ~Catching() {}
-// }
 
 class Idle : public SpriteState
 {
@@ -189,12 +207,13 @@ public:
     void draw()
     {
         m_animation->draw(m_player->x(), m_player->y());
+        m_player->show_life();
+        m_player->show_sanity();
+        m_player->show_inventory();
     }
 
     void update(unsigned long elapsed)
     {
-       
-
         if (m_left)
         {
             m_player->set_moviment(-1.0, 0.0);
@@ -273,6 +292,9 @@ public:
     void draw()
     {
         m_animation->draw(m_player->x(), m_player->y());
+        m_player->show_life();
+        m_player->show_sanity();
+        m_player->show_inventory();
     }
 
     bool on_event(const KeyboardEvent& event)
@@ -333,6 +355,7 @@ public:
 
     void update(unsigned long elapsed)
     {
+        m_player->show_life();
         if (m_left)
         {
             m_player->set_direction(Player::LEFT);
@@ -523,4 +546,20 @@ bool
 Player::has_key()
 {
     return m_impl->has_key();
+}
+
+void
+Player::show_life()
+{
+     m_impl->show_life();
+}
+void
+Player::show_sanity()
+{
+    m_impl->show_sanity();
+}
+void
+Player::show_inventory()
+{
+    m_impl->show_inventory();
 }

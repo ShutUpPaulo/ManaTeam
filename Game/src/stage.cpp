@@ -50,11 +50,9 @@ Stage::Stage(ObjectID id)
 void
 Stage::update_self(unsigned long)
 {
-//printf("\n\nPlayer: (%.1f, %.1f) -- %.1f x %.1f\n", m_player->x(), m_player->y(), m_player->w(), m_player->h());
     const list<Object *> items = m_map->items();
     for (auto item : items)
     {
-//printf("\n\nItem [%s]: (%.1f, %.1f) -- %.1f x %.1f\n", item->id().c_str(), item->x(), item->y(), item->w(), item->h());
         Rect a = m_player->bounding_box();
         Rect b = item->bounding_box();
         Rect c = a.intersection(b);
