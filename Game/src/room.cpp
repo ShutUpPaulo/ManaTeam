@@ -27,7 +27,7 @@ Room::Room(Object *parent, ObjectID id, string type, Room *left, Room *top, Room
 : Object(parent, id), r_left(left), r_right(right), r_top(top), r_bottom(bottom), type(type),
     m_doors(false), stage_id(s_id)
 {
-    fill_floor("tile1");
+    fill_floor("tile");
     add_walls("parede");
     add_corners("canto");
     add_guard("guard");
@@ -256,8 +256,12 @@ Room::add_door(string type, char direction, int x, int y)
     char doorID[128];
     char door_sprite[256];
     int stages = 1;
-        if(stage_id > 2)
-            stages = 3;
+    if(stage_id < 3)
+        stages = 1;
+    else if(stage_id < 4)
+        stages = 3;
+    else
+        stages = 4;
 
     if(type == "normal")
     {
@@ -341,7 +345,15 @@ void
 Room::fill_floor(const string& name)
 {
     char path[512];
-    sprintf(path, "res/tile_sheets/%s.png", name.c_str());
+    int stages = 1;
+    if(stage_id < 3)
+        stages = 1;
+    else if(stage_id < 4)
+        stages = 3;
+    else
+        stages = 4;
+
+    sprintf(path, "res/tile_sheets/%s%d.png", name.c_str(), stages);
 
     Image *image = new Image(nullptr, name, path);
 
@@ -384,8 +396,12 @@ Room::add_walls(const string& name)
     {
         char path[512];
         int stages = 1;
-        if(stage_id > 2)
+        if(stage_id < 3)
+        stages = 1;
+        else if(stage_id < 4)
             stages = 3;
+        else
+            stages = 4;
         
         sprintf(path, "res/tile_sheets/%s%d%c.png", name.c_str(), stages, pos[i]);
 
@@ -427,7 +443,13 @@ Room::add_corners(const string& name)
             sprintf(path, "res/tile_sheets/%s%d.png", name.c_str(), i + 1);
         else
         {
-            int stages = 3; // stage id apos 3 sera sempre 3
+            int stages = 1;
+            if(stage_id < 3)
+                stages = 1;
+            else if(stage_id < 4)
+                stages = 3;
+            else
+                stages = 4;
             sprintf(path, "res/tile_sheets/%s%d%d.png", name.c_str(),stages, i + 1);
         }
 
@@ -449,7 +471,7 @@ Room::add_corners(const string& name)
 void
 Room::add_guard(const string& name)
 {
-	Guard *guard = new Guard(this, name, 0, 0, 60, false);
+	Guard *guard = new Guard(this, name, 0, 0, 60, false, "normal", randint(0,3));
     place(guard, -1, -1);
 	add_child(guard);
 }

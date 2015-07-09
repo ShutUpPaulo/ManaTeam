@@ -8,9 +8,9 @@
 
 using namespace std;
 
-Guard::Guard(Object *parent, ObjectID id, double x, double y, int mass, bool walkable)
+Guard::Guard(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, string t, int dir)
     : Object(parent, id, x, y), m_animation (new Animation("res/sprites/idle.png",
-    	0, 0, 70, 70, 2, 1000, true)), m_direction(Guard::RIGHT), m_last(0)
+    	0, 0, 70, 70, 2, 1000, true)), m_direction((Direction) dir), m_last(0), type(t)
 {
     this->set_w(70);
     this->set_h(70);
@@ -77,29 +77,76 @@ Guard::draw_self()
 }
 
 void
+Guard::walk(unsigned long elapsed)
+{
+    if(type == "easy")
+        return;
+    else if(type == "normal")
+    {
+        unsigned speed = 1;
+
+        if(elapsed - m_last > 3000)
+        {
+            if(direction() == Guard::RIGHT || direction() == Guard::LEFT)
+            {
+                set_x(x() - speed + (speed * direction())); //( (1 + direction() * -1 ) * speed));
+            }
+            if(direction() == Guard::UP || direction() == Guard::DOWN)
+            {
+                set_y(y() - 2 * speed + (speed * direction())); //( (2 + direction() * -1 ) * speed));
+            }
+        }
+    }
+    else if(type == "hard")
+        return;
+}
+
+void
+Guard::update_direction(unsigned long elapsed)
+{
+
+    if(type == "easy")
+    {
+        if(elapsed - m_last > 1000)
+        {
+            int random = rand()%100;
+
+            if(random < 25)
+                set_direction(Guard::LEFT);
+            else if(random < 50)
+                set_direction(Guard::UP);
+            else if(random < 75)
+                set_direction(Guard::RIGHT);
+            else
+                set_direction(Guard::DOWN);
+
+            m_last = elapsed;
+        }
+    }
+    else if (type == "normal")
+    {
+        if(elapsed - m_last > 5000)
+        {
+            int test = ((int)direction() + 2) % 4;
+            Direction new_direction = (Direction)test;
+            set_direction(new_direction);
+
+            m_last = elapsed;
+        }
+    }
+    m_animation->set_row(this->direction());
+}
+
+void
 Guard::update_self(unsigned long elapsed)
 {
-    if(elapsed - m_last > 3000)
-    {
-        int random = rand()%100;
 
-        if(random < 25)
-            set_direction(Guard::LEFT);
-        else if(random < 50)
-            set_direction(Guard::UP);
-        else if(random < 75)
-            set_direction(Guard::RIGHT);
-        else
-            set_direction(Guard::DOWN);
-
-        m_last = elapsed;
-    }
-
-    m_animation->set_row(this->direction());
     set_x(this->x());
     set_y(this->y());
-    //m_animation->set_row(rand()%4);
+   
+    update_direction(elapsed);
     m_animation->update(elapsed);
+    walk(elapsed);
     update_vision();
 }
 
