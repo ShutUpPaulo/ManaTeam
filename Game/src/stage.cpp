@@ -11,6 +11,7 @@
 
 #include <cmath>
 
+#include "guard.h"
 #include "stage.h"
 #include "item.h"
 #include "map.h"
@@ -212,6 +213,9 @@ Stage::update_self(unsigned long)
         //Tratando visoes dos guardas
         if(item->id() == "guard")
         {
+            Guard *guarda = (Guard*) item;
+            guarda->get_playerx(m_player->x());
+            guarda->get_playery(m_player->y());
             const list<Object *> filhos = item->children();
 
             for (auto filho : filhos)

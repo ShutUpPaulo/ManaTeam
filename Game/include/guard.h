@@ -19,6 +19,8 @@ public:
     ~Guard();
 
     Direction direction();
+    void get_playerx(int pos_x);
+    void get_playery(int pos_y);
     void set_direction(Direction direction);
     void update_vision();
     void walk(unsigned long elapsed);
@@ -26,6 +28,8 @@ public:
 
 private:
     string type;
+    int player_posx;
+    int player_posy;
 
     void draw_self();
     void update_self(unsigned long elapsed);

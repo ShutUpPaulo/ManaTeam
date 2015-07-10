@@ -79,11 +79,11 @@ Guard::draw_self()
 void
 Guard::walk(unsigned long elapsed)
 {
+    unsigned speed = 1;
     if(type == "easy")
         return;
-    else if(type == "normal" || type == "hard")
+    else if(type == "normal")
     {
-        unsigned speed = 1;
 
         if(elapsed - m_last > 3000)
         {
@@ -98,6 +98,20 @@ Guard::walk(unsigned long elapsed)
         }
     }
     else if(type == "hard")
+    {
+
+        if(player_posx < this->x())
+            set_x(x() - speed);
+        else
+            set_x(x() + speed);
+    
+
+        if(player_posy < this->y())
+            set_y(y() - speed);
+        else
+            set_y(y() + speed);
+
+    }
         return;
 }
 
@@ -153,6 +167,18 @@ Guard::update_direction(unsigned long elapsed)
         }
     }
     m_animation->set_row(this->direction());
+}
+
+void
+Guard::get_playerx(int pos_x)
+{
+    player_posx = pos_x;
+}
+
+void
+Guard::get_playery(int pos_y)
+{
+    player_posy = pos_y;
 }
 
 void
