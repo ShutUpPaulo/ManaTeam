@@ -43,6 +43,7 @@ private:
     bool m_doors;
     Rect center_area;
 
+    void draw_self();
 	void draw_id(Room *,Room *, int, int);
 	void draw_items(string, string, int, int, int, int, bool);
 

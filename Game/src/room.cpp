@@ -251,6 +251,15 @@ Room::draw_id(Room * anterior, Room * sala, int x, int y)
 }
 
 void
+Room::draw_self()
+{
+    Environment *env = Environment::get_instance();
+    draw_id(NULL, this, 640, 360);
+    Rect square {635, 355, 80, 40};
+    env->canvas->draw(square, Color::RED);
+}
+
+void
 Room::add_door(string type, char direction, int x, int y)
 {
     char doorID[128];
