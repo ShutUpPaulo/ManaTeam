@@ -94,60 +94,60 @@ Stage::update_self(unsigned long)
                 //eixo x
                 if(abs(a.x() - b.x()) > abs(a.y() - b.y()))
                 {
-                    if(m_player->strength() < item->mass())
-                    {
+                    // if(m_player->strength() < item->mass())
+                    // {
                         if(a.x() < b.x())
                         {
-                            m_player->set_x(b.x() - a.w());
+                            m_player->set_x(b.x() - a.w() + 1);
                         }
                         else if(a.x() > b.x())
                         {
-                            m_player->set_x(b.x() + b.w());
+                            m_player->set_x(b.x() + b.w() - 1);
                         }
-                    }
-                    else
-                    {
-                        //cout << "Massa do item: " << item->mass() << endl;
-                        if(a.x() < b.x())
-                        {
-                            item->set_x(b.x() + 1);
-                            m_player->set_x(b.x() - a.w());
-                        }
-                        else if(a.x() > b.x())
-                        {
-                            item->set_x(b.x() - 1);
-                            m_player->set_x(b.x() + b.w());
-                        }   
-                    }
+                    // }
+                    // else
+                    // {
+                    //     //cout << "Massa do item: " << item->mass() << endl;
+                    //     if(a.x() < b.x())
+                    //     {
+                    //         item->set_x(b.x() + 1);
+                    //         m_player->set_x(b.x() - a.w());
+                    //     }
+                    //     else if(a.x() > b.x())
+                    //     {
+                    //         item->set_x(b.x() - 1);
+                    //         m_player->set_x(b.x() + b.w());
+                    //     }   
+                    // }
                 }
                 else
                 {
                 //eixo y
-                    if(m_player->strength() < item->mass())
-                    {
+                    // if(m_player->strength() < item->mass())
+                    // {
                         if(a.y() < b.y())
                         {
-                            m_player->set_y(b.y() - a.h());
+                            m_player->set_y(b.y() - a.h() + 1);
                         }
                         else if(a.y() > b.y())
                         {
-                            m_player->set_y(b.y() + b.h());
+                            m_player->set_y(b.y() + b.h() - 1);
                         }
-                    }
-                    else if(m_player->strength() >= item->mass())
-                    {
-                        //cout << "Massa do item: " << item->mass() << endl;
-                        if(a.y() < b.y())
-                        {
-                            item->set_y(b.y() + 1);
-                            m_player->set_y(b.y() - a.h());
-                        }
-                        else if(a.y() > b.y())
-                        {
-                            item->set_y(b.y() - 1);
-                            m_player->set_y(b.y() + b.h());
-                        }
-                    }
+                    // }
+                    // else if(m_player->strength() >= item->mass())
+                    // {
+                    //     //cout << "Massa do item: " << item->mass() << endl;
+                    //     if(a.y() < b.y())
+                    //     {
+                    //         item->set_y(b.y() + 1);
+                    //         m_player->set_y(b.y() - a.h());
+                    //     }
+                    //     else if(a.y() > b.y())
+                    //     {
+                    //         item->set_y(b.y() - 1);
+                    //         m_player->set_y(b.y() + b.h());
+                    //     }
+                    // }
                 }
             }
         }
@@ -314,6 +314,52 @@ Stage::on_message(Object *, MessageID id, Parameters p)
                             sprintf(new_stage, "stage%d", m_num_id+1);
                             m_player->notify(Player::hitExitDoorID, new_stage);
                             return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    else if(id == Player::pushItemID)
+    {
+        const list<Object *> items = m_map->items();
+        for (auto item : items)
+        {
+            Rect a = m_player->bounding_box();
+            Rect b = item->bounding_box();
+            Rect c = a.intersection(b);
+
+            if(item->walkable() == false)
+            {
+                if (c.w() != 0 and c.h() != 0)
+                {
+                    if(item->mass() <= m_player->strength())
+                    {
+                        if(abs(a.x() - b.x()) > abs(a.y() - b.y()))
+                        {
+                            if(a.x() < b.x())
+                            {
+                                item->set_x(b.x() + 1);
+                                //m_player->set_x(b.x() - a.w());
+                            }
+                            else if(a.x() > b.x())
+                            {
+                                item->set_x(b.x() - 1);
+                                //m_player->set_x(b.x() + b.w());
+                            } 
+                        }
+                        else
+                        {  
+                            if(a.y() < b.y())
+                            {
+                                item->set_y(b.y() + 1);
+                                //m_player->set_y(b.y() - a.h());
+                            }
+                            else if(a.y() > b.y())
+                            {
+                                item->set_y(b.y() - 1);
+                                //m_player->set_y(b.y() + b.h());
+                            }
                         }
                     }
                 }

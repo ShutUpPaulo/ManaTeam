@@ -79,7 +79,7 @@ Guard::draw_self()
 void
 Guard::walk(unsigned long elapsed)
 {
-    unsigned speed = 1;
+    double speed = 0.3;
     if(type == "easy")
         return;
     else if(type == "normal")

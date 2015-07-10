@@ -15,6 +15,7 @@ ActionID Player::hitExitDoorID { "hitExitDoorID()" };
 ActionID Player::jumpNextLevelID { "jumpNextLevelID()" };
 ActionID Player::takeItemID { "takeItemID()" };
 ActionID Player::openDoorID { "openDoorID()" };
+ActionID Player::pushItemID { "pushItemID()" };
 
 using std::make_pair;
 
@@ -164,6 +165,10 @@ public:
     void open_door()
     {
         m_player->notify(openDoorID, "open_door");
+    }
+    void push_item()
+    {
+        m_player->notify(pushItemID, "push_item");
     }
 
 private:
@@ -361,7 +366,7 @@ public:
         : m_player(player), m_animation(
         new Animation("res/sprites/running.png", 0, 0, 70, 70, 8, 60, true)),
         m_left(0), m_right(0), m_top(0), m_down(0), m_last(0), 
-        current_map(current_map), m_key(key), m_running(false)
+        current_map(current_map), m_key(key), m_running(false), m_pushing(false)
     {
     }
 
@@ -437,6 +442,7 @@ public:
 
             case KeyboardEvent::K:
                 m_player->take_item();
+                m_pushing = true;
                 return true;
 
             case KeyboardEvent::E:
@@ -475,6 +481,10 @@ public:
                 m_running = false;
                 return true;
 
+            case KeyboardEvent::K:
+                m_pushing = false;
+                return true;
+
             default:
                 break;
             }
@@ -507,6 +517,11 @@ public:
             }
 
 //            cout << "speed: " << speed << endl;
+        }
+
+        if(m_pushing)
+        {
+            m_player->push_item();
         }
 
         if(! m_player->m_sanity_loss)
@@ -603,7 +618,7 @@ private:
     short m_left, m_right, m_top, m_down;
     unsigned long m_last;
     Map * current_map;
-    bool m_key, m_running;
+    bool m_key, m_running, m_pushing;
 };
 
 Player::Player(Object *parent, const string& id, Map *current_map)
@@ -760,4 +775,10 @@ void
 Player::open_door()
 {
     m_impl->open_door();
+}
+
+void
+Player::push_item()
+{
+    m_impl->push_item();
 }
