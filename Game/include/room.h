@@ -6,6 +6,8 @@
 #include <list>
 
 #include "item.h"
+#include "guard.h"
+#include "ghost.h"
 
 #define INFINITE 99999.9
 
@@ -57,6 +59,7 @@ private:
     void add_walls(const string& name);
     void add_corners(const string& name);
     void add_guard(const string& name);
+    void add_ghost(const string& name);
     void add_items(int stage_id);
     void notify_creation(const string& position);
     void add_final_door();

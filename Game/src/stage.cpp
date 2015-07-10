@@ -31,10 +31,11 @@ Stage::Stage(ObjectID id)
         aux[i] = temp[i+5];
     }
 
-    printf("%s\n", aux);
     m_num_id = atoi(aux);
-    cout << m_num_id << endl;
     int quantidade_de_salas = 3 + m_num_id + (m_num_id - 1) * 2;
+
+    cout << "Iniciado Stage "<< m_num_id << ", " << quantidade_de_salas << " salas criadas." << endl;
+
     m_map = new Map(quantidade_de_salas,m_num_id);
     add_child(m_map);
 
@@ -94,60 +95,25 @@ Stage::update_self(unsigned long)
                 //eixo x
                 if(abs(a.x() - b.x()) > abs(a.y() - b.y()))
                 {
-                    // if(m_player->strength() < item->mass())
-                    // {
-                        if(a.x() < b.x())
-                        {
-                            m_player->set_x(b.x() - a.w() + 1);
-                        }
-                        else if(a.x() > b.x())
-                        {
-                            m_player->set_x(b.x() + b.w() - 1);
-                        }
-                    // }
-                    // else
-                    // {
-                    //     //cout << "Massa do item: " << item->mass() << endl;
-                    //     if(a.x() < b.x())
-                    //     {
-                    //         item->set_x(b.x() + 1);
-                    //         m_player->set_x(b.x() - a.w());
-                    //     }
-                    //     else if(a.x() > b.x())
-                    //     {
-                    //         item->set_x(b.x() - 1);
-                    //         m_player->set_x(b.x() + b.w());
-                    //     }   
-                    // }
+                    if(a.x() < b.x())
+                    {
+                        m_player->set_x(b.x() - a.w() + 1);
+                    }
+                    else if(a.x() > b.x())
+                    {
+                        m_player->set_x(b.x() + b.w() - 1);
+                    }
                 }
                 else
                 {
-                //eixo y
-                    // if(m_player->strength() < item->mass())
-                    // {
-                        if(a.y() < b.y())
-                        {
-                            m_player->set_y(b.y() - a.h() + 1);
-                        }
-                        else if(a.y() > b.y())
-                        {
-                            m_player->set_y(b.y() + b.h() - 1);
-                        }
-                    // }
-                    // else if(m_player->strength() >= item->mass())
-                    // {
-                    //     //cout << "Massa do item: " << item->mass() << endl;
-                    //     if(a.y() < b.y())
-                    //     {
-                    //         item->set_y(b.y() + 1);
-                    //         m_player->set_y(b.y() - a.h());
-                    //     }
-                    //     else if(a.y() > b.y())
-                    //     {
-                    //         item->set_y(b.y() - 1);
-                    //         m_player->set_y(b.y() + b.h());
-                    //     }
-                    // }
+                    if(a.y() < b.y())
+                    {
+                        m_player->set_y(b.y() - a.h() + 1);
+                    }
+                    else if(a.y() > b.y())
+                    {
+                        m_player->set_y(b.y() + b.h() - 1);
+                    }
                 }
             }
         }
@@ -162,32 +128,10 @@ Stage::update_self(unsigned long)
 
                 notify(Stage::colisionID, message);
                 
-                // if(item->id() == "key")
-                // {
-                //     printf("Pegou a chave!\n");
-                //     m_map->remove_item(item);
-                //     m_player->get_key();
-                // }
-
-                // if(item->id() == "finalDoor")//"res/door/portal.png" ||item->id() == "res/door/portat.png" || item->id() =="res/door/portar.png" || item->id() =="res/door/portab.png")
-                // {
-                //     if(m_player->has_key() == true)
-                //     {
-                //         m_player->set_key(false);
-                //         finish();
-                //         char new_stage[256];
-                //         sprintf(new_stage, "stage%d", m_num_id+1);
-                //         m_player->notify(Player::hitExitDoorID, new_stage);
-                //     }
-                //     else
-                //     {
-
-                //     }
-                // }
             }
             if(c.w() > 50 and c.h() > 50)
             {
-                if(item->id() == "door") //"res/tile_sheets/portal.png" ||item->id() == "res/tile_sheets/portat.png" || item->id() =="res/tile_sheets/portar.png" || item->id() =="res/tile_sheets/portab.png")
+                if(item->id() == "door")
                 {
                     if(item->x() == 0 && item->y() == 320)
                     {
@@ -237,6 +181,13 @@ Stage::update_self(unsigned long)
                     }
                 }
             }
+        }
+        else if(item->id() == "ghost")
+        {
+            Ghost *ghost = (Ghost*) item;
+            ghost->get_playerx(m_player->x());
+            ghost->get_playery(m_player->y());
+            const list<Object *> filhos = item->children();
         }
     }
 }

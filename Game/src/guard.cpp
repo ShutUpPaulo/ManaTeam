@@ -9,13 +9,18 @@
 using namespace std;
 
 Guard::Guard(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, string t, int dir)
-    : Object(parent, id, x, y), m_animation (new Animation("res/sprites/idle.png",
-    	0, 0, 70, 70, 2, 1000, true)), m_direction((Direction) dir), m_last(0), type(t)
+    : Object(parent, id, x, y), m_animation (new Animation("res/sprites/guarda1_running.png",
+    	0, 0, 70, 70, 8, 120, true)), m_direction((Direction) dir), m_last(0), type(t)
 {
     this->set_w(70);
     this->set_h(70);
     this->set_walkable(walkable);
     update_vision();
+
+    if(type == "hard")
+    {
+        change_animation("res/sprites/guarda3_running.png");
+    }
 }
 
 Guard::~Guard()
@@ -200,6 +205,12 @@ Guard::update_self(unsigned long elapsed)
     m_animation->update(elapsed);
     walk(elapsed);
     update_vision();
+}
+
+void
+Guard::change_animation(string path)
+{
+    m_animation.reset(new Animation(path, 0, 0, 70, 70, 8, 120, true));
 }
 
     

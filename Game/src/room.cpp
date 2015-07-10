@@ -9,9 +9,8 @@
 #include <core/canvas.h>
 #include <core/image.h>
 
-#include "item.h"
 #include "room.h"
-#include "guard.h"
+
 
 //Duvida: Como fazer para receber o stage????
 
@@ -31,6 +30,7 @@ Room::Room(Object *parent, ObjectID id, string type, Room *left, Room *top, Room
     add_walls("parede");
     add_corners("canto");
     add_guard("guard");
+    add_ghost("ghost");
     add_items(stage_id);
 
     if(r_left)
@@ -495,6 +495,20 @@ Room::add_guard(const string& name)
         Guard *guard = new Guard(this, name, 0, 0, 60, false, type, randint(0,3));
         place(guard, -1, -1);
 	    add_child(guard);
+    }
+}
+
+void
+Room::add_ghost(const string& name)
+{
+
+    string type = "easy";
+
+    for(int i = 0; i < (stage_id / 3) + 1; i++)
+    {
+        Ghost *ghost = new Ghost(this, name, 0, 0, 9999, true, "normal", randint(0,3));
+        place(ghost, -1, -1);
+        add_child(ghost);
     }
 }
 

@@ -1,13 +1,12 @@
-#ifndef GUARD_H
-#define GUARD_H
+#ifndef GHOST_H
+#define GHOST_H
 
 #include "core/sprite.h"
 #include "room.h"
-#include "sight.h"
 
 using namespace std;
 
-class Guard : public Object
+class Ghost : public Object
 {
 public:
 
@@ -15,8 +14,8 @@ public:
     typedef enum { MOVED, STOPPED } Event;
     typedef enum { LEFT = 0, UP = 1, RIGHT = 2, DOWN = 3 } Direction;
 
-    Guard(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, string type, int dir);
-    ~Guard();
+    Ghost(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, string type, int dir);
+    ~Ghost();
 
     Direction direction();
     void get_playerx(int pos_x);
@@ -25,7 +24,6 @@ public:
     void update_vision();
     void walk(unsigned long elapsed);
     void update_direction(unsigned long elapsed);
-    void change_animation(string path);
 
 private:
     string type;
