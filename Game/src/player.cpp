@@ -245,6 +245,10 @@ public:
                 m_player->take_item();
                 return true;
 
+            case KeyboardEvent::U:
+                m_player->report_event(Player::DUCKING);
+                return true;
+
             default:
                 break;
             }
@@ -450,6 +454,10 @@ public:
                 m_player->open_door();
                 return true;
 
+            case KeyboardEvent::U:
+                m_player->report_event(Player::DUCKING);
+                return true;
+
             default:
                 break;
             }
@@ -622,15 +630,188 @@ private:
     bool m_key, m_running, m_pushing;
 };
 
+class Duck : public SpriteState
+{
+public:
+    Duck(Player *player)
+        : m_player(player), m_animation(new Animation("res/sprites/duck.png",
+            0, 0, 70, 70, 2, 1000, true)), m_left(0), m_right(0), m_top(0), 
+        m_down(0)
+    {
+    }
+
+    ~Duck() {}
+
+    void enter(int)
+    {
+        m_player->set_dimensions(m_animation->w(), m_animation->h());
+        m_right = m_left = m_down = m_top = 0;
+    }
+
+    void leave(int)
+    {
+    }
+
+    bool on_event(const KeyboardEvent& event)
+    {
+        switch (event.state())
+        {
+        case KeyboardEvent::PRESSED:
+            switch (event.key())
+            {    
+            case KeyboardEvent::LEFT:
+            case KeyboardEvent::A:
+                m_left = 1;
+                return true;
+
+            case KeyboardEvent::RIGHT:
+            case KeyboardEvent::D:
+                m_right = 1;
+                return true;
+
+            case KeyboardEvent::UP:
+            case KeyboardEvent::W:
+                m_top = 1;
+                return true;
+
+            case KeyboardEvent::DOWN:
+            case KeyboardEvent::S:
+                m_down = 1;
+                return true;
+
+            case KeyboardEvent::E:
+                m_player->open_door();
+                return true;
+
+            case KeyboardEvent::K:
+                m_player->take_item();
+                return true;
+
+            case KeyboardEvent::U:
+                m_player->report_event(Player::STANDING);
+                return true;
+
+            default:
+                break;
+            }
+            break;
+
+        case KeyboardEvent::RELEASED:
+            switch (event.key())
+            {
+            case KeyboardEvent::LEFT:
+            case KeyboardEvent::A:
+                m_left = 0;
+                return true;
+
+            case KeyboardEvent::RIGHT:
+            case KeyboardEvent::D:
+                m_right = 0;
+                return true;
+
+            case KeyboardEvent::UP:
+            case KeyboardEvent::W:
+                m_top = 0;
+                return true;
+
+            case KeyboardEvent::DOWN:
+            case KeyboardEvent::S:
+                m_down = 0;
+                return true;
+
+            case KeyboardEvent::P:
+                m_player->jump_level();
+                return true;
+
+            case KeyboardEvent::K:
+                m_player->take_item();
+                return true;
+
+            default:
+                break;
+            }
+            break;
+        }
+
+        return false;
+    }
+
+    void draw()
+    {
+        m_animation->draw(m_player->x(), m_player->y());
+        m_player->show_life();
+        m_player->show_sanity();
+        m_player->show_inventory();
+        m_player->show_stamina();
+    }
+
+    void update(unsigned long elapsed)
+    {
+
+        if(m_player->stamina() < 100)
+        {
+            m_player->set_stamina(m_player->stamina() + 0.05);
+            if(m_player->stamina() > 100)
+                m_player->set_stamina(100);
+        }
+
+
+        if(! m_player->m_sanity_loss)
+            m_player->m_sanity_loss = elapsed;
+
+        if(elapsed - m_player->m_sanity_loss > 3000)
+        {
+            m_player->set_sanity(m_player->sanity() - 1);
+            if(m_player->sanity() < 0)
+                m_player->set_sanity(0);
+            m_player->m_sanity_loss = elapsed;
+        }
+
+        if (m_left)
+        {
+            m_player->set_moviment(-1.0, 0.0);
+            m_player->set_direction(Player::LEFT);
+        } else if (m_right)
+        {
+            m_player->set_moviment(0.0, 0.0);
+            m_player->set_direction(Player::RIGHT);
+        }
+        if (m_top)
+        {
+            m_player->set_moviment(0.0, -1.0);
+            m_player->set_direction(Player::UP);
+        }else if (m_down)
+        {
+            m_player->set_moviment(0.0, 1.0);
+            m_player->set_direction(Player::DOWN);
+        }
+
+        Player::Direction dir = m_player->direction();
+        int row = dir;
+        m_animation->set_row(row);
+        m_animation->update(elapsed);
+    }
+
+private:
+    Player *m_player;
+    unique_ptr<Animation> m_animation;
+    int m_left, m_right, m_top, m_down;
+};
+
 Player::Player(Object *parent, const string& id, Map *current_map)
     : Sprite(parent, id), m_sanity_loss(0), m_impl(new Player::Impl(this, current_map, m_key)),
      m_key(false)
 {
     add_state(IDLE, new Idle(this));
     add_state(RUNNING, new Running(this, current_map, m_key));
+    add_state(DUCK, new Duck(this));
 
     add_transition(MOVED, IDLE, RUNNING);
     add_transition(STOPPED, RUNNING, IDLE);
+    add_transition(DUCKING, IDLE, DUCK);
+    add_transition(STANDING, DUCK, IDLE);
+    add_transition(DUCKING, RUNNING, DUCK);
+    add_transition(STANDING, DUCK, RUNNING);
     change_state(IDLE, NONE);
 
     Environment *env = Environment::get_instance();

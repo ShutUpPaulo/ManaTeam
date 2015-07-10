@@ -16,8 +16,8 @@ using std::pair;
 class Player : public Sprite
 {
 public:
-    typedef enum { NONE, IDLE, RUNNING } State;
-    typedef enum { MOVED, STOPPED } Event;
+    typedef enum { NONE, IDLE, RUNNING, DUCK } State;
+    typedef enum { MOVED, STOPPED, DUCKING, STANDING } Event;
     typedef enum { LEFT, UP, RIGHT, DOWN } Direction;
 
     Player(Object *parent, const string& id, Map *current_map);

@@ -106,14 +106,14 @@ Guard::walk(unsigned long elapsed)
     else if(m_type == "follow")
     {
 
-        if(player_posx < this->x())
+        if(player_posx + 70 < this->x())
             set_x(x() - speed);
-        else
+        else if(player_posx > this->x() + 70)
             set_x(x() + speed);
 
-        if(player_posy < this->y())
+        if(player_posy + 70 < this->y())
             set_y(y() - speed);
-        else
+        else if(player_posy > this->y() + 70)
             set_y(y() + speed);
 
         if(player_posx > this->x() - 100 && player_posx < this->x() + 100 && player_posy < this->y())
