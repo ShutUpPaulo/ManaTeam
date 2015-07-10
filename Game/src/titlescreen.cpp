@@ -81,7 +81,8 @@ TitleScreen::on_message(Object *object, MessageID id, Parameters)
         set_next("stage1");
     } else if (button->id() == "settings")
     {
-        //set_next("options");
+        cout << "Entrou aqui!" << endl;
+        set_next("options");
     }
 
     finish();
