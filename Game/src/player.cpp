@@ -75,7 +75,16 @@ public:
 
     void get_key()
     {
+        if(m_key == true)
+            return;
+        
+        Environment *env = Environment::get_instance();
+        double size = env->canvas->w()/35;
+
         m_key = true;
+
+        Item* key = new Item(m_player, "icon_key", "res/items/key.png", (double)env->canvas->w() * 1/35 + size, (double)env->canvas->h() * 25/30 + size, 9999, true);
+        m_player->add_child(key);
     }
     void set_key(bool input)
     {
@@ -101,7 +110,7 @@ public:
     void show_inventory()
     {
         Environment *env = Environment::get_instance();
-        double size = env->canvas->w()/40;
+        double size = env->canvas->w()/35;
 
         Rect item1 {(double)(env->canvas->w() * 1/35), (double)env->canvas->h() * 25/30, size, size};
         Rect item2 {(double)env->canvas->w() * 1/35 + size, (double)env->canvas->h() * 25/30 - size, size, size};

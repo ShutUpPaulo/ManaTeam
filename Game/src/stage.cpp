@@ -60,7 +60,7 @@ Stage::update_self(unsigned long)
         //tratando colisoes diretas
         if(item->walkable() == false)
         {
-            if(item->id() == "res/tile_sheets/paredet.png")
+            if(item->id() == "paredet")
             {
                 if (c.w() != 0 and c.h() > 50)
                 {
@@ -176,7 +176,7 @@ Stage::update_self(unsigned long)
                     }
                 }
             }
-            if(c.w() > 60 and c.h() > 60)
+            if(c.w() > 50 and c.h() > 50)
             {
                 if(item->id() == "door") //"res/tile_sheets/portal.png" ||item->id() == "res/tile_sheets/portat.png" || item->id() =="res/tile_sheets/portar.png" || item->id() =="res/tile_sheets/portab.png")
                 {
