@@ -9,7 +9,7 @@
 using namespace std;
 
 Guard::Guard(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, string t, int dir)
-    : Object(parent, id, x, y), m_type(t), m_animation (new Animation("res/sprites/guarda1_running.png",
+    : Object(parent, id, x, y), m_type(t), m_damage(0.5), m_animation (new Animation("res/sprites/guarda1_running.png",
     	0, 0, 70, 70, 8, 120, true)), m_direction((Direction) dir), m_last(0)
 {
     this->set_mass(mass);
@@ -193,6 +193,12 @@ void
 Guard::get_playery(int pos_y)
 {
     player_posy = pos_y;
+}
+
+double
+Guard::damage()
+{
+    return m_damage;
 }
 
 void

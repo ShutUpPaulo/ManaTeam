@@ -30,11 +30,13 @@ public:
     string type();
     void set_type(string t);
 
+    double damage();
 
 private:
     string m_type;
     int player_posx;
     int player_posy;
+    double m_damage;
 
     void draw_self();
     void update_self(unsigned long elapsed);

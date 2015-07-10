@@ -11,9 +11,6 @@
 
 #include "room.h"
 
-
-//Duvida: Como fazer para receber o stage????
-
 static int randint(int a, int b)
 {
     int N = b - a + 1;
