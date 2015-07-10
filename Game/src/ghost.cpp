@@ -9,9 +9,10 @@
 using namespace std;
 
 Ghost::Ghost(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, string t, int dir)
-    : Object(parent, id, x, y), m_animation (new Animation("res/sprites/ghost_guarda3_running.png",
-    	0, 0, 70, 70, 8, 60, true)), m_direction((Direction) dir), m_last(0), type(t)
+    : Object(parent, id, x, y), type(t), m_animation (new Animation("res/sprites/ghost_guarda3_running.png",
+    	0, 0, 70, 70, 8, 60, true)), m_direction((Direction) dir), m_last(0)
 {
+    this->set_mass(mass);
     this->set_w(70);
     this->set_h(70);
     this->set_walkable(walkable);
@@ -46,7 +47,7 @@ Ghost::draw_self()
 }
 
 void
-Ghost::walk(unsigned long elapsed)
+Ghost::walk()
 {
     double speed = 0.3;
     if(player_posx < this->x())
@@ -111,5 +112,5 @@ Ghost::update_self(unsigned long elapsed)
    
     update_direction(elapsed);
     m_animation->update(elapsed);
-    walk(elapsed);
+    walk();
 }

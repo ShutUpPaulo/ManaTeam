@@ -23,8 +23,8 @@ static int randint(int a, int b)
 }
 
 Room::Room(Object *parent, ObjectID id, string type, Room *left, Room *top, Room *right, Room *bottom, int s_id)
-: Object(parent, id), r_left(left), r_right(right), r_top(top), r_bottom(bottom), type(type),
-    m_doors(false), stage_id(s_id)
+: Object(parent, id), r_left(left), r_right(right), r_top(top), r_bottom(bottom), type(type), stage_id(s_id),
+    m_doors(false)
 {
     fill_floor("tile");
     add_walls("parede");
@@ -289,13 +289,11 @@ Room::add_door(string type, char direction, int x, int y)
         add_child(porta);
     }
 
-	
-
     const list<Object *> items = this->children();
     for (auto item : items)
     {
         char buffer[256];
-        sprintf(buffer, "parede", stages, direction);
+        sprintf(buffer, "parede");
         if(strcmp(item->id().c_str(), buffer) == 0)
         {
             if((item->x() > x - item->w() && item->x() < x + item->w()) && item->y() == y)
@@ -343,9 +341,6 @@ Room::update_self(unsigned long)
 {
     if (not m_doors)
     {
-        Item *porta;
-        string path;
-
         m_doors = true;
     }
 }
@@ -566,8 +561,8 @@ Room::place(Object *object, double x, double y)
 void
 Room::notify_creation(const string& position)
 {   
-    Environment *env = Environment::get_instance();
-    Canvas *canvas = env->canvas;
+    //Environment *env = Environment::get_instance();
+    //Canvas *canvas = env->canvas;
 
     if(position == "left")
     {

@@ -622,8 +622,8 @@ private:
 };
 
 Player::Player(Object *parent, const string& id, Map *current_map)
-    : Sprite(parent, id), m_impl(new Player::Impl(this, current_map, m_key)),
-     m_key(false), m_sanity_loss(0)
+    : Sprite(parent, id), m_sanity_loss(0), m_impl(new Player::Impl(this, current_map, m_key)),
+     m_key(false)
 {
     add_state(IDLE, new Idle(this));
     add_state(RUNNING, new Running(this, current_map, m_key));

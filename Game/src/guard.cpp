@@ -9,9 +9,10 @@
 using namespace std;
 
 Guard::Guard(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, string t, int dir)
-    : Object(parent, id, x, y), m_animation (new Animation("res/sprites/guarda1_running.png",
-    	0, 0, 70, 70, 8, 120, true)), m_direction((Direction) dir), m_last(0), type(t)
+    : Object(parent, id, x, y), type(t), m_animation (new Animation("res/sprites/guarda1_running.png",
+    	0, 0, 70, 70, 8, 120, true)), m_direction((Direction) dir), m_last(0)
 {
+    this->set_mass(mass);
     this->set_w(70);
     this->set_h(70);
     this->set_walkable(walkable);

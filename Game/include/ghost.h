@@ -22,7 +22,7 @@ public:
     void get_playery(int pos_y);
     void set_direction(Direction direction);
     void update_vision();
-    void walk(unsigned long elapsed);
+    void walk();
     void update_direction(unsigned long elapsed);
 
 private:
@@ -34,7 +34,7 @@ private:
     void update_self(unsigned long elapsed);
     unique_ptr<Animation> m_animation;
     Direction m_direction;
-    unsigned long m_last;
+    unsigned long m_last = 0;
 };
 
 

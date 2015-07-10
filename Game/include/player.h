@@ -20,10 +20,9 @@ public:
     typedef enum { MOVED, STOPPED } Event;
     typedef enum { LEFT, UP, RIGHT, DOWN } Direction;
 
-    int m_sanity_loss;
-
     Player(Object *parent, const string& id, Map *current_map);
     ~Player();
+    int m_sanity_loss;
 
     Direction direction() const;
     void set_direction(Direction direction);
