@@ -158,8 +158,6 @@ Stage::update_self(unsigned long)
         if(item->id() == "guard")
         {
             Guard *guarda = (Guard*) item;
-            guarda->get_playerx(m_player->x());
-            guarda->get_playery(m_player->y());
             const list<Object *> filhos = item->children();
 
             for (auto filho : filhos)
@@ -172,12 +170,18 @@ Stage::update_self(unsigned long)
                 {
                     if(filho->id() == "visao")
                     {
-                        if(guarda->type() != "hard")
+                        if(guarda->type() != "follow")
                         {
-                            guarda->set_type("hard");
+                            guarda->set_type("follow");
                         }
                     }
                 }
+            }
+
+            if(guarda->type() == "follow")
+            {
+                guarda->get_playerx(m_player->x());
+                guarda->get_playery(m_player->y());
             }
         }
         else if(item->id() == "ghost")

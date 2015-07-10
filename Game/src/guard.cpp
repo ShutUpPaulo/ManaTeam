@@ -88,7 +88,7 @@ Guard::walk(unsigned long elapsed)
     double speed = 0.6;
     if(m_type == "easy")
         return;
-    else if(m_type == "normal")
+    else if(m_type == "normal" || m_type == "hard")
     {
 
         if(elapsed - m_last > 3000)
@@ -103,7 +103,7 @@ Guard::walk(unsigned long elapsed)
             }
         }
     }
-    else if(m_type == "hard")
+    else if(m_type == "follow")
     {
 
         if(player_posx < this->x())
@@ -162,7 +162,7 @@ Guard::update_direction(unsigned long elapsed)
             m_last = elapsed;
         }
     }
-    else if(m_type == "hard")
+    else if(m_type == "hard" || m_type == "follow")
     {
         if(elapsed - m_last > 5000)
         {
