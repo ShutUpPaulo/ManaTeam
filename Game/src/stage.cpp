@@ -162,28 +162,28 @@ Stage::update_self(unsigned long)
 
                 notify(Stage::colisionID, message);
                 
-                if(item->id() == "key")
-                {
-                    printf("Pegou a chave!\n");
-                    m_map->remove_item(item);
-                    m_player->get_key();
-                }
+                // if(item->id() == "key")
+                // {
+                //     printf("Pegou a chave!\n");
+                //     m_map->remove_item(item);
+                //     m_player->get_key();
+                // }
 
-                if(item->id() == "finalDoor")//"res/door/portal.png" ||item->id() == "res/door/portat.png" || item->id() =="res/door/portar.png" || item->id() =="res/door/portab.png")
-                {
-                    if(m_player->has_key() == true)
-                    {
-                        m_player->set_key(false);
-                        finish();
-                        char new_stage[256];
-                        sprintf(new_stage, "stage%d", m_num_id+1);
-                        m_player->notify(Player::hitExitDoorID, new_stage);
-                    }
-                    else
-                    {
+                // if(item->id() == "finalDoor")//"res/door/portal.png" ||item->id() == "res/door/portat.png" || item->id() =="res/door/portar.png" || item->id() =="res/door/portab.png")
+                // {
+                //     if(m_player->has_key() == true)
+                //     {
+                //         m_player->set_key(false);
+                //         finish();
+                //         char new_stage[256];
+                //         sprintf(new_stage, "stage%d", m_num_id+1);
+                //         m_player->notify(Player::hitExitDoorID, new_stage);
+                //     }
+                //     else
+                //     {
 
-                    }
-                }
+                //     }
+                // }
             }
             if(c.w() > 50 and c.h() > 50)
             {
@@ -266,6 +266,59 @@ Stage::on_message(Object *, MessageID id, Parameters p)
         m_player->notify(Player::hitExitDoorID, new_stage);
         return true;
     }
+    else if(id == Player::takeItemID)
+    {
+        const list<Object *> items = m_map->items();
+        for (auto item : items)
+        {
+            Rect a = m_player->bounding_box();
+            Rect b = item->bounding_box();
+            Rect c = a.intersection(b);
 
+            //tratando colisoes diretas
+            if(item->walkable() == true)
+            {
+                if(item->id() == "key")
+                {
+                    if (c.w() != 0 and c.h() != 0)
+                    {
+                        printf("Pegou a chave!\n");
+                        m_map->remove_item(item);
+                        m_player->get_key();
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    else if(id == Player::openDoorID)
+    {
+        const list<Object *> items = m_map->items();
+        for (auto item : items)
+        {
+            Rect a = m_player->bounding_box();
+            Rect b = item->bounding_box();
+            Rect c = a.intersection(b);
+
+            if(item->walkable() == true)
+            {
+                if(item->id() == "finalDoor")
+                {
+                    if (c.w() > 0 and c.h() > 0)
+                    {
+                        if(m_player->has_key() == true)
+                        {
+                            m_player->set_key(false);
+                            finish();
+                            char new_stage[256];
+                            sprintf(new_stage, "stage%d", m_num_id+1);
+                            m_player->notify(Player::hitExitDoorID, new_stage);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
     return false;
 }

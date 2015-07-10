@@ -13,7 +13,8 @@
 
 ActionID Player::hitExitDoorID { "hitExitDoorID()" };
 ActionID Player::jumpNextLevelID { "jumpNextLevelID()" };
-//ActionID Player::hitKeyID{"hitKeyID()"};
+ActionID Player::takeItemID { "takeItemID()" };
+ActionID Player::openDoorID { "openDoorID()" };
 
 using std::make_pair;
 
@@ -154,8 +155,15 @@ public:
 
     void take_item()
     {
-        cout << "tentando pega item" << endl;
+        m_player->notify(takeItemID, "take_item");
+    }
+    void jump_level()
+    {
         m_player->notify(jumpNextLevelID, "next_level");
+    }
+    void open_door()
+    {
+        m_player->notify(openDoorID, "open_door");
     }
 
 private:
@@ -223,6 +231,14 @@ public:
                 m_running = true;
                 return true;
 
+            case KeyboardEvent::E:
+                m_player->open_door();
+                return true;
+
+            case KeyboardEvent::K:
+                m_player->take_item();
+                return true;
+
             default:
                 break;
             }
@@ -256,8 +272,12 @@ public:
                 return true;
 
             case KeyboardEvent::P:
-                m_player->take_item();
+                m_player->jump_level();
+                return true;
 
+            case KeyboardEvent::K:
+                m_player->take_item();
+                return true;
 
             default:
                 break;
@@ -417,6 +437,11 @@ public:
 
             case KeyboardEvent::K:
                 m_player->take_item();
+                return true;
+
+            case KeyboardEvent::E:
+                m_player->open_door();
+                return true;
 
             default:
                 break;
@@ -723,4 +748,16 @@ void
 Player::take_item()
 {
     m_impl->take_item();
+}
+
+void
+Player::jump_level()
+{
+    m_impl->jump_level();
+}
+
+void
+Player::open_door()
+{
+    m_impl->open_door();
 }

@@ -33,6 +33,8 @@ public:
 
     static ActionID hitExitDoorID;
     static ActionID jumpNextLevelID;
+    static ActionID takeItemID;
+    static ActionID openDoorID;
 
     void set_current(Room *room, int x, int y);
 
@@ -51,6 +53,8 @@ public:
     bool has_key();
 
     void take_item();
+    void jump_level();
+    void open_door();
 
     void show_life();
     void show_sanity();
