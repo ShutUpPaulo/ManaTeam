@@ -244,6 +244,7 @@ Stage::on_message(Object *, MessageID id, Parameters p)
         m_player->set_key(false);
         char new_stage[256];
         sprintf(new_stage, "stage%d", m_num_id);
+        cout << "Voce morreu, parca. Re";
         m_player->notify(Player::hitExitDoorID, new_stage);
         return true;
     }

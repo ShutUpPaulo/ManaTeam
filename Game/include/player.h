@@ -57,6 +57,7 @@ public:
     void jump_level();
     void open_door();
     void push_item();
+    void you_died();
 
     void show_life();
     void show_sanity();
