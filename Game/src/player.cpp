@@ -17,15 +17,16 @@ ActionID Player::takeItemID { "takeItemID()" };
 ActionID Player::openDoorID { "openDoorID()" };
 ActionID Player::pushItemID { "pushItemID()" };
 ActionID Player::repeatLevelID { "repeatLevelID()" };
+ActionID Player::changeRoomID { "changeRoomID()" };
 
 using std::make_pair;
 
 class Player::Impl
 {
 public:
-    Impl(Player *player, Map *current_map, bool key)
+    Impl(Player *player, bool key)
         : m_sanity_loss(0), m_player(player), m_direction(Player::LEFT),
-        m_moviment(make_pair(0.0, 0.0)), m_current_map(current_map), 
+        m_moviment(make_pair(0.0, 0.0)), 
         m_key(key), m_strength(0.0), m_life(100.0), m_sanity(100.0), m_stamina(100.0),
         m_pill(false), m_weapon(false), m_secondary(false)
     {
@@ -42,11 +43,11 @@ public:
         m_moviment = make_pair(xaxis, yaxis);
     }
 
-    void set_current(Room *nova, int posx, int posy)
+    void set_current(string nova, int posx, int posy)
     {
         m_player->set_x(posx);
         m_player->set_y(posy);
-        m_current_map->set_current(nova);
+        m_player->notify(changeRoomID, nova);
     }
 
     void set_strength(double strength)
@@ -218,7 +219,6 @@ private:
     Player *m_player;
     Direction m_direction;
     pair<double, double> m_moviment;
-    Map *m_current_map;
     bool m_key;
     double m_strength;
     double m_life;
@@ -418,11 +418,11 @@ private:
 class Running : public SpriteState
 {
 public:
-    Running(Player *player, Map * current_map, bool key)
+    Running(Player *player, bool key)
         : m_player(player), m_animation(
         new Animation("res/sprites/running.png", 0, 0, 70, 70, 8, 60, true)),
         m_left(0), m_right(0), m_top(0), m_down(0), m_last(0), 
-        current_map(current_map), m_key(key), m_running(false), m_pushing(false)
+        m_key(key), m_running(false), m_pushing(false)
     {
     }
 
@@ -684,7 +684,6 @@ private:
     unique_ptr<Animation> m_animation;
     short m_left, m_right, m_top, m_down;
     unsigned long m_last;
-    Map * current_map;
     bool m_key, m_running, m_pushing;
 };
 
@@ -862,12 +861,12 @@ private:
     int m_left, m_right, m_top, m_down;
 };
 
-Player::Player(Object *parent, const string& id, Map *current_map)
-    : Sprite(parent, id), m_sanity_loss(0), m_impl(new Player::Impl(this, current_map, m_key)),
+Player::Player(Object *parent, const string& id)
+    : Sprite(parent, id), m_sanity_loss(0), m_impl(new Player::Impl(this, m_key)),
      m_key(false), m_pill(false), m_weapon(false), m_secondary(false)
 {
     add_state(IDLE, new Idle(this));
-    add_state(RUNNING, new Running(this, current_map, m_key));
+    add_state(RUNNING, new Running(this, m_key));
     add_state(DUCK, new Duck(this));
 
     add_transition(MOVED, IDLE, RUNNING);
@@ -913,7 +912,7 @@ Player::set_moviment(double xaxis, double yaxis)
 }
 
 void
-Player::set_current(Room * nova, int posx, int posy)
+Player::set_current(string nova, int posx, int posy)
 {
     m_impl->set_current(nova, posx, posy);
 }

@@ -17,8 +17,8 @@
 SevenKeys::SevenKeys()
     : Game("fone")
 {
-   AudioManagerMusic * music2 = new AudioManagerMusic();
-   music2 -> play("res/sounds/Key.ogg", -1);
+    AudioManagerMusic * music2 = new AudioManagerMusic();
+    music2 -> play("res/sounds/Key.ogg", -1);
 }
 
 Level *

@@ -41,12 +41,14 @@ Stage::Stage(ObjectID id)
 
     double life = 100.0;
 
-    m_player = new Player(this, "player", m_map);
+    m_player = new Player(this, "player");
     m_player->set_strength(100.0);
     m_player->set_life(life);
-    m_player->set_position(600, 320);
+
     m_player->add_observer(this);
     m_player->set_key(false);
+    m_player->set_position(600, 320);
+    
 
     add_child(m_player);
 
@@ -133,21 +135,21 @@ Stage::update_self(unsigned long)
             {
                 if(item->id() == "door")
                 {
-                    if(item->x() == 0 && item->y() == 320)
+                    if(item->x() == 0 && item->y() == 320)//m_map->current_room->r_left
                     {
-                        m_player->set_current(m_map->current_room->r_left, 1120, m_player->y());
+                        m_player->set_current("left", 1120, m_player->y());
                     }
                     else if(item->x() == 1200 && item->y() == 320)
                     {
-                        m_player->set_current(m_map->current_room->r_right, 80, m_player->y());
+                        m_player->set_current("right", 80, m_player->y());
                     }
                     else if(item->x() == 600 && item->y() == 0)
                     {
-                        m_player->set_current(m_map->current_room->r_top, m_player->x(), 560);
+                        m_player->set_current("top", m_player->x(), 560);
                     }
                     else if(item->x() == 600 && item->y() == 640)
                     {
-                        m_player->set_current(m_map->current_room->r_bottom, m_player->x(), 80);
+                        m_player->set_current("bottom", m_player->x(), 80);
                     }
                 }
 
@@ -229,6 +231,19 @@ Stage::on_message(Object *, MessageID id, Parameters p)
     {
         set_next(p);
         finish();
+        return true;
+    }
+    if (id == Player::changeRoomID)
+    {
+        if(p == "left")
+            m_map->current_room = m_map->current_room->r_left;
+        else if(p == "top")
+            m_map->current_room = m_map->current_room->r_top;
+        else if(p == "right")
+            m_map->current_room = m_map->current_room->r_right;
+        else if(p == "bottom")
+            m_map->current_room = m_map->current_room->r_bottom;
+
         return true;
     }
     else if(id == Player::jumpNextLevelID)

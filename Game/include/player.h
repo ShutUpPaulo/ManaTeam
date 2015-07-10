@@ -20,7 +20,7 @@ public:
     typedef enum { MOVED, STOPPED, DUCKING, STANDING } Event;
     typedef enum { LEFT, UP, RIGHT, DOWN } Direction;
 
-    Player(Object *parent, const string& id, Map *current_map);
+    Player(Object *parent, const string& id);
     ~Player();
     int m_sanity_loss;
 
@@ -36,8 +36,9 @@ public:
     static ActionID openDoorID;
     static ActionID pushItemID;
     static ActionID repeatLevelID;
+    static ActionID changeRoomID;
 
-    void set_current(Room *room, int x, int y);
+    void set_current(string room, int x, int y);
 
     double life();
     double sanity();
