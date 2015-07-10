@@ -20,12 +20,13 @@ class Player::Impl
 {
 public:
     Impl(Player *player, Map *current_map, bool key)
-        : m_player(player), m_direction(Player::LEFT),
+        : m_sanity_loss(0), m_player(player), m_direction(Player::LEFT),
         m_moviment(make_pair(0.0, 0.0)), m_current_map(current_map), 
-        m_key(key), m_strength(0.0), m_life(100.0), m_sanity(100.0)
+        m_key(key), m_strength(0.0), m_life(100.0), m_sanity(100.0), m_stamina(100.0)
     {
     }
 
+    int m_sanity_loss;
     Direction direction() const { return m_direction; }
     void set_direction(Direction direction) { m_direction = direction; }
 
@@ -72,18 +73,27 @@ public:
     {
         return m_sanity;
     }
+    double stamina()
+    {
+        return m_stamina;
+    }
+
+    void set_stamina(double stamina)
+    {
+        m_stamina = stamina;
+    }
 
     void get_key()
     {
         if(m_key == true)
             return;
-        
+
         Environment *env = Environment::get_instance();
         double size = env->canvas->w()/35;
 
         m_key = true;
 
-        Item* key = new Item(m_player, "icon_key", "res/items/key.png", (double)env->canvas->w() * 1/35 + size, (double)env->canvas->h() * 25/30 + size, 9999, true);
+        Item* key = new Item(m_player, "icon_key", "res/items/thumb.key.png", (double)env->canvas->w() * 1/35 + size + 2, (double)env->canvas->h() * 25/30 + size + 2, 9999, true);
         m_player->add_child(key);
     }
     void set_key(bool input)
@@ -97,14 +107,26 @@ public:
     void show_life()
     {
         Environment *env = Environment::get_instance();
-        Rect healthbar {(double)env->canvas->w()/15, (double)env->canvas->h()/18, m_player->life()*2, 12};
+        Rect healthbar {(double)env->canvas->w()/15, (double)env->canvas->h()/24, m_player->life()*2, 12};
         env->canvas->fill(healthbar, Color::RED);
+        Rect borda {(double)env->canvas->w()/15, (double)env->canvas->h()/24, 100*2, 12};
+        env->canvas->draw(borda, Color::RED);
     }
     void show_sanity()
     {
         Environment *env = Environment::get_instance();
-        Rect sanitybar {(double)env->canvas->w()/15, (double)env->canvas->h()/13, m_player->sanity()*2, 12};
+        Rect sanitybar {(double)env->canvas->w()/15, (double)env->canvas->h()/17, m_player->sanity()*2, 12};
         env->canvas->fill(sanitybar, Color::GREEN);
+        Rect borda {(double)env->canvas->w()/15, (double)env->canvas->h()/17, 100*2, 12};
+        env->canvas->draw(borda, Color::GREEN);
+    }
+    void show_stamina()
+    {
+        Environment *env = Environment::get_instance();
+        Rect staminabar {(double)env->canvas->w()/15, (double)env->canvas->h()/13, m_player->stamina()*2, 12};
+        env->canvas->fill(staminabar, Color::YELLOW);
+        Rect borda {(double)env->canvas->w()/15, (double)env->canvas->h()/13, 100*2, 12};
+        env->canvas->draw(borda, Color::YELLOW);
     }
 
     void show_inventory()
@@ -133,6 +155,7 @@ private:
     double m_strength;
     double m_life;
     double m_sanity;
+    double m_stamina;
 };
 
 class Idle : public SpriteState
@@ -141,7 +164,7 @@ public:
     Idle(Player *player)
         : m_player(player), m_animation(new Animation("res/sprites/idle.png",
             0, 0, 70, 70, 2, 1000, true)), m_left(0), m_right(0), m_top(0), 
-        m_down(0)
+        m_down(0), m_running(false)
     {
     }
 
@@ -163,7 +186,7 @@ public:
         {
         case KeyboardEvent::PRESSED:
             switch (event.key())
-            {
+            {    
             case KeyboardEvent::LEFT:
                 m_left = 1;
                 return true;
@@ -178,6 +201,10 @@ public:
 
             case KeyboardEvent::DOWN:
                 m_down = 1;
+                return true;
+
+            case KeyboardEvent::H:
+                m_running = true;
                 return true;
 
             default:
@@ -204,6 +231,10 @@ public:
                 m_down = 0;
                 return true;
 
+            case KeyboardEvent::H:
+                m_running = false;
+                return true;
+
             default:
                 break;
             }
@@ -219,10 +250,30 @@ public:
         m_player->show_life();
         m_player->show_sanity();
         m_player->show_inventory();
+        m_player->show_stamina();
     }
 
     void update(unsigned long elapsed)
     {
+
+        if(m_player->stamina() < 100)
+        {
+            m_player->set_stamina(m_player->stamina() + 0.1);
+            if(m_player->stamina() > 100)
+                m_player->set_stamina(100);
+        }
+
+
+        if(! m_player->m_sanity_loss)
+            m_player->m_sanity_loss = elapsed;
+
+        if(elapsed - m_player->m_sanity_loss > 3000)
+        {
+            m_player->set_sanity(m_player->sanity() - 1);
+            if(m_player->sanity() < 0)
+                m_player->set_sanity(0);
+            m_player->m_sanity_loss = elapsed;
+        }
         if (m_left)
         {
             m_player->set_moviment(-1.0, 0.0);
@@ -256,6 +307,7 @@ private:
     Player *m_player;
     unique_ptr<Animation> m_animation;
     int m_left, m_right, m_top, m_down;
+    bool m_running;
 };
 
 class Running : public SpriteState
@@ -265,13 +317,13 @@ public:
         : m_player(player), m_animation(
         new Animation("res/sprites/running.png", 0, 0, 70, 70, 8, 60, true)),
         m_left(0), m_right(0), m_top(0), m_down(0), m_last(0), 
-        current_map(current_map), m_key(key)
+        current_map(current_map), m_key(key), m_running(false)
     {
     }
 
     ~Running() {}
 
-    const double speed = 350.0;
+    const double m_speed = 250.0;
 
     void enter(int from)
     {
@@ -288,8 +340,8 @@ public:
         if (from == Player::IDLE)
         {
             auto moviment = m_player->moviment();
-            double x = moviment.first * speed;
-            double y = moviment.second * speed;
+            double x = moviment.first * m_speed;
+            double y = moviment.second * m_speed;
             m_player->set_moviment(x, y);
         }
     }
@@ -304,6 +356,7 @@ public:
         m_player->show_life();
         m_player->show_sanity();
         m_player->show_inventory();
+        m_player->show_stamina();
     }
 
     bool on_event(const KeyboardEvent& event)
@@ -327,6 +380,10 @@ public:
 
             case KeyboardEvent::DOWN:
                 m_down = 1;
+                return true;
+
+            case KeyboardEvent::H:
+                m_running = true;
                 return true;
 
             default:
@@ -353,6 +410,10 @@ public:
                 m_down = 0;
                 return true;
 
+            case KeyboardEvent::H:
+                m_running = false;
+                return true;
+
             default:
                 break;
             }
@@ -364,7 +425,38 @@ public:
 
     void update(unsigned long elapsed)
     {
-        m_player->show_life();
+        double speed = m_speed;
+
+        if(m_player->stamina() < 100)
+        {
+            m_player->set_stamina(m_player->stamina() + 0.1);
+            if(m_player->stamina() > 100)
+                m_player->set_stamina(100);
+        }
+        
+        if(m_running)
+        {
+            if(m_player->stamina() > 1)
+            {
+
+                speed += 200;
+                m_player->set_stamina(m_player->stamina() - 0.3);
+                if(m_player->stamina() < 0)
+                    m_player->set_stamina(0);
+            }
+        }
+
+        if(! m_player->m_sanity_loss)
+            m_player->m_sanity_loss = elapsed;
+
+        if(elapsed - m_player->m_sanity_loss > 3000)
+        {
+            m_player->set_sanity(m_player->sanity() - 1);
+            if(m_player->sanity() < 0)
+                m_player->set_sanity(0);
+            m_player->m_sanity_loss = elapsed;
+        }
+
         if (m_left)
         {
             m_player->set_direction(Player::LEFT);
@@ -448,12 +540,12 @@ private:
     short m_left, m_right, m_top, m_down;
     unsigned long m_last;
     Map * current_map;
-    bool m_key;
+    bool m_key, m_running;
 };
 
 Player::Player(Object *parent, const string& id, Map *current_map)
     : Sprite(parent, id), m_impl(new Player::Impl(this, current_map, m_key)),
-     m_key(false)
+     m_key(false), m_sanity_loss(0)
 {
     add_state(IDLE, new Idle(this));
     add_state(RUNNING, new Running(this, current_map, m_key));
@@ -520,6 +612,11 @@ Player::set_sanity(double sanity)
     m_impl->set_sanity(sanity);
 }
 
+void
+Player::set_stamina(double stamina)
+{
+    m_impl->set_stamina(stamina);
+}
 
 double
 Player::strength()
@@ -537,6 +634,12 @@ double
 Player::sanity()
 {
     return m_impl->sanity();
+}
+
+double
+Player::stamina()
+{
+    return m_impl->stamina();
 }
 
 void
@@ -571,4 +674,9 @@ void
 Player::show_inventory()
 {
     m_impl->show_inventory();
+}
+void
+Player::show_stamina()
+{
+    m_impl->show_stamina();
 }

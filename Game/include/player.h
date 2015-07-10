@@ -20,6 +20,8 @@ public:
     typedef enum { MOVED, STOPPED } Event;
     typedef enum { LEFT, UP, RIGHT, DOWN } Direction;
 
+    int m_sanity_loss;
+
     Player(Object *parent, const string& id, Map *current_map);
     ~Player();
 
@@ -36,10 +38,12 @@ public:
     double life();
     double sanity();
     double strength();
+    double stamina();
 
     void set_life(double life = 100.0);
     void set_sanity(double sanity = 100.0);
     void set_strength(double strength = 0.0);
+    void set_stamina(double stamina = 100.0);
 
     void set_key(bool input);
     void get_key();
@@ -48,6 +52,7 @@ public:
     void show_life();
     void show_sanity();
     void show_inventory();
+    void show_stamina();
 
 private:
     class Impl;

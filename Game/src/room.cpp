@@ -389,8 +389,6 @@ Room::add_walls(const string& name)
     Environment *env = Environment::get_instance();
     Canvas *canvas = env->canvas;
 
-    cout << stage_id << endl;
-
     char pos[4] = {'l', 't', 'r', 'b'};
     for (int i = 0; i < 4; ++i)
     {
