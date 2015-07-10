@@ -9,7 +9,7 @@
 using namespace std;
 
 Guard::Guard(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, string t, int dir)
-    : Object(parent, id, x, y), type(t), m_animation (new Animation("res/sprites/guarda1_running.png",
+    : Object(parent, id, x, y), m_type(t), m_animation (new Animation("res/sprites/guarda1_running.png",
     	0, 0, 70, 70, 8, 120, true)), m_direction((Direction) dir), m_last(0)
 {
     this->set_mass(mass);
@@ -18,7 +18,7 @@ Guard::Guard(Object *parent, ObjectID id, double x, double y, int mass, bool wal
     this->set_walkable(walkable);
     update_vision();
 
-    if(type == "hard")
+    if(m_type == "hard")
     {
         change_animation("res/sprites/guarda3_running.png");
     }
@@ -85,10 +85,10 @@ Guard::draw_self()
 void
 Guard::walk(unsigned long elapsed)
 {
-    double speed = 0.3;
-    if(type == "easy")
+    double speed = 0.6;
+    if(m_type == "easy")
         return;
-    else if(type == "normal")
+    else if(m_type == "normal")
     {
 
         if(elapsed - m_last > 3000)
@@ -103,7 +103,7 @@ Guard::walk(unsigned long elapsed)
             }
         }
     }
-    else if(type == "hard")
+    else if(m_type == "hard")
     {
 
         if(player_posx < this->x())
@@ -133,7 +133,7 @@ void
 Guard::update_direction(unsigned long elapsed)
 {
 
-    if(type == "easy")
+    if(m_type == "easy")
     {
         if(elapsed - m_last > 1000)
         {
@@ -151,7 +151,7 @@ Guard::update_direction(unsigned long elapsed)
             m_last = elapsed;
         }
     }
-    else if (type == "normal")
+    else if (m_type == "normal")
     {
         if(elapsed - m_last > 5000)
         {
@@ -162,7 +162,7 @@ Guard::update_direction(unsigned long elapsed)
             m_last = elapsed;
         }
     }
-    else if(type == "hard")
+    else if(m_type == "hard")
     {
         if(elapsed - m_last > 5000)
         {
@@ -214,4 +214,14 @@ Guard::change_animation(string path)
     m_animation.reset(new Animation(path, 0, 0, 70, 70, 8, 120, true));
 }
 
-    
+string 
+Guard::type()
+{
+    return m_type;
+}
+
+void
+Guard::set_type(string t)
+{
+    m_type = t;
+}

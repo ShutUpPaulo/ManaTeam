@@ -26,9 +26,13 @@ public:
     void walk(unsigned long elapsed);
     void update_direction(unsigned long elapsed);
     void change_animation(string path);
+    
+    string type();
+    void set_type(string t);
+
 
 private:
-    string type;
+    string m_type;
     int player_posx;
     int player_posy;
 

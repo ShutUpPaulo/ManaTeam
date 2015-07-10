@@ -16,6 +16,7 @@ ActionID Player::jumpNextLevelID { "jumpNextLevelID()" };
 ActionID Player::takeItemID { "takeItemID()" };
 ActionID Player::openDoorID { "openDoorID()" };
 ActionID Player::pushItemID { "pushItemID()" };
+ActionID Player::repeatLevelID { "repeatLevelID()" };
 
 using std::make_pair;
 

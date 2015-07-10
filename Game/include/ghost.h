@@ -25,10 +25,13 @@ public:
     void walk();
     void update_direction(unsigned long elapsed);
 
+    double damage();
+
 private:
     string type;
     int player_posx;
     int player_posy;
+    double m_damage;
 
     void draw_self();
     void update_self(unsigned long elapsed);

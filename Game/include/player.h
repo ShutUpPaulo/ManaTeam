@@ -35,6 +35,7 @@ public:
     static ActionID takeItemID;
     static ActionID openDoorID;
     static ActionID pushItemID;
+    static ActionID repeatLevelID;
 
     void set_current(Room *room, int x, int y);
 

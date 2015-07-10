@@ -172,12 +172,10 @@ Stage::update_self(unsigned long)
                 {
                     if(filho->id() == "visao")
                     {
-                        //cout << "voce foi visto!" << endl;
-                        /*double life = m_player->set_life();
-                        life--;
-                        if(life <= 0)
-                            cout << "Game Over" << endl;
-                        */
+                        if(guarda->type() != "hard")
+                        {
+                            guarda->set_type("hard");
+                        }
                     }
                 }
             }
@@ -188,6 +186,17 @@ Stage::update_self(unsigned long)
             ghost->get_playerx(m_player->x());
             ghost->get_playery(m_player->y());
             const list<Object *> filhos = item->children();
+
+            //retirar vida do player
+            if (c.w() != 0 and c.h() != 0)
+            {
+                if(m_player->life() > 0)
+                {
+                    m_player->set_life(m_player->life() - ghost->damage());
+                    if(m_player->life() < 0)
+                        m_player->set_life(0);
+                }    
+            }
         }
     }
 }
@@ -211,9 +220,16 @@ Stage::on_message(Object *, MessageID id, Parameters p)
     else if(id == Player::jumpNextLevelID)
     {
         m_player->set_key(false);
-        finish();
         char new_stage[256];
         sprintf(new_stage, "stage%d", m_num_id+1);
+        m_player->notify(Player::hitExitDoorID, new_stage);
+        return true;
+    }
+    else if(id == Player::repeatLevelID)
+    {
+        m_player->set_key(false);
+        char new_stage[256];
+        sprintf(new_stage, "stage%d", m_num_id);
         m_player->notify(Player::hitExitDoorID, new_stage);
         return true;
     }

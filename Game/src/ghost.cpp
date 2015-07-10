@@ -9,7 +9,7 @@
 using namespace std;
 
 Ghost::Ghost(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, string t, int dir)
-    : Object(parent, id, x, y), type(t), m_animation (new Animation("res/sprites/ghost_guarda3_running.png",
+    : Object(parent, id, x, y), type(t), m_damage(0.05), m_animation (new Animation("res/sprites/ghost_guarda3_running.png",
     	0, 0, 70, 70, 8, 60, true)), m_direction((Direction) dir), m_last(0)
 {
     this->set_mass(mass);
@@ -101,6 +101,12 @@ void
 Ghost::get_playery(int pos_y)
 {
     player_posy = pos_y;
+}
+
+double
+Ghost::damage()
+{
+    return m_damage;
 }
 
 void
