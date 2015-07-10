@@ -64,6 +64,7 @@ public:
     void open_door();
     void push_item();
     void use_pill();
+    void use_weapon();
     void you_died();
     void hit();
 

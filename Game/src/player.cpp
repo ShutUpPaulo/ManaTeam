@@ -219,6 +219,24 @@ public:
         }  
     }
 
+    void use_weapon()
+    {
+        if(m_weapon)
+        {
+            cout << "Usou a arma!" << endl;
+            
+            const list<Object *> items = m_player->children();
+            for (auto item : items)
+            {
+                if(item->id() == "icon_pill")
+                {
+                    m_pill = false;
+                    m_player->remove_child(item);
+                }
+            }
+        }
+    }
+
     void take_item()
     {
         m_player->notify(takeItemID, "take_item");
