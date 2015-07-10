@@ -22,9 +22,17 @@ ActionID Stage::colisionID = "colisionID()";
 Stage::Stage(ObjectID id)
     : Level(id)
 {
-    char aux[3];
-    *aux = *(id.c_str() + 5);
+    char aux[10];
+    char temp[10];
+    sprintf(temp, "%s", id.c_str());
+    for(int i = 0; temp[i] != '\0'; i++)
+    {
+        aux[i] = temp[i+5];
+    }
+
+    printf("%s\n", aux);
     m_num_id = atoi(aux);
+    cout << m_num_id << endl;
     int quantidade_de_salas = 3 + m_num_id + (m_num_id - 1) * 2;
     m_map = new Map(quantidade_de_salas,m_num_id);
     add_child(m_map);
@@ -216,7 +224,7 @@ Stage::update_self(unsigned long)
                 {
                     if(filho->id() == "visao")
                     {
-                        cout << "voce foi visto!" << endl;
+                        //cout << "voce foi visto!" << endl;
                         /*double life = m_player->set_life();
                         life--;
                         if(life <= 0)
@@ -243,6 +251,15 @@ Stage::on_message(Object *, MessageID id, Parameters p)
     {
         set_next(p);
         finish();
+        return true;
+    }
+    else if(id == Player::jumpNextLevelID)
+    {
+        m_player->set_key(false);
+        finish();
+        char new_stage[256];
+        sprintf(new_stage, "stage%d", m_num_id+1);
+        m_player->notify(Player::hitExitDoorID, new_stage);
         return true;
     }
 

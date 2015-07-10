@@ -12,6 +12,7 @@
 #include "core/keyboardevent.h"
 
 ActionID Player::hitExitDoorID { "hitExitDoorID()" };
+ActionID Player::jumpNextLevelID { "jumpNextLevelID()" };
 //ActionID Player::hitKeyID{"hitKeyID()"};
 
 using std::make_pair;
@@ -151,6 +152,12 @@ public:
         env->canvas->fill(not_item, Color::WHITE);
     }
 
+    void take_item()
+    {
+        cout << "tentando pega item" << endl;
+        m_player->notify(jumpNextLevelID, "next_level");
+    }
+
 private:
     Player *m_player;
     Direction m_direction;
@@ -212,7 +219,7 @@ public:
                 m_down = 1;
                 return true;
 
-            case KeyboardEvent::H:
+            case KeyboardEvent::LSHIFT:
                 m_running = true;
                 return true;
 
@@ -244,9 +251,13 @@ public:
                 m_down = 0;
                 return true;
 
-            case KeyboardEvent::H:
+            case KeyboardEvent::LSHIFT:
                 m_running = false;
                 return true;
+
+            case KeyboardEvent::P:
+                m_player->take_item();
+
 
             default:
                 break;
@@ -400,9 +411,12 @@ public:
                 m_down = 1;
                 return true;
 
-            case KeyboardEvent::H:
+            case KeyboardEvent::LSHIFT:
                 m_running = true;
                 return true;
+
+            case KeyboardEvent::K:
+                m_player->take_item();
 
             default:
                 break;
@@ -432,7 +446,7 @@ public:
                 m_down = 0;
                 return true;
 
-            case KeyboardEvent::H:
+            case KeyboardEvent::LSHIFT:
                 m_running = false;
                 return true;
 
@@ -461,11 +475,13 @@ public:
             if(m_player->stamina() > 1)
             {
 
-                speed += 200;
+                speed += 50 + 10 * ((int)m_player->stamina())/5;
                 m_player->set_stamina(m_player->stamina() - 0.25);
                 if(m_player->stamina() < 1)
                     m_player->set_stamina(-(0.05 * 1000));
             }
+
+//            cout << "speed: " << speed << endl;
         }
 
         if(! m_player->m_sanity_loss)
@@ -701,4 +717,10 @@ void
 Player::show_stamina()
 {
     m_impl->show_stamina();
+}
+
+void
+Player::take_item()
+{
+    m_impl->take_item();
 }

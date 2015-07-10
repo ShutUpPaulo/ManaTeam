@@ -32,6 +32,7 @@ public:
     void set_moviment(double xaxis, double yaxis);
 
     static ActionID hitExitDoorID;
+    static ActionID jumpNextLevelID;
 
     void set_current(Room *room, int x, int y);
 
@@ -48,6 +49,8 @@ public:
     void set_key(bool input);
     void get_key();
     bool has_key();
+
+    void take_item();
 
     void show_life();
     void show_sanity();
