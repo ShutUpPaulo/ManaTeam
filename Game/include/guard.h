@@ -18,6 +18,8 @@ public:
     Guard(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, string type, int dir);
     ~Guard();
 
+    static ActionID removeGuardID;
+
     Direction direction();
     void get_playerx(int pos_x);
     void get_playery(int pos_y);
@@ -30,13 +32,16 @@ public:
     string type();
     void set_type(string t);
 
+    double life();
     double damage();
+    void receive_dmg(double dmg);
 
 private:
     string m_type;
     int player_posx;
     int player_posy;
     double m_damage;
+    double m_life;
 
     void draw_self();
     void update_self(unsigned long elapsed);

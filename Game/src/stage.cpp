@@ -370,7 +370,29 @@ Stage::on_message(Object *, MessageID id, Parameters p)
                                 //m_player->set_y(b.y() + b.h());
                             }
                         }
+                        return true;
                     }
+                }
+            }
+        }
+    }
+    else if(id == Player::getHitID)
+    {
+        const list<Object *> npcs = m_map->current_room->children();
+        for (auto npc : npcs)
+        {
+            Rect a = m_player->bounding_box();
+            Rect b = npc->bounding_box();
+            Rect c = a.intersection(b);
+
+            if(npc->id() == "guard")
+            {
+                if (c.w() > 0 and c.h() > 0)
+                {
+                    double dmg = atof(p.c_str());
+                    Guard * guarda = (Guard*) npc;
+                    guarda->receive_dmg(dmg);
+                    return true;
                 }
             }
         }

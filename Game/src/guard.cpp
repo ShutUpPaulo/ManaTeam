@@ -6,10 +6,12 @@
 
 #include <iostream>
 
+ActionID Guard::removeGuardID { "removeGuardID()" };
+
 using namespace std;
 
 Guard::Guard(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, string t, int dir)
-    : Object(parent, id, x, y), m_type(t), m_damage(0.5), m_animation (new Animation("res/sprites/guarda1_running.png",
+    : Object(parent, id, x, y), m_type(t), m_damage(0.5), m_life(100), m_animation (new Animation("res/sprites/guarda1_running.png",
     	0, 0, 70, 70, 8, 120, true)), m_direction((Direction) dir), m_last(0)
 {
     this->set_mass(mass);
@@ -204,7 +206,6 @@ Guard::damage()
 void
 Guard::update_self(unsigned long elapsed)
 {
-
     set_x(this->x());
     set_y(this->y());
    
@@ -220,6 +221,11 @@ Guard::change_animation(string path)
     m_animation.reset(new Animation(path, 0, 0, 70, 70, 8, 120, true));
 }
 
+double
+Guard::life()
+{
+    return m_life;
+}
 string 
 Guard::type()
 {
@@ -230,4 +236,13 @@ void
 Guard::set_type(string t)
 {
     m_type = t;
+}
+
+void
+Guard::receive_dmg(double dmg)
+{
+    m_life = m_life - dmg;
+    if(m_life < 0)
+        m_life = 0;
+    //cout << "Guarda apanhou " << dmg << " de dano, vida atual: " << m_life << endl;
 }

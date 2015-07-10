@@ -20,7 +20,7 @@ ActionID Player::openDoorID { "openDoorID()" };
 ActionID Player::pushItemID { "pushItemID()" };
 ActionID Player::repeatLevelID { "repeatLevelID()" };
 ActionID Player::changeRoomID { "changeRoomID()" };
-
+ActionID Player::getHitID { "getHitID()" };
 using std::make_pair;
 
 class Player::Impl
@@ -30,7 +30,7 @@ public:
         : m_sanity_loss(0), m_player(player), m_direction(Player::LEFT),
         m_moviment(make_pair(0.0, 0.0)), 
         m_key(key), m_strength(0.0), m_life(100.0), m_sanity(100.0), m_stamina(100.0),
-        m_pill(false), m_weapon(false), m_secondary(false)
+        m_pill(false), m_weapon(false), m_secondary(false), m_damage(50)
     {
     }
 
@@ -89,6 +89,11 @@ public:
     void set_stamina(double stamina)
     {
         m_stamina = stamina;
+    }
+
+    double damage()
+    {
+        return m_damage;
     }
 
     void get_pill()
@@ -234,6 +239,13 @@ public:
     {
         m_player->notify(repeatLevelID, "you_died");
     }
+    void hit()
+    {
+        char message[256];
+        double dmg_total = m_player->damage();
+        sprintf(message,"%f", dmg_total);
+        m_player->notify(getHitID, message);
+    }
 
 private:
     Player *m_player;
@@ -247,6 +259,7 @@ private:
     bool m_pill;
     bool m_weapon;
     bool m_secondary;
+    double m_damage;
 };
 
 class Idle : public SpriteState
@@ -316,6 +329,10 @@ public:
 
             case KeyboardEvent::U:
                 m_player->report_event(Player::DUCKING);
+                return true;
+
+            case KeyboardEvent::J:
+                m_player->hit();
                 return true;
 
             default:
@@ -531,6 +548,10 @@ public:
 
             case KeyboardEvent::U:
                 m_player->report_event(Player::DUCKING);
+                return true;
+
+            case KeyboardEvent::J:
+                m_player->hit();
                 return true;
 
             default:
@@ -772,6 +793,10 @@ public:
                 m_player->report_event(Player::STANDING);
                 return true;
 
+            case KeyboardEvent::J:
+                m_player->hit();
+                return true;
+
             default:
                 break;
             }
@@ -883,7 +908,7 @@ private:
 
 Player::Player(Object *parent, const string& id)
     : Sprite(parent, id), m_sanity_loss(0), m_impl(new Player::Impl(this, m_key)),
-     m_key(false), m_pill(false), m_weapon(false), m_secondary(false)
+     m_key(false), m_pill(false), m_weapon(false), m_secondary(false),m_damage(50)
 {
     add_state(IDLE, new Idle(this));
     add_state(RUNNING, new Running(this, m_key));
@@ -984,6 +1009,11 @@ Player::stamina()
 {
     return m_impl->stamina();
 }
+double
+Player::damage()
+{
+    return m_impl->damage();
+}
 
 void
 Player::get_key()
@@ -1069,4 +1099,9 @@ void
 Player::you_died()
 {
     m_impl->you_died();
+}
+void
+Player::hit()
+{
+    m_impl->hit();
 }

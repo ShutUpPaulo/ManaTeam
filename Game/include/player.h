@@ -37,6 +37,7 @@ public:
     static ActionID pushItemID;
     static ActionID repeatLevelID;
     static ActionID changeRoomID;
+    static ActionID getHitID;
 
     void set_current(string room, int x, int y);
 
@@ -44,6 +45,7 @@ public:
     double sanity();
     double strength();
     double stamina();
+    double damage();
 
     void set_life(double life = 100.0);
     void set_sanity(double sanity = 100.0);
@@ -63,6 +65,7 @@ public:
     void push_item();
     void use_pill();
     void you_died();
+    void hit();
 
     void show_life();
     void show_sanity();
@@ -76,6 +79,7 @@ private:
     bool m_pill = false;
     bool m_weapon = false;
     bool m_secondary = false;
+    double m_damage = 50;
 
 };
 

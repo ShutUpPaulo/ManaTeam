@@ -334,15 +334,6 @@ Room::remove_item(Object *item)
 }
 
 void
-Room::update_self(unsigned long)
-{
-    if (not m_doors)
-    {
-        m_doors = true;
-    }
-}
-
-void
 Room::fill_floor(const string& name)
 {
     char path[512];
@@ -577,4 +568,29 @@ Room::notify_creation(const string& position)
     {
        add_door("normal", 'b', 600, 640); 
     }              
+}
+
+void
+Room::update_self(unsigned long)
+{
+    const list<Object *> npcs = children();
+    for (auto npc : npcs)
+    {
+        if(npc->id() == "guard")
+        {
+            Guard * guarda = (Guard*) npc;
+            if (guarda->life() < 1)
+            {
+
+                remove_child(npc);
+                Ghost *ghost = new Ghost(this, "ghost", 0, 0, 9999, true, "normal", randint(0,3));
+                place(ghost, npc->x(), npc->y());
+                add_child(ghost);
+            }
+        }
+    }
+    if (not m_doors)
+    {
+        m_doors = true;
+    }
 }
