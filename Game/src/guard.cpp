@@ -104,12 +104,20 @@ Guard::walk(unsigned long elapsed)
             set_x(x() - speed);
         else
             set_x(x() + speed);
-    
 
         if(player_posy < this->y())
             set_y(y() - speed);
         else
             set_y(y() + speed);
+
+        if(player_posx > this->x() - 100 && player_posx < this->x() + 100 && player_posy < this->y())
+            set_direction(Guard::UP);
+        else if(player_posx > this->x() - 100 && player_posx < this->x() + 100 && player_posy > this->y())
+            set_direction(Guard::DOWN);
+        else if(player_posx < this->x())
+            set_direction(Guard::LEFT);
+        else
+            set_direction(Guard::RIGHT);
 
     }
         return;
