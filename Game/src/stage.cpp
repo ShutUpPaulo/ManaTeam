@@ -259,14 +259,20 @@ Stage::on_message(Object *, MessageID id, Parameters p)
             //tratando colisoes diretas
             if(item->walkable() == true)
             {
-                if(item->id() == "key")
+                if (c.w() != 0 and c.h() != 0)
                 {
-                    if (c.w() != 0 and c.h() != 0)
+                    if(item->id() == "key")
                     {
-                        printf("Pegou a chave!\n");
+                        cout << "Pegou a chave!" << endl;
                         m_map->remove_item(item);
                         m_player->get_key();
                         return true;
+                    }
+
+                    if(item->id() == "Pill")
+                    {
+                        m_player->get_pill();
+                        m_map->remove_item(item);
                     }
                 }
             }

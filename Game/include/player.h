@@ -53,10 +53,13 @@ public:
     void get_key();
     bool has_key();
 
+    void get_pill();
+
     void take_item();
     void jump_level();
     void open_door();
     void push_item();
+    void use_pill();
 
     void show_life();
     void show_sanity();
@@ -67,6 +70,9 @@ private:
     class Impl;
     unique_ptr<Impl> m_impl;
     bool m_key = false;
+    bool m_pill = false;
+    bool m_weapon = false;
+    bool m_secondary = false;
 
 };
 

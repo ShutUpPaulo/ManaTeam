@@ -26,7 +26,8 @@ public:
     Impl(Player *player, Map *current_map, bool key)
         : m_sanity_loss(0), m_player(player), m_direction(Player::LEFT),
         m_moviment(make_pair(0.0, 0.0)), m_current_map(current_map), 
-        m_key(key), m_strength(0.0), m_life(100.0), m_sanity(100.0), m_stamina(100.0)
+        m_key(key), m_strength(0.0), m_life(100.0), m_sanity(100.0), m_stamina(100.0),
+        m_pill(false), m_weapon(false), m_secondary(false)
     {
     }
 
@@ -85,6 +86,19 @@ public:
     void set_stamina(double stamina)
     {
         m_stamina = stamina;
+    }
+
+    void get_pill()
+    {
+        if(m_pill == true)
+            return;
+
+        Environment *env = Environment::get_instance();
+
+        m_pill = true;
+
+        Item* pill = new Item(m_player, "icon_pill", "res/items/thumb.pill.png", (double)env->canvas->w() * 1/35 + 2, (double)env->canvas->h() * 25/30 + 2, 9999, true);
+        m_player->add_child(pill);
     }
 
     void get_key()
@@ -155,6 +169,30 @@ public:
         env->canvas->fill(not_item, Color::WHITE);
     }
 
+
+    void use_pill()
+    {
+        if(m_pill)
+        {
+            double recover = 35;
+            m_player->set_life(m_player->life() + recover);
+            if(m_player->life() > 100)
+                m_player->set_life(100);
+
+            cout << "Pegou uma pilula! Recuperou " << recover << " de vida." << endl;
+            
+            const list<Object *> items = m_player->children();
+            for (auto item : items)
+            {
+                if(item->id() == "icon_pill")
+                {
+                    m_pill = false;
+                    m_player->remove_child(item);
+                }
+            }
+        }  
+    }
+
     void take_item()
     {
         m_player->notify(takeItemID, "take_item");
@@ -182,6 +220,9 @@ private:
     double m_life;
     double m_sanity;
     double m_stamina;
+    bool m_pill;
+    bool m_weapon;
+    bool m_secondary;
 };
 
 class Idle : public SpriteState
@@ -235,6 +276,10 @@ public:
 
             case KeyboardEvent::LSHIFT:
                 m_running = true;
+                return true;
+
+            case KeyboardEvent::Q:
+                m_player->use_pill();
                 return true;
 
             case KeyboardEvent::E:
@@ -443,6 +488,10 @@ public:
 
             case KeyboardEvent::LSHIFT:
                 m_running = true;
+                return true;
+
+            case KeyboardEvent::Q:
+                m_player->use_pill();
                 return true;
 
             case KeyboardEvent::K:
@@ -679,6 +728,10 @@ public:
                 m_down = 1;
                 return true;
 
+            case KeyboardEvent::Q:
+                m_player->use_pill();
+                return true;
+
             case KeyboardEvent::E:
                 m_player->open_door();
                 return true;
@@ -800,7 +853,7 @@ private:
 
 Player::Player(Object *parent, const string& id, Map *current_map)
     : Sprite(parent, id), m_sanity_loss(0), m_impl(new Player::Impl(this, current_map, m_key)),
-     m_key(false)
+     m_key(false), m_pill(false), m_weapon(false), m_secondary(false)
 {
     add_state(IDLE, new Idle(this));
     add_state(RUNNING, new Running(this, current_map, m_key));
@@ -963,4 +1016,16 @@ void
 Player::push_item()
 {
     m_impl->push_item();
+}
+
+void
+Player::use_pill()
+{
+    m_impl->use_pill();
+}
+
+void
+Player::get_pill()
+{
+    m_impl->get_pill();
 }
