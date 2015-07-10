@@ -55,6 +55,7 @@ public:
     bool has_key();
 
     void get_pill();
+    void get_weapon(string weapon_id);
 
     void take_item();
     void jump_level();

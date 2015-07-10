@@ -89,7 +89,7 @@ void Room::add_items(int stage_id)
             {"Mesa", "tile_sheet", 2, 40, false, false, 20.0, -1, -1},
             {"Papeis", "tile_sheet", 0, 70, true, false, 0.0, -1, -1},
             {"Pill", "item", 0, 10, true, false, 0.0, -1, -1},
-            {"Garrafa", "item", 0, 10, true, false, 0.0, -1, -1},
+            {"Garrafa", "item", 0, 70, true, false, 0.0, -1, -1},
             {"Relogio", "tile_sheet", 0, 5, true, false, 20.0, -1, -1},
         }; 
 

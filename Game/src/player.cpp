@@ -11,6 +11,8 @@
 #include "core/environment.h"
 #include "core/keyboardevent.h"
 
+#include <string>
+
 ActionID Player::hitExitDoorID { "hitExitDoorID()" };
 ActionID Player::jumpNextLevelID { "jumpNextLevelID()" };
 ActionID Player::takeItemID { "takeItemID()" };
@@ -100,6 +102,24 @@ public:
 
         Item* pill = new Item(m_player, "icon_pill", "res/items/thumb.pill.png", (double)env->canvas->w() * 1/35 + 2, (double)env->canvas->h() * 25/30 + 2, 9999, true);
         m_player->add_child(pill);
+    }
+
+    void get_weapon(string weapon_id)
+    {
+        if(m_weapon == true)
+            return;
+
+        Environment *env = Environment::get_instance();
+        double size = env->canvas->w()/35;
+
+        m_weapon = true;
+
+        char weapon_path[256];
+        sprintf(weapon_path, "res/items/thumb.%s.png", weapon_id.c_str());
+        Item* lWeapon = new Item(m_player, "icon_weapon", weapon_path, (double)env->canvas->w() * 1/35 + 2 + (2*size), (double)env->canvas->h() * 25/30 + 2, 9999, true);
+        m_player->add_child(lWeapon);
+
+        
     }
 
     void get_key()
@@ -1026,6 +1046,12 @@ void
 Player::push_item()
 {
     m_impl->push_item();
+}
+
+void
+Player::get_weapon(string weapon_id)
+{
+    m_impl->get_weapon(weapon_id);   
 }
 
 void

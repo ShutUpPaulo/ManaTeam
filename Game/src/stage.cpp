@@ -290,6 +290,12 @@ Stage::on_message(Object *, MessageID id, Parameters p)
                         m_player->get_pill();
                         m_map->remove_item(item);
                     }
+
+                    if(item->id() == "Garrafa" || item->id() == "Faca" || item->id() == "Cacetete")
+                    {
+                        m_player->get_weapon(item->id());
+                        m_map->remove_item(item);
+                    }
                 }
             }
         }
