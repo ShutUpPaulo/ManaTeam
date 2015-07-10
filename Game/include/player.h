@@ -60,6 +60,7 @@ public:
     void open_door();
     void push_item();
     void use_pill();
+    void you_died();
 
     void show_life();
     void show_sanity();

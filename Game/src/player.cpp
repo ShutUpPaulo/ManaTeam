@@ -209,6 +209,10 @@ public:
     {
         m_player->notify(pushItemID, "push_item");
     }
+    void you_died()
+    {
+        m_player->notify(repeatLevelID, "you_died");
+    }
 
 private:
     Player *m_player;
@@ -354,6 +358,8 @@ public:
 
     void update(unsigned long elapsed)
     {
+        if(m_player->life() < 1)
+            m_player->you_died();
 
         if(m_player->stamina() < 100)
         {
@@ -555,6 +561,9 @@ public:
     void update(unsigned long elapsed)
     {
         double speed = m_speed;
+
+        if(m_player->life() < 1)
+            m_player->you_died();
 
         if(m_player->stamina() < 100)
         {
@@ -800,6 +809,8 @@ public:
 
     void update(unsigned long elapsed)
     {
+        if(m_player->life() < 1)
+            m_player->you_died();
 
         if(m_player->stamina() < 100)
         {
@@ -1028,4 +1039,9 @@ void
 Player::get_pill()
 {
     m_impl->get_pill();
+}
+void 
+Player::you_died()
+{
+    m_impl->you_died();
 }

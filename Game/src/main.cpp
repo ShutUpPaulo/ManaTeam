@@ -17,7 +17,7 @@ int main(int, char *[])
     {
         srand(time(NULL));
         SevenKeys keys;
-        keys.init("7 Keys", 1280, 720);
+        keys.init("7 Keys", 1280, 720, 1, true);
         keys.run();
     } catch (Exception ex)
     {
