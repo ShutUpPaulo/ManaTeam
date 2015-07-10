@@ -9,7 +9,7 @@
 using namespace std;
 
 Guard::Guard(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, string t, int dir)
-    : Object(parent, id, x, y), m_animation (new Animation("res/sprites/idle.png",
+    : Object(parent, id, x, y), m_animation (new Animation("res/sprites/idle_guarda.png",
     	0, 0, 70, 70, 2, 1000, true)), m_direction((Direction) dir), m_last(0), type(t)
 {
     this->set_w(70);
@@ -83,6 +83,7 @@ Guard::walk(unsigned long elapsed)
         return;
     else if(type == "normal" || type == "hard")
     {
+
         unsigned speed = 1;
 
         if(elapsed - m_last > 3000)
