@@ -123,7 +123,12 @@ public:
     void show_stamina()
     {
         Environment *env = Environment::get_instance();
-        Rect staminabar {(double)env->canvas->w()/15, (double)env->canvas->h()/13, m_player->stamina()*2, 12};
+        double stamina = m_player->stamina()*2;
+
+        if(stamina < 0)
+            stamina = 0;
+
+        Rect staminabar {(double)env->canvas->w()/15, (double)env->canvas->h()/13, stamina, 12};
         env->canvas->fill(staminabar, Color::YELLOW);
         Rect borda {(double)env->canvas->w()/15, (double)env->canvas->h()/13, 100*2, 12};
         env->canvas->draw(borda, Color::YELLOW);
@@ -188,18 +193,22 @@ public:
             switch (event.key())
             {    
             case KeyboardEvent::LEFT:
+            case KeyboardEvent::A:
                 m_left = 1;
                 return true;
 
             case KeyboardEvent::RIGHT:
+            case KeyboardEvent::D:
                 m_right = 1;
                 return true;
 
             case KeyboardEvent::UP:
+            case KeyboardEvent::W:
                 m_top = 1;
                 return true;
 
             case KeyboardEvent::DOWN:
+            case KeyboardEvent::S:
                 m_down = 1;
                 return true;
 
@@ -216,18 +225,22 @@ public:
             switch (event.key())
             {
             case KeyboardEvent::LEFT:
+            case KeyboardEvent::A:
                 m_left = 0;
                 return true;
 
             case KeyboardEvent::RIGHT:
+            case KeyboardEvent::D:
                 m_right = 0;
                 return true;
 
             case KeyboardEvent::UP:
+            case KeyboardEvent::W:
                 m_top = 0;
                 return true;
 
             case KeyboardEvent::DOWN:
+            case KeyboardEvent::S:
                 m_down = 0;
                 return true;
 
@@ -258,7 +271,7 @@ public:
 
         if(m_player->stamina() < 100)
         {
-            m_player->set_stamina(m_player->stamina() + 0.1);
+            m_player->set_stamina(m_player->stamina() + 0.05);
             if(m_player->stamina() > 100)
                 m_player->set_stamina(100);
         }
@@ -336,6 +349,7 @@ public:
         m_top = dir == Player::UP ? 1 : 0;
         m_down = dir == Player::DOWN ? 1 : 0;
         m_last = 0;
+        m_running = 0;
 
         if (from == Player::IDLE)
         {
@@ -367,18 +381,22 @@ public:
             switch (event.key())
             {
             case KeyboardEvent::LEFT:
+            case KeyboardEvent::A:
                 m_left = 1;
                 return true;
 
             case KeyboardEvent::RIGHT:
+            case KeyboardEvent::D:
                 m_right = 1;
                 return true;
 
             case KeyboardEvent::UP:
+            case KeyboardEvent::W:
                 m_top = 1;
                 return true;
 
             case KeyboardEvent::DOWN:
+            case KeyboardEvent::S:
                 m_down = 1;
                 return true;
 
@@ -395,18 +413,22 @@ public:
             switch (event.key())
             {
             case KeyboardEvent::LEFT:
+            case KeyboardEvent::A:
                 m_left = 0;
                 return true;
 
             case KeyboardEvent::RIGHT:
+            case KeyboardEvent::D:
                 m_right = 0;
                 return true;
 
             case KeyboardEvent::UP:
+            case KeyboardEvent::W:
                 m_top = 0;
                 return true;
 
             case KeyboardEvent::DOWN:
+            case KeyboardEvent::S:
                 m_down = 0;
                 return true;
 
@@ -429,7 +451,7 @@ public:
 
         if(m_player->stamina() < 100)
         {
-            m_player->set_stamina(m_player->stamina() + 0.1);
+            m_player->set_stamina(m_player->stamina() + 0.05);
             if(m_player->stamina() > 100)
                 m_player->set_stamina(100);
         }
@@ -440,9 +462,9 @@ public:
             {
 
                 speed += 200;
-                m_player->set_stamina(m_player->stamina() - 0.3);
-                if(m_player->stamina() < 0)
-                    m_player->set_stamina(0);
+                m_player->set_stamina(m_player->stamina() - 0.25);
+                if(m_player->stamina() < 1)
+                    m_player->set_stamina(-(0.05 * 1000));
             }
         }
 
