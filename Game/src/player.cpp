@@ -11,18 +11,26 @@
 #include "core/environment.h"
 #include "core/keyboardevent.h"
 
-ActionID Player::hitExitDoorID { "hitExitDoorID()" };
-//ActionID Player::hitKeyID{"hitKeyID()"};
+#include <string>
 
+ActionID Player::hitExitDoorID { "hitExitDoorID()" };
+ActionID Player::jumpNextLevelID { "jumpNextLevelID()" };
+ActionID Player::takeItemID { "takeItemID()" };
+ActionID Player::openDoorID { "openDoorID()" };
+ActionID Player::pushItemID { "pushItemID()" };
+ActionID Player::repeatLevelID { "repeatLevelID()" };
+ActionID Player::changeRoomID { "changeRoomID()" };
+ActionID Player::getHitID { "getHitID()" };
 using std::make_pair;
 
 class Player::Impl
 {
 public:
-    Impl(Player *player, Map *current_map, bool key)
+    Impl(Player *player, bool key)
         : m_sanity_loss(0), m_player(player), m_direction(Player::LEFT),
-        m_moviment(make_pair(0.0, 0.0)), m_current_map(current_map), 
-        m_key(key), m_strength(0.0), m_life(100.0), m_sanity(100.0), m_stamina(100.0)
+        m_moviment(make_pair(0.0, 0.0)), 
+        m_key(key), m_strength(0.0), m_life(100.0), m_sanity(100.0), m_stamina(100.0),
+        m_pill(false), m_weapon(false), m_secondary(false), m_damage(50)
     {
     }
 
@@ -37,11 +45,11 @@ public:
         m_moviment = make_pair(xaxis, yaxis);
     }
 
-    void set_current(Room *nova, int posx, int posy)
+    void set_current(string nova, int posx, int posy)
     {
         m_player->set_x(posx);
         m_player->set_y(posy);
-        m_current_map->set_current(nova);
+        m_player->notify(changeRoomID, nova);
     }
 
     void set_strength(double strength)
@@ -81,6 +89,42 @@ public:
     void set_stamina(double stamina)
     {
         m_stamina = stamina;
+    }
+
+    double damage()
+    {
+        return m_damage;
+    }
+
+    void get_pill()
+    {
+        if(m_pill == true)
+            return;
+
+        Environment *env = Environment::get_instance();
+
+        m_pill = true;
+
+        Item* pill = new Item(m_player, "icon_pill", "res/items/thumb.pill.png", (double)env->canvas->w() * 1/35 + 2, (double)env->canvas->h() * 25/30 + 2, 9999, true);
+        m_player->add_child(pill);
+    }
+
+    void get_weapon(string weapon_id)
+    {
+        if(m_weapon == true)
+            return;
+
+        Environment *env = Environment::get_instance();
+        double size = env->canvas->w()/35;
+
+        m_weapon = true;
+
+        char weapon_path[256];
+        sprintf(weapon_path, "res/items/thumb.%s.png", weapon_id.c_str());
+        Item* lWeapon = new Item(m_player, "icon_weapon", weapon_path, (double)env->canvas->w() * 1/35 + 2 + (2*size), (double)env->canvas->h() * 25/30 + 2, 9999, true);
+        m_player->add_child(lWeapon);
+
+        
     }
 
     void get_key()
@@ -151,16 +195,89 @@ public:
         env->canvas->fill(not_item, Color::WHITE);
     }
 
+
+    void use_pill()
+    {
+        if(m_pill)
+        {
+            double recover = 35;
+            m_player->set_life(m_player->life() + recover);
+            if(m_player->life() > 100)
+                m_player->set_life(100);
+
+            cout << "Pegou uma pilula! Recuperou " << recover << " de vida." << endl;
+            
+            const list<Object *> items = m_player->children();
+            for (auto item : items)
+            {
+                if(item->id() == "icon_pill")
+                {
+                    m_pill = false;
+                    m_player->remove_child(item);
+                }
+            }
+        }  
+    }
+
+    void use_weapon()
+    {
+        if(m_weapon)
+        {
+            cout << "Usou a arma!" << endl;
+            
+            const list<Object *> items = m_player->children();
+            for (auto item : items)
+            {
+                if(item->id() == "icon_pill")
+                {
+                    m_pill = false;
+                    m_player->remove_child(item);
+                }
+            }
+        }
+    }
+
+    void take_item()
+    {
+        m_player->notify(takeItemID, "take_item");
+    }
+    void jump_level()
+    {
+        m_player->notify(jumpNextLevelID, "next_level");
+    }
+    void open_door()
+    {
+        m_player->notify(openDoorID, "open_door");
+    }
+    void push_item()
+    {
+        m_player->notify(pushItemID, "push_item");
+    }
+    void you_died()
+    {
+        m_player->notify(repeatLevelID, "you_died");
+    }
+    void hit()
+    {
+        char message[256];
+        double dmg_total = m_player->damage();
+        sprintf(message,"%f", dmg_total);
+        m_player->notify(getHitID, message);
+    }
+
 private:
     Player *m_player;
     Direction m_direction;
     pair<double, double> m_moviment;
-    Map *m_current_map;
     bool m_key;
     double m_strength;
     double m_life;
     double m_sanity;
     double m_stamina;
+    bool m_pill;
+    bool m_weapon;
+    bool m_secondary;
+    double m_damage;
 };
 
 class Idle : public SpriteState
@@ -212,8 +329,28 @@ public:
                 m_down = 1;
                 return true;
 
-            case KeyboardEvent::H:
+            case KeyboardEvent::LSHIFT:
                 m_running = true;
+                return true;
+
+            case KeyboardEvent::Q:
+                m_player->use_pill();
+                return true;
+
+            case KeyboardEvent::E:
+                m_player->open_door();
+                return true;
+
+            case KeyboardEvent::K:
+                m_player->take_item();
+                return true;
+
+            case KeyboardEvent::U:
+                m_player->report_event(Player::DUCKING);
+                return true;
+
+            case KeyboardEvent::J:
+                m_player->hit();
                 return true;
 
             default:
@@ -244,8 +381,16 @@ public:
                 m_down = 0;
                 return true;
 
-            case KeyboardEvent::H:
+            case KeyboardEvent::LSHIFT:
                 m_running = false;
+                return true;
+
+            case KeyboardEvent::P:
+                m_player->jump_level();
+                return true;
+
+            case KeyboardEvent::K:
+                m_player->take_item();
                 return true;
 
             default:
@@ -268,6 +413,8 @@ public:
 
     void update(unsigned long elapsed)
     {
+        if(m_player->life() < 1)
+            m_player->you_died();
 
         if(m_player->stamina() < 100)
         {
@@ -326,11 +473,11 @@ private:
 class Running : public SpriteState
 {
 public:
-    Running(Player *player, Map * current_map, bool key)
+    Running(Player *player, bool key)
         : m_player(player), m_animation(
         new Animation("res/sprites/running.png", 0, 0, 70, 70, 8, 60, true)),
         m_left(0), m_right(0), m_top(0), m_down(0), m_last(0), 
-        current_map(current_map), m_key(key), m_running(false)
+        m_key(key), m_running(false), m_pushing(false)
     {
     }
 
@@ -400,8 +547,29 @@ public:
                 m_down = 1;
                 return true;
 
-            case KeyboardEvent::H:
+            case KeyboardEvent::LSHIFT:
                 m_running = true;
+                return true;
+
+            case KeyboardEvent::Q:
+                m_player->use_pill();
+                return true;
+
+            case KeyboardEvent::K:
+                m_player->take_item();
+                m_pushing = true;
+                return true;
+
+            case KeyboardEvent::E:
+                m_player->open_door();
+                return true;
+
+            case KeyboardEvent::U:
+                m_player->report_event(Player::DUCKING);
+                return true;
+
+            case KeyboardEvent::J:
+                m_player->hit();
                 return true;
 
             default:
@@ -432,8 +600,12 @@ public:
                 m_down = 0;
                 return true;
 
-            case KeyboardEvent::H:
+            case KeyboardEvent::LSHIFT:
                 m_running = false;
+                return true;
+
+            case KeyboardEvent::K:
+                m_pushing = false;
                 return true;
 
             default:
@@ -449,6 +621,9 @@ public:
     {
         double speed = m_speed;
 
+        if(m_player->life() < 1)
+            m_player->you_died();
+
         if(m_player->stamina() < 100)
         {
             m_player->set_stamina(m_player->stamina() + 0.05);
@@ -461,11 +636,18 @@ public:
             if(m_player->stamina() > 1)
             {
 
-                speed += 200;
+                speed += 50 + 10 * ((int)m_player->stamina())/5;
                 m_player->set_stamina(m_player->stamina() - 0.25);
                 if(m_player->stamina() < 1)
                     m_player->set_stamina(-(0.05 * 1000));
             }
+
+//            cout << "speed: " << speed << endl;
+        }
+
+        if(m_pushing)
+        {
+            m_player->push_item();
         }
 
         if(! m_player->m_sanity_loss)
@@ -561,19 +743,201 @@ private:
     unique_ptr<Animation> m_animation;
     short m_left, m_right, m_top, m_down;
     unsigned long m_last;
-    Map * current_map;
-    bool m_key, m_running;
+    bool m_key, m_running, m_pushing;
 };
 
-Player::Player(Object *parent, const string& id, Map *current_map)
-    : Sprite(parent, id), m_impl(new Player::Impl(this, current_map, m_key)),
-     m_key(false), m_sanity_loss(0)
+class Duck : public SpriteState
+{
+public:
+    Duck(Player *player)
+        : m_player(player), m_animation(new Animation("res/sprites/duck.png",
+            0, 0, 70, 70, 2, 1000, true)), m_left(0), m_right(0), m_top(0), 
+        m_down(0)
+    {
+    }
+
+    ~Duck() {}
+
+    void enter(int)
+    {
+        m_player->set_dimensions(m_animation->w(), m_animation->h());
+        m_right = m_left = m_down = m_top = 0;
+    }
+
+    void leave(int)
+    {
+    }
+
+    bool on_event(const KeyboardEvent& event)
+    {
+        switch (event.state())
+        {
+        case KeyboardEvent::PRESSED:
+            switch (event.key())
+            {    
+            case KeyboardEvent::LEFT:
+            case KeyboardEvent::A:
+                m_left = 1;
+                return true;
+
+            case KeyboardEvent::RIGHT:
+            case KeyboardEvent::D:
+                m_right = 1;
+                return true;
+
+            case KeyboardEvent::UP:
+            case KeyboardEvent::W:
+                m_top = 1;
+                return true;
+
+            case KeyboardEvent::DOWN:
+            case KeyboardEvent::S:
+                m_down = 1;
+                return true;
+
+            case KeyboardEvent::Q:
+                m_player->use_pill();
+                return true;
+
+            case KeyboardEvent::E:
+                m_player->open_door();
+                return true;
+
+            case KeyboardEvent::K:
+                m_player->take_item();
+                return true;
+
+            case KeyboardEvent::U:
+                m_player->report_event(Player::STANDING);
+                return true;
+
+            case KeyboardEvent::J:
+                m_player->hit();
+                return true;
+
+            default:
+                break;
+            }
+            break;
+
+        case KeyboardEvent::RELEASED:
+            switch (event.key())
+            {
+            case KeyboardEvent::LEFT:
+            case KeyboardEvent::A:
+                m_left = 0;
+                return true;
+
+            case KeyboardEvent::RIGHT:
+            case KeyboardEvent::D:
+                m_right = 0;
+                return true;
+
+            case KeyboardEvent::UP:
+            case KeyboardEvent::W:
+                m_top = 0;
+                return true;
+
+            case KeyboardEvent::DOWN:
+            case KeyboardEvent::S:
+                m_down = 0;
+                return true;
+
+            case KeyboardEvent::P:
+                m_player->jump_level();
+                return true;
+
+            case KeyboardEvent::K:
+                m_player->take_item();
+                return true;
+
+            default:
+                break;
+            }
+            break;
+        }
+
+        return false;
+    }
+
+    void draw()
+    {
+        m_animation->draw(m_player->x(), m_player->y());
+        m_player->show_life();
+        m_player->show_sanity();
+        m_player->show_inventory();
+        m_player->show_stamina();
+    }
+
+    void update(unsigned long elapsed)
+    {
+        if(m_player->life() < 1)
+            m_player->you_died();
+
+        if(m_player->stamina() < 100)
+        {
+            m_player->set_stamina(m_player->stamina() + 0.05);
+            if(m_player->stamina() > 100)
+                m_player->set_stamina(100);
+        }
+
+
+        if(! m_player->m_sanity_loss)
+            m_player->m_sanity_loss = elapsed;
+
+        if(elapsed - m_player->m_sanity_loss > 3000)
+        {
+            m_player->set_sanity(m_player->sanity() - 1);
+            if(m_player->sanity() < 0)
+                m_player->set_sanity(0);
+            m_player->m_sanity_loss = elapsed;
+        }
+
+        if (m_left)
+        {
+            m_player->set_moviment(-1.0, 0.0);
+            m_player->set_direction(Player::LEFT);
+        } else if (m_right)
+        {
+            m_player->set_moviment(0.0, 0.0);
+            m_player->set_direction(Player::RIGHT);
+        }
+        if (m_top)
+        {
+            m_player->set_moviment(0.0, -1.0);
+            m_player->set_direction(Player::UP);
+        }else if (m_down)
+        {
+            m_player->set_moviment(0.0, 1.0);
+            m_player->set_direction(Player::DOWN);
+        }
+
+        Player::Direction dir = m_player->direction();
+        int row = dir;
+        m_animation->set_row(row);
+        m_animation->update(elapsed);
+    }
+
+private:
+    Player *m_player;
+    unique_ptr<Animation> m_animation;
+    int m_left, m_right, m_top, m_down;
+};
+
+Player::Player(Object *parent, const string& id)
+    : Sprite(parent, id), m_sanity_loss(0), m_impl(new Player::Impl(this, m_key)),
+     m_key(false), m_pill(false), m_weapon(false), m_secondary(false),m_damage(50)
 {
     add_state(IDLE, new Idle(this));
-    add_state(RUNNING, new Running(this, current_map, m_key));
+    add_state(RUNNING, new Running(this, m_key));
+    add_state(DUCK, new Duck(this));
 
     add_transition(MOVED, IDLE, RUNNING);
     add_transition(STOPPED, RUNNING, IDLE);
+    add_transition(DUCKING, IDLE, DUCK);
+    add_transition(STANDING, DUCK, IDLE);
+    add_transition(DUCKING, RUNNING, DUCK);
+    add_transition(STANDING, DUCK, RUNNING);
     change_state(IDLE, NONE);
 
     Environment *env = Environment::get_instance();
@@ -611,7 +975,7 @@ Player::set_moviment(double xaxis, double yaxis)
 }
 
 void
-Player::set_current(Room * nova, int posx, int posy)
+Player::set_current(string nova, int posx, int posy)
 {
     m_impl->set_current(nova, posx, posy);
 }
@@ -663,6 +1027,11 @@ Player::stamina()
 {
     return m_impl->stamina();
 }
+double
+Player::damage()
+{
+    return m_impl->damage();
+}
 
 void
 Player::get_key()
@@ -701,4 +1070,56 @@ void
 Player::show_stamina()
 {
     m_impl->show_stamina();
+}
+
+void
+Player::take_item()
+{
+    m_impl->take_item();
+}
+
+void
+Player::jump_level()
+{
+    m_impl->jump_level();
+}
+
+void
+Player::open_door()
+{
+    m_impl->open_door();
+}
+
+void
+Player::push_item()
+{
+    m_impl->push_item();
+}
+
+void
+Player::get_weapon(string weapon_id)
+{
+    m_impl->get_weapon(weapon_id);   
+}
+
+void
+Player::use_pill()
+{
+    m_impl->use_pill();
+}
+
+void
+Player::get_pill()
+{
+    m_impl->get_pill();
+}
+void 
+Player::you_died()
+{
+    m_impl->you_died();
+}
+void
+Player::hit()
+{
+    m_impl->hit();
 }

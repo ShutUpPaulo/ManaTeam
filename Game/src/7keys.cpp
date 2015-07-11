@@ -10,17 +10,15 @@
 #include <ijengine/util/frontend.h>
 #include "titlescreen.h"
 #include "stage.h"
+#include "options.h"
 
  #include <cstring>
 
 SevenKeys::SevenKeys()
     : Game("fone")
 {
-    Environment *env = Environment::get_instance();
-
-    env->video->set_fullscreen();
-   AudioManagerMusic * music2 = new AudioManagerMusic();
-   music2 -> play("res/sounds/Key.ogg", -1);
+    AudioManagerMusic * music2 = new AudioManagerMusic();
+    music2 -> play("res/sounds/Key.ogg", -1);
 }
 
 Level *
@@ -44,7 +42,10 @@ SevenKeys::load_level(const string& id)
     } else if (id == "title")
     {
         return new TitleScreen();
-    } else 
+    } else if (id == "options")
+    {
+        return new Options();
+    }
     {
 
         if (strstr(id.c_str(), "stage"))

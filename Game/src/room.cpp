@@ -9,11 +9,7 @@
 #include <core/canvas.h>
 #include <core/image.h>
 
-#include "item.h"
 #include "room.h"
-#include "guard.h"
-
-//Duvida: Como fazer para receber o stage????
 
 static int randint(int a, int b)
 {
@@ -24,13 +20,14 @@ static int randint(int a, int b)
 }
 
 Room::Room(Object *parent, ObjectID id, string type, Room *left, Room *top, Room *right, Room *bottom, int s_id)
-: Object(parent, id), r_left(left), r_right(right), r_top(top), r_bottom(bottom), type(type),
-    m_doors(false), stage_id(s_id)
+: Object(parent, id), r_left(left), r_right(right), r_top(top), r_bottom(bottom), type(type), stage_id(s_id),
+    m_doors(false)
 {
     fill_floor("tile");
     add_walls("parede");
     add_corners("canto");
     add_guard("guard");
+    add_ghost("ghost");
     add_items(stage_id);
 
     if(r_left)
@@ -92,7 +89,7 @@ void Room::add_items(int stage_id)
             {"Mesa", "tile_sheet", 2, 40, false, false, 20.0, -1, -1},
             {"Papeis", "tile_sheet", 0, 70, true, false, 0.0, -1, -1},
             {"Pill", "item", 0, 10, true, false, 0.0, -1, -1},
-            {"Garrafa", "item", 0, 10, true, false, 0.0, -1, -1},
+            {"Garrafa", "item", 0, 70, true, false, 0.0, -1, -1},
             {"Relogio", "tile_sheet", 0, 5, true, false, 20.0, -1, -1},
         }; 
 
@@ -251,6 +248,15 @@ Room::draw_id(Room * anterior, Room * sala, int x, int y)
 }
 
 void
+Room::draw_self()
+{
+    Environment *env = Environment::get_instance();
+    draw_id(NULL, this, 640, 360);
+    Rect square {635, 355, 80, 40};
+    env->canvas->draw(square, Color::RED);
+}
+
+void
 Room::add_door(string type, char direction, int x, int y)
 {
     char doorID[128];
@@ -280,13 +286,11 @@ Room::add_door(string type, char direction, int x, int y)
         add_child(porta);
     }
 
-	
-
     const list<Object *> items = this->children();
     for (auto item : items)
     {
         char buffer[256];
-        sprintf(buffer, "parede", stages, direction);
+        sprintf(buffer, "parede");
         if(strcmp(item->id().c_str(), buffer) == 0)
         {
             if((item->x() > x - item->w() && item->x() < x + item->w()) && item->y() == y)
@@ -327,18 +331,6 @@ void
 Room::remove_item(Object *item)
 {
 	remove_child(item);
-}
-
-void
-Room::update_self(unsigned long)
-{
-    if (not m_doors)
-    {
-        Item *porta;
-        string path;
-
-        m_doors = true;
-    }
 }
 
 void
@@ -489,6 +481,20 @@ Room::add_guard(const string& name)
     }
 }
 
+void
+Room::add_ghost(const string& name)
+{
+
+    string type = "easy";
+
+    for(int i = 0; i < (stage_id / 3) + 1; i++)
+    {
+        Ghost *ghost = new Ghost(this, name, 0, 0, 9999, true, "normal", randint(0,3));
+        place(ghost, -1, -1);
+        add_child(ghost);
+    }
+}
+
 bool
 Room::place(Object *object, double x, double y)
 {
@@ -543,8 +549,8 @@ Room::place(Object *object, double x, double y)
 void
 Room::notify_creation(const string& position)
 {   
-    Environment *env = Environment::get_instance();
-    Canvas *canvas = env->canvas;
+    //Environment *env = Environment::get_instance();
+    //Canvas *canvas = env->canvas;
 
     if(position == "left")
     {
@@ -562,4 +568,29 @@ Room::notify_creation(const string& position)
     {
        add_door("normal", 'b', 600, 640); 
     }              
+}
+
+void
+Room::update_self(unsigned long)
+{
+    const list<Object *> npcs = children();
+    for (auto npc : npcs)
+    {
+        if(npc->id() == "guard")
+        {
+            Guard * guarda = (Guard*) npc;
+            if (guarda->life() < 1)
+            {
+
+                remove_child(npc);
+                Ghost *ghost = new Ghost(this, "ghost", 0, 0, 9999, true, "normal", randint(0,3));
+                place(ghost, npc->x(), npc->y());
+                add_child(ghost);
+            }
+        }
+    }
+    if (not m_doors)
+    {
+        m_doors = true;
+    }
 }

@@ -16,14 +16,13 @@ using std::pair;
 class Player : public Sprite
 {
 public:
-    typedef enum { NONE, IDLE, RUNNING } State;
-    typedef enum { MOVED, STOPPED } Event;
+    typedef enum { NONE, IDLE, RUNNING, DUCK } State;
+    typedef enum { MOVED, STOPPED, DUCKING, STANDING } Event;
     typedef enum { LEFT, UP, RIGHT, DOWN } Direction;
 
-    int m_sanity_loss;
-
-    Player(Object *parent, const string& id, Map *current_map);
+    Player(Object *parent, const string& id);
     ~Player();
+    int m_sanity_loss;
 
     Direction direction() const;
     void set_direction(Direction direction);
@@ -32,13 +31,21 @@ public:
     void set_moviment(double xaxis, double yaxis);
 
     static ActionID hitExitDoorID;
+    static ActionID jumpNextLevelID;
+    static ActionID takeItemID;
+    static ActionID openDoorID;
+    static ActionID pushItemID;
+    static ActionID repeatLevelID;
+    static ActionID changeRoomID;
+    static ActionID getHitID;
 
-    void set_current(Room *room, int x, int y);
+    void set_current(string room, int x, int y);
 
     double life();
     double sanity();
     double strength();
     double stamina();
+    double damage();
 
     void set_life(double life = 100.0);
     void set_sanity(double sanity = 100.0);
@@ -49,6 +56,18 @@ public:
     void get_key();
     bool has_key();
 
+    void get_pill();
+    void get_weapon(string weapon_id);
+
+    void take_item();
+    void jump_level();
+    void open_door();
+    void push_item();
+    void use_pill();
+    void use_weapon();
+    void you_died();
+    void hit();
+
     void show_life();
     void show_sanity();
     void show_inventory();
@@ -58,6 +77,10 @@ private:
     class Impl;
     unique_ptr<Impl> m_impl;
     bool m_key = false;
+    bool m_pill = false;
+    bool m_weapon = false;
+    bool m_secondary = false;
+    double m_damage = 50;
 
 };
 
