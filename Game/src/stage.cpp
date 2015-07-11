@@ -379,20 +379,28 @@ Stage::on_message(Object *, MessageID id, Parameters p)
     else if(id == Player::getHitID)
     {
         const list<Object *> npcs = m_map->current_room->children();
+        const list<Object *> filhos = m_player->children();
         for (auto npc : npcs)
         {
-            Rect a = m_player->bounding_box();
-            Rect b = npc->bounding_box();
-            Rect c = a.intersection(b);
-
-            if(npc->id() == "guard")
+            for (auto filho : filhos)
             {
-                if (c.w() > 0 and c.h() > 0)
+                Rect a = filho->bounding_box();
+                Rect b = npc->bounding_box();
+                Rect c = a.intersection(b);
+
+                if(npc->id() == "guard")
                 {
-                    double dmg = atof(p.c_str());
-                    Guard * guarda = (Guard*) npc;
-                    guarda->receive_dmg(dmg);
-                    return true;
+                    if (c.w() != 0 and c.h() != 0)
+                    {
+                        if(filho->id() == "visao")
+                        {
+                            double dmg = atof(p.c_str());
+                            Guard * guarda = (Guard*) npc;
+                            guarda->receive_dmg(dmg);
+                            return true;
+                        }
+                        
+                    }
                 }
             }
         }

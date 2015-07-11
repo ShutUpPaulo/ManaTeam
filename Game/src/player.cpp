@@ -225,15 +225,7 @@ public:
         {
             cout << "Usou a arma!" << endl;
             
-            const list<Object *> items = m_player->children();
-            for (auto item : items)
-            {
-                if(item->id() == "icon_pill")
-                {
-                    m_pill = false;
-                    m_player->remove_child(item);
-                }
-            }
+            
         }
     }
 
@@ -263,7 +255,38 @@ public:
         double dmg_total = m_player->damage();
         sprintf(message,"%f", dmg_total);
         m_player->notify(getHitID, message);
-    }
+
+        const list<Object *> filhos = m_player->children();
+
+        for (auto filho : filhos)
+        {
+            if(filho->id() == "visao")
+            {
+                m_player->remove_child(filho);
+            }
+            }
+
+            if(direction() == Player::RIGHT)
+            {
+                Sight *visao = new Sight(m_player, "visao", m_player->x()+40, m_player->y(), 100, 40);
+                m_player->add_child(visao);
+            }
+            else if(direction() == Player::LEFT)
+            {
+                Sight *visao = new Sight(m_player, "visao", m_player->x() - 200, m_player->y(), 100, 40);
+                m_player->add_child(visao);
+            }
+            else if(direction() == Player::UP)
+            {
+                Sight *visao = new Sight(m_player, "visao", m_player->x(), m_player->y() - 200, 100, 40);
+                m_player->add_child(visao);
+            }
+            else if(direction() == Player::DOWN)
+            {
+                Sight *visao = new Sight(m_player, "visao", m_player->x(), m_player->y() + 40, 100, 40);
+                m_player->add_child(visao);
+            }
+        }
 
 private:
     Player *m_player;

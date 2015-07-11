@@ -10,6 +10,7 @@
 
 #include "core/sprite.h"
 #include "map.h"
+#include "sight.h"
 
 using std::pair;
 
