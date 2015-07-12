@@ -13,7 +13,6 @@
 #include "titlescreen.h"
 #include "stage.h"
 #include "options.h"
-#include "transition.h"
 #include "creditos.h"
 #include "extras.h"
 #include "pausa.h"
@@ -45,10 +44,12 @@ SevenKeys::load_level(const string& id)
     else if (id == "classificacao")
     {
         return new FrontEnd("classificacao", "title", "res/images/classificacao_indicativa.png");
-    } else if (id == "title")
+    } 
+    else if (id == "title")
     {
         return new TitleScreen();
-    } else if (id == "options")
+    }
+    else if (id == "options")
     {
         return new Options();
     }
@@ -89,11 +90,11 @@ SevenKeys::load_level(const string& id)
     {
         return new Stage(id);
     }
-    
-    } else if (id == "creditos")
+    else if (id == "creditos")
     {
         return new Creditos();
-    }  else if (id == "extras")
+    } 
+    else if (id == "extras")
     {
         return new Extras();
     } 

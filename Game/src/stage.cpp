@@ -16,7 +16,6 @@
 #include "item.h"
 #include "map.h"
 #include "player.h"
-#include "transition.h"
 
 
 ActionID Stage::colisionID = "colisionID()";
