@@ -24,27 +24,41 @@ TitleScreen::TitleScreen()
 
     set_dimensions(w, h);
 
-    Button *ok = new Button(this, "ok", "res/buttons/new-game.png",
-        "res/buttons/new-game-selected.png");
-    ok->align_to(this, Object::CENTER, Object::MIDDLE);
+    Button *jogar = new Button(this, "jogar", "res/interface/menuInicial/jogar.png",
+        "res/interface/menuInicial/Sjogar.png");
+    jogar->align_to(this, Object::RIGHT , Object::MIDDLE);
 
-    Button *settings = new Button(this, "settings", "res/buttons/set-up.png",
-        "res/buttons/set-up-selected.png");
-    settings->align_to(this, Object::CENTER, Object::NONE);
-    settings->set_y(ok->y() + ok->h() + 20);
+    Button *options = new Button(this, "options", "res/interface/menuInicial/opcao.png",
+        "res/interface/menuInicial/Sopcao.png");
+    options->align_to(this, Object::RIGHT, Object::NONE);
+    options->set_y(jogar->y() + jogar->h() + 15);
 
-    Button *exit = new Button(this, "exit", "res/buttons/exit.png",
-        "res/buttons/exit-selected.png");
-    exit->align_to(this, Object::CENTER, Object::NONE);
-    exit->set_y(settings->y() + settings->h() + 20);
+    Button *creditos = new Button(this, "creditos", "res/interface/menuInicial/creditos.png",
+        "res/interface/menuInicial/Screditos.png");
+    creditos->align_to(this, Object::RIGHT, Object::NONE);
+    creditos->set_y(options->y() + options->h()+15);
 
-    ok->add_observer(this);
-    settings->add_observer(this);
+    Button *exit = new Button(this, "exit", "res/interface/menuInicial/sair.png",
+        "res/interface/menuInicial/Ssair.png");
+    exit->align_to(this, Object::RIGHT, Object::NONE);
+    exit->set_y(creditos->y() + creditos->h() + 15);
+
+    Button *extras = new Button (this, "extras", "res/interface/menuInicial/extras.png",
+        "res/interface/menuInicial/Sextras.png");
+    creditos->align_to(this, Object::MIDDLE, Object::NONE);
+    extras->set_y(creditos->y() +creditos->h() + 15);
+
+    jogar->add_observer(this);
+    options->add_observer(this);
+    creditos->add_observer(this);
     exit->add_observer(this);
+    extras->add_observer(this);
 
-    add_child(ok);
-    add_child(settings);
+    add_child(jogar);
+    add_child(options);
+    add_child(creditos);
     add_child(exit);
+    add_child(extras);
 }
 
 TitleScreen::~TitleScreen()
@@ -57,7 +71,7 @@ TitleScreen::draw_self()
     Environment *env = Environment::get_instance();
     env->canvas->clear(Color::WHITE);
 
-    shared_ptr<Texture> image = env->resources_manager->get_texture("res/images/menuBackground.png");
+    shared_ptr<Texture> image = env->resources_manager->get_texture("res/interface/menuInicial/menuInicial.png");
     env->canvas->draw(image.get(), 1, 0);
 }
 
@@ -76,14 +90,15 @@ TitleScreen::on_message(Object *object, MessageID id, Parameters)
         return false;
     }
 
-    if (button->id() == "ok")
+    if (button->id() == "jogar")
     {
         set_next("stage1");
-    } else if (button->id() == "settings")
-    {
-        cout << "Entrou aqui!" << endl;
+    } else if (button->id() == "options")
         set_next("options");
-    }
+    else if(button->id() == "creditos")
+        set_next("creditos");
+    else if (button-> id() == "extras")
+        set_next("extras");
 
     finish();
 

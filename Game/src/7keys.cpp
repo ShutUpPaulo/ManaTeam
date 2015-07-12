@@ -14,6 +14,9 @@
 #include "stage.h"
 #include "options.h"
 #include "transition.h"
+#include "creditos.h"
+#include "extras.h"
+#include "pausa.h"
 
  #include <cstring>
 
@@ -21,7 +24,7 @@ SevenKeys::SevenKeys()
     : Game("fone")
 {
     AudioManagerMusic * music2 = new AudioManagerMusic();
-    music2 -> play("res/sounds/Key.ogg", -1);
+    music2 -> play("res/sounds/musicaFinal.wav", -1);
 }
 
 Level *
@@ -87,7 +90,13 @@ SevenKeys::load_level(const string& id)
         return new Stage(id);
     }
     
-
+    } else if (id == "creditos")
+    {
+        return new Creditos();
+    }  else if (id == "extras")
+    {
+        return new Extras();
+    } 
 
     return nullptr;
 }
