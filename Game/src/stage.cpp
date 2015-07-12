@@ -53,7 +53,7 @@ Stage::Stage(ObjectID id)
     add_child(m_player);
 
     Environment *env = Environment::get_instance();
-    env->music->play("res/sounds/Fase1.ogg", -1);
+    env->music->play("res/sounds/Fase1.wav", -1);
 
     add_observer(m_player);
     add_observer(m_map);

@@ -10,7 +10,7 @@
 #include "core/level.h"
 #include "core/environment.h"
 #include "core/keyboardevent.h"
-
+#include "pausa.h"
 #include <string>
 
 ActionID Player::hitExitDoorID { "hitExitDoorID()" };
@@ -866,7 +866,7 @@ public:
                 m_down = 0;
                 return true;
 
-            case KeyboardEvent::P:
+            case KeyboardEvent::O:
                 m_player->jump_level();
                 return true;
 

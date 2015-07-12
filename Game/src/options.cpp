@@ -17,18 +17,18 @@ Options::Options()
 
     set_dimensions(w, h);
 
-    Button *set_fullscreen = new Button(this, "fullscreen", "res/buttons/set-up.png",
-        "res/buttons/set-up-selected.png");
-    set_fullscreen->align_to(this, Object::CENTER, Object::MIDDLE);
+    Button *set_fullscreen = new Button(this, "fullscreen", "res/interface/menuOpcao/modoJanela.png",
+        "res/interface/menuOpcao/SmodoJanela.png");
+    set_fullscreen->align_to(this, Object::RIGHT, Object::MIDDLE);
 
-    Button *windowmode = new Button(this, "windowmode", "res/buttons/new-game.png",
-        "res/buttons/new-game-selected.png");
-    windowmode->align_to(this, Object::CENTER, Object::NONE);
+    Button *windowmode = new Button(this, "windowmode", "res/interface/menuOpcao/comoJogar.png",
+        "res/interface/menuOpcao/ScomoJogar.png");
+    windowmode->align_to(this, Object::RIGHT, Object::NONE);
     windowmode->set_y(set_fullscreen->y() + set_fullscreen->h() + 20);
 
-    Button *back = new Button(this, "back", "res/buttons/exit.png",
-        "res/buttons/exit-selected.png");
-    back->align_to(this, Object::CENTER, Object::NONE);
+    Button *back = new Button(this, "back", "res/interface/menuOpcao/voltar.png",
+        "res/interface/menuOpcao/Svoltar.png");
+    back->align_to(this, Object::RIGHT, Object::NONE);
     back->set_y(windowmode->y() + windowmode->h() + 20);
 
     set_fullscreen->add_observer(this);
@@ -50,7 +50,7 @@ Options::draw_self()
     Environment *env = Environment::get_instance();
     env->canvas->clear(Color::WHITE);
 
-    shared_ptr<Texture> image = env->resources_manager->get_texture("res/images/menuBackground.png");
+    shared_ptr<Texture> image = env->resources_manager->get_texture("res/interface/menuOpcao/menuOpcao.png");
     env->canvas->draw(image.get(), 1, 0);
 }
 
