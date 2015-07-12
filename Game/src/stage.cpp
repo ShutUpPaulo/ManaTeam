@@ -16,6 +16,7 @@
 #include "item.h"
 #include "map.h"
 #include "player.h"
+#include "transition.h"
 
 
 ActionID Stage::colisionID = "colisionID()";
@@ -250,7 +251,7 @@ Stage::on_message(Object *, MessageID id, Parameters p)
     {
         m_player->set_key(false);
         char new_stage[256];
-        sprintf(new_stage, "stage%d", m_num_id+1);
+        sprintf(new_stage, "trans%d", m_num_id+1);
         m_player->notify(Player::hitExitDoorID, new_stage);
         return true;
     }
@@ -258,7 +259,7 @@ Stage::on_message(Object *, MessageID id, Parameters p)
     {
         m_player->set_key(false);
         char new_stage[256];
-        sprintf(new_stage, "stage%d", m_num_id);
+        sprintf(new_stage, "trans%d", m_num_id);
         cout << "Voce morreu, parca. Re";
         m_player->notify(Player::hitExitDoorID, new_stage);
         return true;
@@ -320,7 +321,7 @@ Stage::on_message(Object *, MessageID id, Parameters p)
                             m_player->set_key(false);
                             finish();
                             char new_stage[256];
-                            sprintf(new_stage, "stage%d", m_num_id+1);
+                            sprintf(new_stage, "trans%d", m_num_id+1);
                             m_player->notify(Player::hitExitDoorID, new_stage);
                             return true;
                         }

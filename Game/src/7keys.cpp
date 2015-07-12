@@ -6,11 +6,14 @@
  * Licença: LGPL. Sem copyright.
  */
 #include <ijengine/core/environment.h>
+#include <ijengine/core/level.h>
+
 #include "7keys.h"
 #include <ijengine/util/frontend.h>
 #include "titlescreen.h"
 #include "stage.h"
 #include "options.h"
+#include "transition.h"
 
  #include <cstring>
 
@@ -46,13 +49,44 @@ SevenKeys::load_level(const string& id)
     {
         return new Options();
     }
+    else if (strstr(id.c_str(), "trans"))
     {
+        Environment *env = Environment::get_instance();
+        shared_ptr <Font> font = env->resources_manager->get_font("res/fonts/TakaoExGothic.ttf");
+        env->canvas->set_font(font);
 
-        if (strstr(id.c_str(), "stage"))
-        {
-            return new Stage(id);
-        }
+        double w = env->canvas->w();
+        double h = env->canvas->h();
+
+        string ant = id;
+
+        Level *lvl = new Level(id, id);
+        lvl->set_dimensions(w, h);
+
+        /*string *str; //mudando uma variavel constante
+        str = (string*)(&id);
+        *str = "stage1";*/
+
+        char novo[256];
+        sprintf(novo, "%s",id.c_str());
+        novo[0] = 's';
+        novo[1] = 't';
+        novo[2] = 'a';
+        novo[3] = 'g';
+        novo[4] = 'e';
+
+        env->canvas->draw(id, w/2, h/2 ,Color::RED);
+
+        cout << novo << endl;
+
+        return new FrontEnd(id, novo, "res/images/fone.png");
     }
+
+    else if (strstr(id.c_str(), "stage"))
+    {
+        return new Stage(id);
+    }
+    
 
 
     return nullptr;
