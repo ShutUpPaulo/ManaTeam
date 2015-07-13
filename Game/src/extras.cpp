@@ -59,8 +59,6 @@ Extras::draw_self()
 bool
 Extras::on_message(Object *object, MessageID id, Parameters)
 {
-    Environment *env = Environment::get_instance();
-
     if (id != Button::clickedID)
     {
         return false;

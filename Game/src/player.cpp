@@ -30,7 +30,7 @@ public:
         : m_sanity_loss(0), m_player(player), m_direction(Player::LEFT),
         m_moviment(make_pair(0.0, 0.0)), 
         m_key(key), m_strength(0.0), m_life(100.0), m_sanity(100.0), m_stamina(100.0),
-        m_pill(false), m_weapon(false), m_secondary(false), m_damage(50)
+        m_pill(false), m_hweapon(false), m_weapon(nullptr), m_secondary(false), m_damage(50)
     {
     }
 
@@ -111,20 +111,39 @@ public:
 
     void get_weapon(string weapon_id)
     {
-        if(m_weapon == true)
+        if(m_hweapon == true)
             return;
 
         Environment *env = Environment::get_instance();
         double size = env->canvas->w()/35;
 
-        m_weapon = true;
+        m_hweapon = true;
 
         char weapon_path[256];
         sprintf(weapon_path, "res/items/thumb.%s.png", weapon_id.c_str());
         Item* lWeapon = new Item(m_player, "icon_weapon", weapon_path, (double)env->canvas->w() * 1/35 + 2 + (2*size), (double)env->canvas->h() * 25/30 + 2, 9999, true);
         m_player->add_child(lWeapon);
 
-        
+        if(weapon_id == "Garrafa")
+        {
+            Weapon* weapon = new Weapon(m_player, "icon_weapon", weapon_path, 3, 34.0, 5);
+            m_weapon = weapon;
+            m_player->add_child(m_weapon);
+        }
+
+        if(weapon_id == "Faca")
+        {
+            Weapon* weapon = new Weapon(m_player, "icon_weapon", weapon_path, 5, 60.0, 5);
+            m_weapon = weapon;
+            m_player->add_child(m_weapon);
+        }
+
+        if(weapon_id == "Cacetete")
+        {
+            Weapon* weapon = new Weapon(m_player, "icon_weapon", weapon_path, 7, 33.0, 5);
+            m_weapon = weapon;
+            m_player->add_child(m_weapon);
+        }
     }
 
     void get_key()
@@ -252,7 +271,12 @@ public:
     void hit()
     {
         char message[256];
-        double dmg_total = m_player->damage();
+        double dmg_total;
+
+        if(m_hweapon != false)    
+            dmg_total = m_weapon->m_damage;
+        else
+            dmg_total = m_player->damage();
         sprintf(message,"%f", dmg_total);
         m_player->notify(getHitID, message);
 
@@ -298,7 +322,8 @@ private:
     double m_sanity;
     double m_stamina;
     bool m_pill;
-    bool m_weapon;
+    bool m_hweapon;
+    Weapon* m_weapon;
     bool m_secondary;
     double m_damage;
 };
@@ -949,7 +974,7 @@ private:
 
 Player::Player(Object *parent, const string& id)
     : Sprite(parent, id), m_sanity_loss(0), m_impl(new Player::Impl(this, m_key)),
-     m_key(false), m_pill(false), m_weapon(false), m_secondary(false),m_damage(50)
+     m_key(false), m_pill(false), m_hweapon(false), m_secondary(false),m_damage(50)
 {
     add_state(IDLE, new Idle(this));
     add_state(RUNNING, new Running(this, m_key));

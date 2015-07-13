@@ -7,6 +7,7 @@
 #include <iostream>
 
 ActionID Guard::removeGuardID { "removeGuardID()" };
+ActionID Guard::walkID { "walkID()" };
 
 using namespace std;
 
@@ -88,23 +89,31 @@ Guard::draw_self()
 void
 Guard::walk(unsigned long elapsed)
 {
-    double speed = 0.6;
+    double speed = 1;
     if(m_type == "easy")
         return;
     else if(m_type == "normal" || m_type == "hard")
     {
+        Environment *env = Environment::get_instance();
 
-        unsigned speed = 1;
 
         if(elapsed - m_last > 3000)
         {
             if(direction() == Guard::RIGHT || direction() == Guard::LEFT)
             {
                 set_x(x() - speed + (speed * direction()));
+                if(x() < 0 + 80)
+                    set_x(80);
+                else if(x() > env->canvas->w() - this->w() - 80)
+                    set_x(env->canvas->w() - this->w() - 80);
             }
             if(direction() == Guard::UP || direction() == Guard::DOWN)
             {
                 set_y(y() - 2 * speed + (speed * direction()));
+                if(y() < 0 + 80)
+                    set_y(80);
+                else if(y() > env->canvas->h() - this->h() - 80)
+                    set_y(env->canvas->h() - this->h() - 80);
             }
         }
     }

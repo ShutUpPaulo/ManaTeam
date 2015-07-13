@@ -19,6 +19,7 @@ public:
     ~Guard();
 
     static ActionID removeGuardID;
+    static ActionID walkID;
 
     Direction direction();
     void get_playerx(int pos_x);
@@ -35,9 +36,11 @@ public:
     double life();
     double damage();
     void receive_dmg(double dmg);
+    string m_old_type;
 
 private:
     string m_type;
+
     int player_posx;
     int player_posy;
     double m_damage;

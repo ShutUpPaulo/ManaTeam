@@ -7,12 +7,15 @@
 
 using namespace std;
 
-class Weapon : public Item
+class Weapon : public Image
 {
 public:
-    Weapon(Object *parent, ObjectID id, const string& path,
-     double x, double y, double mass, bool walkable, int resistance,
-     double damage, int attack_speed, string type);
+    Weapon(Object *parent, ObjectID id, const string& path, int resistance,
+     double damage, int attack_speed);
+
+    double m_damage;
+    int m_attack_speed;
+    int m_resistance;
 };
 
 #endif
