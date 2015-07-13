@@ -130,7 +130,7 @@ SevenKeys::load_level(const string& id)
 
         lives -= 1;
 
-        return new FrontEnd(id, novo, "res/interface/transicao/gameOver.png");
+        return new FrontEnd(id, novo, "res/images/transition.png");
     }
     else if(id == "gameover")
     {
