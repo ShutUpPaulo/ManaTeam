@@ -99,7 +99,8 @@ void Room::add_items(int stage_id)
             {"CadeiraseMesa", "tile_sheet", 3, 40, false, false, 25.0, -1, -1},
             {"Mesa", "tile_sheet", 2, 40, false, false, 20.0, -1, -1},
             {"Papeis", "tile_sheet", 0, 70, true, false, 0.0, -1, -1},
-            {"Pill", "item", 0, 10, true, false, 0.0, -1, -1},
+            {"Pill1", "item", 0, 10, true, false, 0.0, -1, -1},
+            {"Pill2", "item", 0, 15, true, false, 0.0, -1, -1},
             {"Garrafa", "item", 0, 70, true, false, 0.0, -1, -1},
             {"Relogio", "tile_sheet", 0, 5, true, false, 20.0, -1, -1},
         }; 
@@ -114,7 +115,8 @@ void Room::add_items(int stage_id)
             {"ArmarioDeArquivosPapeis", "tile_sheet", 0, 40, false, 25.0, false, -1, -1},
             {"Cama", "tile_sheet", 0, 40, false, false, 20.0, -1, -1},
             {"Papeis", "tile_sheet", 0, 70, true, false, 0.0, -1, -1},
-            {"Pill", "item", 0, 10, true, false, 0.0, -1, -1},
+            {"Pill1", "item", 0, 10, true, false, 0.0, -1, -1},
+            {"Pill2", "item", 0, 15, true, false, 0.0, -1, -1},
             {"Garrafa", "item", 0, 5, true, false, 0.0, -1, -1},
             {"MesaHospitalar", "tile_sheet", 0, 40, false, false, 25.0, -1, -1},
             {"MesaHospitalarCust", "tile_sheet", 0, 40, false, false, 5.0, -1, -1},
@@ -158,14 +160,19 @@ void Room::add_items(int stage_id)
         }
 
         char path[512];
+        char prepath[256];
+        if(it->type == "item")
+            sprintf(prepath,"res/items/");
+        else
+            sprintf(prepath,"res/tile_sheets/");
 
         if (it->variations)
         {
             int variation = randint(1, it->variations);
-            sprintf(path, "res/tile_sheets/%s%d.png", it->name.c_str(), variation);
+            sprintf(path, "%s%s%d.png", prepath, it->name.c_str(), variation);
         } else
         {
-            sprintf(path, "res/tile_sheets/%s.png", it->name.c_str());
+            sprintf(path, "%s%s.png", prepath, it->name.c_str());
         }
 
         double x = it->x;

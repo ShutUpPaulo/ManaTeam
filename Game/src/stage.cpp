@@ -57,8 +57,13 @@ Stage::Stage(ObjectID id, int lives, double * sanity)
 
     add_child(m_player);
 
-    Environment *env = Environment::get_instance();
-    env->music->play("res/sounds/Fase1.wav", -1);
+    // Environment *env = Environment::get_instance();
+    // char music_path[256];
+    // if(m_num_id < 5)
+    //     sprintf(music_path, "res/sounds/Fase%d.wav", m_num_id);
+    // else
+    //     sprintf(music_path, "res/sounds/Fase5.wav");
+    // env->music->play(music_path, -1);
 
     add_observer(m_player);
     add_observer(m_map);
@@ -341,9 +346,9 @@ Stage::on_message(Object *, MessageID id, Parameters p)
                         return true;
                     }
 
-                    if(item->id() == "Pill")
+                    if(strstr(item->id().c_str(), "Pill"))
                     {
-                        m_player->get_pill();
+                        m_player->get_pill(item->id());
                         m_map->remove_item(item);
                     }
 

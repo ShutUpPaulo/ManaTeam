@@ -92,7 +92,7 @@ TitleScreen::on_message(Object *object, MessageID id, Parameters)
 
     if (button->id() == "jogar")
     {
-        set_next("stage1");
+        set_next("trans1");
     } else if (button->id() == "options")
     {
         env->sfx->play("res/sounds/navegacaomenu.wav", 1);

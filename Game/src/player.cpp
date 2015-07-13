@@ -30,7 +30,7 @@ public:
         : m_sanity_loss(0), m_player(player), m_direction(Player::LEFT),
         m_moviment(make_pair(0.0, 0.0)), 
         m_key(key), m_strength(0.0), m_health(100.0), m_sanity(100.0), m_stamina(100.0),
-        m_pill(false), m_hweapon(false), m_weapon(nullptr), m_secondary(false), m_damage(50),
+        m_pill(0), m_hweapon(false), m_weapon(nullptr), m_secondary(false), m_damage(50),
         m_life(5)
     {
     }
@@ -97,16 +97,35 @@ public:
         return m_damage;
     }
 
-    void get_pill()
+    void get_pill(string id)
     {
-        if(m_pill == true)
-            return;
+
+        const list<Object *> items = m_player->children();
+        for (auto item : items)
+        {
+            if(strstr(item->id().c_str(), "Pill"))
+            {
+                m_player->remove_child(item);
+            }
+        }
 
         Environment *env = Environment::get_instance();
 
-        m_pill = true;
+        cout << "id da pill" << id << endl;
 
-        Item* pill = new Item(m_player, "icon_pill", "res/items/thumb.pill.png", (double)env->canvas->w() * 1/35 + 2, (double)env->canvas->h() * 25/30 + 2, 9999, true);
+        if(id == "Pill1")
+        {
+            m_pill = 1;
+        }
+            
+        else if (id == "Pill2")
+        {
+            m_pill = 2;
+        }
+
+        char path[256];
+        sprintf(path, "res/items/thumb.%s.png", id.c_str());
+        Item* pill = new Item(m_player, "icon_pill", path, (double)env->canvas->w() * 1/35 + 2, (double)env->canvas->h() * 25/30 + 2, 9999, true);
         m_player->add_child(pill);
     }
 
@@ -218,25 +237,44 @@ public:
 
     void use_pill()
     {
-        if(m_pill)
+        if(m_pill == 1)
         {
             double recover = 35;
             m_player->set_health(m_player->health() + recover);
             if(m_player->health() > 100)
                 m_player->set_health(100);
 
-            cout << "Pegou uma pilula! Recuperou " << recover << " de vida." << endl;
+            cout << "usou uma pilula! Recuperou " << recover << " de vida." << endl;
             
             const list<Object *> items = m_player->children();
             for (auto item : items)
             {
                 if(item->id() == "icon_pill")
                 {
-                    m_pill = false;
+                    m_pill = 0;
                     m_player->remove_child(item);
                 }
             }
         }  
+        else if(m_pill == 2)
+        {
+            double recover = 35;
+            m_player->set_sanity(m_player->sanity() + recover);
+            if(m_player->sanity() > 100)
+                m_player->set_sanity(100);
+
+            cout << "usou uma pilula! Recuperou " << recover << " de sanidade." << endl;
+            
+            const list<Object *> items = m_player->children();
+            for (auto item : items)
+            {
+                if(item->id() == "icon_pill")
+                {
+                    m_pill = 0;
+                    m_player->remove_child(item);
+                }
+            }
+        }
     }
 
     void use_weapon()
@@ -336,7 +374,7 @@ private:
     double m_health;
     double m_sanity;
     double m_stamina;
-    bool m_pill;
+    int m_pill;
     bool m_hweapon;
     Weapon* m_weapon;
     bool m_secondary;
@@ -990,7 +1028,7 @@ private:
 
 Player::Player(Object *parent, const string& id)
     : Sprite(parent, id), m_sanity_loss(0), m_impl(new Player::Impl(this, m_key)),
-     m_key(false), m_pill(false), m_hweapon(false), m_secondary(false),m_damage(50)
+     m_key(false), m_pill(0), m_hweapon(false), m_secondary(false),m_damage(50)
 {
     add_state(IDLE, new Idle(this));
     add_state(RUNNING, new Running(this, m_key));
@@ -1173,9 +1211,9 @@ Player::use_pill()
 }
 
 void
-Player::get_pill()
+Player::get_pill(string id)
 {
-    m_impl->get_pill();
+    m_impl->get_pill(id);
 }
 void 
 Player::you_died()
