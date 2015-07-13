@@ -148,21 +148,21 @@ public:
         {
             Weapon* weapon = new Weapon(m_player, "icon_weapon", weapon_path, 3, 34.0, 5);
             m_weapon = weapon;
-            m_player->add_child(m_weapon);
+            //m_player->add_child(m_weapon);
         }
 
         if(weapon_id == "Faca")
         {
             Weapon* weapon = new Weapon(m_player, "icon_weapon", weapon_path, 5, 60.0, 5);
             m_weapon = weapon;
-            m_player->add_child(m_weapon);
+            //m_player->add_child(m_weapon);
         }
 
         if(weapon_id == "Cacetete")
         {
             Weapon* weapon = new Weapon(m_player, "icon_weapon", weapon_path, 7, 33.0, 5);
             m_weapon = weapon;
-            m_player->add_child(m_weapon);
+            //m_player->add_child(m_weapon);
         }
     }
 
@@ -431,7 +431,7 @@ public:
                 m_down = 1;
                 return true;
 
-            case KeyboardEvent::LSHIFT:
+            case KeyboardEvent::L:
                 m_running = true;
                 return true;
 
@@ -447,7 +447,7 @@ public:
                 m_player->take_item();
                 return true;
 
-            case KeyboardEvent::U:
+            case KeyboardEvent::C:
                 m_player->report_event(Player::DUCKING);
                 return true;
 
@@ -483,7 +483,7 @@ public:
                 m_down = 0;
                 return true;
 
-            case KeyboardEvent::LSHIFT:
+            case KeyboardEvent::L:
                 m_running = false;
                 return true;
 
@@ -649,7 +649,7 @@ public:
                 m_down = 1;
                 return true;
 
-            case KeyboardEvent::LSHIFT:
+            case KeyboardEvent::L:
                 m_running = true;
                 return true;
 
@@ -666,7 +666,7 @@ public:
                 m_player->open_door();
                 return true;
 
-            case KeyboardEvent::U:
+            case KeyboardEvent::C:
                 m_player->report_event(Player::DUCKING);
                 return true;
 
@@ -702,7 +702,7 @@ public:
                 m_down = 0;
                 return true;
 
-            case KeyboardEvent::LSHIFT:
+            case KeyboardEvent::L:
                 m_running = false;
                 return true;
 
@@ -909,7 +909,7 @@ public:
                 m_player->take_item();
                 return true;
 
-            case KeyboardEvent::U:
+            case KeyboardEvent::C:
                 m_player->report_event(Player::STANDING);
                 return true;
 

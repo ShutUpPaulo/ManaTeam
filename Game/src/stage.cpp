@@ -337,7 +337,7 @@ Stage::on_message(Object *, MessageID id, Parameters p)
                         m_map->remove_item(item);
                         m_player->get_key();
 
-                        if(m_num_id == 7 || m_num_id == 1)
+                        if(m_num_id >= 5)
                         {
                             m_map->m_boss->set_position(m_player->x(), m_player->y());
                             notify(Stage::summonBossID, "stage7");
