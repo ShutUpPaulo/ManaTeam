@@ -91,7 +91,7 @@ void Room::add_items(int stage_id)
 
     list<ItemInfo> items;
 
-    if(stage_id != 6)
+    if(stage_id < 3)
     {
         items = {
             {"Bancada", "tile_sheet", 2, 20, false, true, INFINITE, 520, 240},
@@ -136,8 +136,14 @@ void Room::add_items(int stage_id)
 
 	if (room_type() == "KeyRoom")
 	{
-		string path = "res/items/key.png";
-        Item* item = new Item(this, "key", path, 300, 300, 1.0, true);
+        char prepath[256];
+        sprintf(prepath,"res/items/");
+        char newpath[256];
+        if(stage_id < 5)
+            sprintf(newpath, "%skey%d.png",prepath, stage_id);
+        else
+            sprintf(newpath, "%skey5.png", prepath);
+        Item* item = new Item(this, "key", newpath, 300, 300, 1.0, true);
         
         while (not place(item, -1, -1));
 

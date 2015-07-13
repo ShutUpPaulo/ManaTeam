@@ -53,6 +53,13 @@ Stage::Stage(ObjectID id, int lives, double * sanity)
     m_player->add_observer(this);
     m_player->set_key(false);
     m_player->set_position(600, 320);
+
+    if(m_num_id == 1)
+    {
+        Environment *env = Environment::get_instance();
+        env->sfx->play("res/sounds/Alarme1.wav",1);
+    }
+    
     
 
     add_child(m_player);
@@ -332,7 +339,7 @@ Stage::on_message(Object *, MessageID id, Parameters p)
             {
                 if (c.w() != 0 and c.h() != 0)
                 {
-                    if(item->id() == "key")
+                    if(strstr(item->id().c_str(), "key"))
                     {
                         cout << "Pegou a chave!" << endl;
                         m_map->remove_item(item);
