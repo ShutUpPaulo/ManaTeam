@@ -29,9 +29,9 @@ Room::Room(Object *parent, ObjectID id, string type, Room *left, Room *top, Room
     fill_floor("tile");
     add_walls("parede");
     add_corners("canto");
+    add_items(stage_id);
     add_guard("guard");
     add_ghost("ghost");
-    add_items(stage_id);
 
     if(r_left)
     {
@@ -603,7 +603,7 @@ Room::update_self(unsigned long)
 
                 if(npc->walkable() == false)
                 {
-                    if (c.w() != 0 and c.h() != 0)
+                    if (c.w() > 5 and c.h() > 5)
                     {
                         if(guarda->m_old_type == "hard")
                         {

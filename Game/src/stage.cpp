@@ -176,17 +176,16 @@ Stage::update_self(unsigned long)
                         {
                             guarda->m_old_type = guarda->type();
                             guarda->set_type("follow");
-
                         }
-                    }
-                }
-                if (c.w() != 0 and c.h() != 0)
-                {
-                    if(m_player->life() > 0)
-                    {
-                        m_player->set_life(m_player->life() - guarda->damage());
-                        if(m_player->life() < 0)
-                            m_player->set_life(0);
+                        if ((c2.w() != 0 and c2.h() != 0) && (c.w() != 0 and c.h() != 0))
+                            {
+                                if(m_player->life() > 0)
+                                {
+                                    m_player->set_life(m_player->life() - guarda->damage());
+                                    if(m_player->life() < 0)
+                                        m_player->set_life(0);
+                                }
+                            }
                     }
                 }
                 
