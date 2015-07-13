@@ -91,7 +91,7 @@ void Room::add_items(int stage_id)
 
     list<ItemInfo> items;
 
-    if(stage_id == 1 || stage_id == 2)
+    if(stage_id != 6)
     {
         items = {
             {"Bancada", "tile_sheet", 2, 20, false, true, INFINITE, 520, 240},
@@ -99,7 +99,8 @@ void Room::add_items(int stage_id)
             {"CadeiraseMesa", "tile_sheet", 3, 40, false, false, 25.0, -1, -1},
             {"Mesa", "tile_sheet", 2, 40, false, false, 20.0, -1, -1},
             {"Papeis", "tile_sheet", 0, 70, true, false, 0.0, -1, -1},
-            {"Pill", "item", 0, 10, true, false, 0.0, -1, -1},
+            {"Pill1", "item", 0, 10, true, false, 0.0, -1, -1},
+            {"Pill2", "item", 0, 15, true, false, 0.0, -1, -1},
             {"Garrafa", "item", 0, 70, true, false, 0.0, -1, -1},
             {"Relogio", "tile_sheet", 0, 5, true, false, 20.0, -1, -1},
         }; 
@@ -114,7 +115,8 @@ void Room::add_items(int stage_id)
             {"ArmarioDeArquivosPapeis", "tile_sheet", 0, 40, false, 25.0, false, -1, -1},
             {"Cama", "tile_sheet", 0, 40, false, false, 20.0, -1, -1},
             {"Papeis", "tile_sheet", 0, 70, true, false, 0.0, -1, -1},
-            {"Pill", "item", 0, 10, true, false, 0.0, -1, -1},
+            {"Pill1", "item", 0, 10, true, false, 0.0, -1, -1},
+            {"Pill2", "item", 0, 15, true, false, 0.0, -1, -1},
             {"Garrafa", "item", 0, 5, true, false, 0.0, -1, -1},
             {"MesaHospitalar", "tile_sheet", 0, 40, false, false, 25.0, -1, -1},
             {"MesaHospitalarCust", "tile_sheet", 0, 40, false, false, 5.0, -1, -1},
@@ -158,14 +160,19 @@ void Room::add_items(int stage_id)
         }
 
         char path[512];
+        char prepath[256];
+        if(it->type == "item")
+            sprintf(prepath,"res/items/");
+        else
+            sprintf(prepath,"res/tile_sheets/");
 
         if (it->variations)
         {
             int variation = randint(1, it->variations);
-            sprintf(path, "res/tile_sheets/%s%d.png", it->name.c_str(), variation);
+            sprintf(path, "%s%s%d.png", prepath, it->name.c_str(), variation);
         } else
         {
-            sprintf(path, "res/tile_sheets/%s.png", it->name.c_str());
+            sprintf(path, "%s%s.png", prepath, it->name.c_str());
         }
 
         double x = it->x;
@@ -498,7 +505,7 @@ Room::add_ghost(const string& name)
 
     string type = "easy";
 
-    for(int i = 0; i < (stage_id / 3) + 1; i++)
+    for(int i = 0; i < (stage_id / 3); i++)
     {
         Ghost *ghost = new Ghost(this, name, 0, 0, 9999, true, "normal", randint(0,3));
         place(ghost, -1, -1);
@@ -675,9 +682,18 @@ Room::update_self(unsigned long)
             if (guarda->health() < 1)
             {
                 Ghost *ghost = new Ghost(this, "ghost", 0, 0, 9999, true, guarda->m_old_type, randint(0,3));
+                string path;
+                if(guarda->m_old_type != "hard")
+                    path = "res/sprites/death_guard1.png";
+                else
+                    path = "res/sprites/death_guard2.png";
+                Item *body = new Item(this, "body", path, 0, 0, 9999, true);
+                place(body, npc->x(), npc->y());
                 remove_child(npc);
+                add_child(body);
                 place(ghost, npc->x(), npc->y());
                 add_child(ghost);
+
                 notify(guardDeathID, "guarda");
             }
         }

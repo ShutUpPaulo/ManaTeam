@@ -80,11 +80,29 @@ SevenKeys::load_level(const string& id)
         novo[3] = 'g';
         novo[4] = 'e';
 
+
+        string num_id = id.substr(5,5);
+        char num_id2[10];
+        sprintf(num_id2, "%s", num_id.c_str());
+        int novo_id = atoi(num_id2);
+        char path[256];
+        if(novo_id < 6) 
+            sprintf(path, "res/interface/transicao/Fase%d.png", novo_id);
+        else
+            sprintf(path, "res/interface/transicao/Bonus.png");
+
+        char music_path[256];
+        if(novo_id < 5)
+            sprintf(music_path, "res/sounds/Fase%d.wav", novo_id);
+        else
+            sprintf(music_path, "res/sounds/Fase5.wav");
+        env->music->play(music_path, -1);
+
         env->canvas->draw(id, w/2, h/2 ,Color::RED);
 
         cout << novo << endl;
 
-        return new FrontEnd(id, novo, "res/interface/transicao/gameOver.png");
+        return new FrontEnd(id, novo, path);
     }
     
     else if(strstr(id.c_str(), "death"))

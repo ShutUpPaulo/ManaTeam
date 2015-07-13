@@ -60,7 +60,7 @@ public:
     void get_key();
     bool has_key();
 
-    void get_pill();
+    void get_pill(string id);
     void get_weapon(string weapon_id);
 
     void take_item();
@@ -82,7 +82,7 @@ private:
     class Impl;
     unique_ptr<Impl> m_impl;
     bool m_key = false;
-    bool m_pill = false;
+    int m_pill = 0;
     bool m_hweapon = false;
     Weapon* m_weapon = nullptr;
     bool m_secondary = false;

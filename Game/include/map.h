@@ -11,6 +11,8 @@
 #include <utility>
 
 #include "room.h"
+#include "boss.h"
+#include "stage.h"
 
 
 using std::pair;
@@ -26,6 +28,8 @@ public:
 	Room * current_room;
 	Room * room();
 
+	Boss * boss() { return m_boss;}
+
 
 	void set_current(Room *room);
 	void GenerateMap(int, int);
@@ -33,13 +37,17 @@ public:
 	
     const list<Object *>& items() ;
 
+    Boss * m_boss;
 private:
 	vector <Room*> room_list;
 	Room * last_room;
+
+	double last_summon;
+	
     bool **matriz;
 	void CreateRoom(Room *, int*, int, int, int, int);
 	bool on_message(Object *object, MessageID id, Parameters p);
 	// void draw_self();
- 	//void update_self(unsigned long);
+ 	void update_self(unsigned long);
 };
 #endif

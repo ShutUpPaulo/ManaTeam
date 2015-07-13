@@ -55,7 +55,7 @@ Ghost::draw_self()
 void
 Ghost::walk()
 {
-    double speed = 0.3;
+    double speed = 0.6;
     if(player_posx < this->x())
         set_x(x() - speed);
     else

@@ -19,6 +19,7 @@
 
 
 ActionID Stage::colisionID = "colisionID()";
+ActionID Stage::summonBossID = "summonBossID()";
 
 Stage::Stage(ObjectID id, int lives, double * sanity)
     : Level(id)
@@ -56,17 +57,49 @@ Stage::Stage(ObjectID id, int lives, double * sanity)
 
     add_child(m_player);
 
-    Environment *env = Environment::get_instance();
-    env->music->play("res/sounds/Fase1.wav", -1);
+    // Environment *env = Environment::get_instance();
+    // char music_path[256];
+    // if(m_num_id < 5)
+    //     sprintf(music_path, "res/sounds/Fase%d.wav", m_num_id);
+    // else
+    //     sprintf(music_path, "res/sounds/Fase5.wav");
+    // env->music->play(music_path, -1);
 
     add_observer(m_player);
     add_observer(m_map);
-
 }
 
 void
 Stage::update_self(unsigned long)
 {
+
+    const list<Object*> map_filhos = m_map->children();
+    for( auto filho : map_filhos)
+    {
+        Rect a = m_player->bounding_box();
+        Rect b = filho->bounding_box();
+        Rect c = a.intersection(b);
+
+        if(filho->id() == "boss")
+        {
+            Boss *boss = (Boss*) filho;
+            boss->get_playerx(m_player->x());
+            boss->get_playery(m_player->y());
+
+            //retirar vida do player
+            if (c.w() != 0 and c.h() != 0)
+            {
+                if(m_player->health() > 0)
+                {
+                    m_player->set_health(m_player->health() - boss->damage());
+                    if(m_player->health() < 0)
+                        m_player->set_health(0);
+                }    
+            }
+        }
+    }
+
+
     const list<Object *> items = m_map->items();
     for (auto item : items)
     {
@@ -143,18 +176,22 @@ Stage::update_self(unsigned long)
                     if(item->x() == 0 && item->y() == 320)//m_map->current_room->r_left
                     {
                         m_player->set_current("left", 1120, m_player->y());
+                        m_map->m_boss->set_position(1120, m_player->y());
                     }
                     else if(item->x() == 1200 && item->y() == 320)
                     {
                         m_player->set_current("right", 80, m_player->y());
+                        m_map->m_boss->set_position(80, m_player->y());
                     }
                     else if(item->x() == 600 && item->y() == 0)
                     {
                         m_player->set_current("top", m_player->x(), 560);
+                        m_map->m_boss->set_position(m_player->x(), 560);
                     }
                     else if(item->x() == 600 && item->y() == 640)
                     {
                         m_player->set_current("bottom", m_player->x(), 80);
+                        m_map->m_boss->set_position(m_player->x(), 80);
                     }
                 }
 
@@ -299,12 +336,19 @@ Stage::on_message(Object *, MessageID id, Parameters p)
                         cout << "Pegou a chave!" << endl;
                         m_map->remove_item(item);
                         m_player->get_key();
+
+                        if(m_num_id == 7 || m_num_id == 1)
+                        {
+                            m_map->m_boss->set_position(m_player->x(), m_player->y());
+                            notify(Stage::summonBossID, "stage7");
+                        }
+                        
                         return true;
                     }
 
-                    if(item->id() == "Pill")
+                    if(strstr(item->id().c_str(), "Pill"))
                     {
-                        m_player->get_pill();
+                        m_player->get_pill(item->id());
                         m_map->remove_item(item);
                     }
 
