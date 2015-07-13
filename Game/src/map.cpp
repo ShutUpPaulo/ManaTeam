@@ -13,11 +13,9 @@ Map::Map(int qnt_salas, int stage_id) : current_room(nullptr), m_boss(NULL)
 {	
 	GenerateMap(qnt_salas, stage_id);
 
-    if(stage_id == 7 || stage_id == 1)
-    {
-        Boss *boss = new Boss(this, "boss", 0, 0, 999, true, Boss::LEFT);
-        m_boss = boss;
-    }
+    Boss *boss = new Boss(this, "boss", 0, 0, 999, true, Boss::LEFT);
+    m_boss = boss;
+    
 
 }
 // Room Criation
@@ -227,7 +225,7 @@ Map::set_current(Room *nova)
     add_observer(current_room);
     current_room->add_observer(this);
 
-    if(m_boss)
+    if(m_boss != NULL)
     {
 
         remove_child(m_boss);
@@ -253,7 +251,8 @@ Map::on_message(Object *, MessageID id, Parameters p)
     }
     if(id == Stage::summonBossID)
     {
-        m_boss->set_created(true);
+        if(m_boss != NULL)
+            m_boss->set_created(true);
     }
 
     return false;

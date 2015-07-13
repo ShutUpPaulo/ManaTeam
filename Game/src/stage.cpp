@@ -62,7 +62,6 @@ Stage::Stage(ObjectID id, int lives, double * sanity)
 
     add_observer(m_player);
     add_observer(m_map);
-
 }
 
 void

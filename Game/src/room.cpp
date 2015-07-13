@@ -91,7 +91,7 @@ void Room::add_items(int stage_id)
 
     list<ItemInfo> items;
 
-    if(stage_id == 1 || stage_id == 2)
+    if(stage_id != 6)
     {
         items = {
             {"Bancada", "tile_sheet", 2, 20, false, true, INFINITE, 520, 240},
@@ -498,7 +498,7 @@ Room::add_ghost(const string& name)
 
     string type = "easy";
 
-    for(int i = 0; i < (stage_id / 3) + 1; i++)
+    for(int i = 0; i < (stage_id / 3); i++)
     {
         Ghost *ghost = new Ghost(this, name, 0, 0, 9999, true, "normal", randint(0,3));
         place(ghost, -1, -1);
