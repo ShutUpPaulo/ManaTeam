@@ -23,6 +23,7 @@ public:
     Stage(ObjectID id, int lives, double * sanity);
 
     static ActionID colisionID;
+    static ActionID summonBossID;
 
 private:
     Player *m_player;
