@@ -23,6 +23,9 @@ Room::Room(Object *parent, ObjectID id, string type, Room *left, Room *top, Room
 : Object(parent, id), r_left(left), r_right(right), r_top(top), r_bottom(bottom), type(type), stage_id(s_id),
     m_doors(false)
 {
+    Environment *env = Environment::get_instance();
+    quad = new Quadtree(0, new Rect(0, 0, env->canvas->w(), env->canvas->h()));
+
     fill_floor("tile");
     add_walls("parede");
     add_corners("canto");
@@ -574,8 +577,90 @@ void
 Room::update_self(unsigned long)
 {
     const list<Object *> npcs = children();
+    quad->clear();
     for (auto npc : npcs)
     {
+        if(npc->id() == "guard")
+            quad->insert(npc);
+    }
+
+    for(auto npc: npcs)
+    {
+        list<Object*> returnObjects;
+        returnObjects.erase(returnObjects.begin(), returnObjects.end());
+        
+        returnObjects = quad->retrieve(returnObjects, npc);
+
+        for(auto npc2 : returnObjects)
+        {
+            Rect a = npc2->bounding_box();
+            Rect b = npc->bounding_box();
+            Rect c = a.intersection(b);
+
+            if(npc2->id()== "guard")
+            {
+                Guard * guarda = (Guard*) npc2;
+
+                if(npc->walkable() == false)
+                {
+                    if (c.w() != 0 and c.h() != 0)
+                    {
+                        if(guarda->m_old_type == "hard")
+                        {
+                            if(abs(a.x() - b.x()) > abs(a.y() - b.y()))
+                            {
+                                if(a.x() > b.x())
+                                {
+                                    npc->set_x(a.x() - b.w() + 1);
+                                }
+                                else if(a.x() < b.x())
+                                {
+                                    npc->set_x(a.x() + a.w() - 1);
+                                }
+                            }
+                            else
+                            {
+                                if(a.y() > b.y())
+                                {
+                                    npc->set_y(a.y() - b.h() + 1);
+                                }
+                                else if(a.y() < b.y())
+                                {
+                                    npc->set_y(a.y() + a.h() - 1);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if(abs(a.x() - b.x()) > abs(a.y() - b.y()))
+                            {
+                                if(a.x() < b.x())
+                                {
+                                    npc2->set_x(b.x() - a.w() + 1);
+                                }
+                                else if(a.x() > b.x())
+                                {
+                                    npc2->set_x(b.x() + b.w() - 1);
+                                }
+                            }
+                            else
+                            {
+                                if(a.y() < b.y())
+                                {
+                                    npc2->set_y(b.y() - a.h() + 1);
+                                }
+                                else if(a.y() > b.y())
+                                {
+                                    npc2->set_y(b.y() + b.h() - 1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }      
+        }
+
+
         if(npc->id() == "guard")
         {
             Guard * guarda = (Guard*) npc;
@@ -589,8 +674,14 @@ Room::update_self(unsigned long)
             }
         }
     }
-    if (not m_doors)
-    {
-        m_doors = true;
-    }
 }
+
+// List returnObjects = new ArrayList();
+// for (int i = 0; i < allObjects.size(); i++) {
+//   returnObjects.clear();
+//   quad.retrieve(returnObjects, objects.get(i));
+ 
+//   for (int x = 0; x < returnObjects.size(); x++) {
+//     // Run collision detection algorithm between objects
+//   }
+// }

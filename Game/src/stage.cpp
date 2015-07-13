@@ -174,7 +174,9 @@ Stage::update_self(unsigned long)
                     {
                         if(guarda->type() != "follow")
                         {
+                            guarda->m_old_type = guarda->type();
                             guarda->set_type("follow");
+
                         }
                     }
                 }

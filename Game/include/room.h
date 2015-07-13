@@ -8,6 +8,8 @@
 #include "item.h"
 #include "guard.h"
 #include "ghost.h"
+#include "quadtree.h"
+#include <cmath>
 
 #define INFINITE 99999.9
 
@@ -38,6 +40,8 @@ public:
 	void add_list(Object *);
 	const list<Object *>& get_items();
 	void remove_item(Object *);
+
+	Quadtree * quad;
 
 private:
 	Guard *m_guard;
