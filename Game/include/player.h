@@ -11,6 +11,7 @@
 #include "core/sprite.h"
 #include "map.h"
 #include "sight.h"
+#include "weapon.h"
 
 using std::pair;
 
@@ -79,7 +80,8 @@ private:
     unique_ptr<Impl> m_impl;
     bool m_key = false;
     bool m_pill = false;
-    bool m_weapon = false;
+    bool m_hweapon = false;
+    Weapon* m_weapon = nullptr;
     bool m_secondary = false;
     double m_damage = 50;
 

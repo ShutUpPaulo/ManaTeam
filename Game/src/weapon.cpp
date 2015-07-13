@@ -6,9 +6,10 @@
 #include "weapon.h"
 
 Weapon::Weapon(Object *parent, ObjectID id, const string& path, 
-	double x, double y, double mass, bool walkable, int resistance,
-	double damage, int attack_speed, string type)
-    : Item(parent, id, path, x, y, mass, walkable)
-{
-	
-}
+	int resistance,	double damage, int attack_speed)
+    :Image(parent, id, path)
+    {
+    	m_damage = damage;
+    	m_attack_speed = attack_speed;
+    	m_resistance = resistance;
+    }
