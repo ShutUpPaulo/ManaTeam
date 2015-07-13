@@ -252,7 +252,11 @@ Map::on_message(Object *, MessageID id, Parameters p)
     if(id == Stage::summonBossID)
     {
         if(m_boss != NULL)
+        {
             m_boss->set_created(true);
+            Environment *env = Environment::get_instance();
+            env->sfx->play("res/sounds/esposagritando.wav", 1);
+        }
     }
 
     return false;

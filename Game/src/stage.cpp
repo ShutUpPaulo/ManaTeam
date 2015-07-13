@@ -203,7 +203,7 @@ Stage::update_self(unsigned long)
         {
             Guard *guarda = (Guard*) item;
             const list<Object *> filhos = item->children();
-
+            Environment *env = Environment::get_instance();
             for (auto filho : filhos)
             {
                 Rect a2 = m_player->bounding_box();
@@ -216,6 +216,7 @@ Stage::update_self(unsigned long)
                     {
                         if(guarda->type() != "follow")
                         {
+                            env->sfx->play("res/sounds/alemaogritando.wav",1);
                             guarda->m_old_type = guarda->type();
                             guarda->set_type("follow");
                         }
