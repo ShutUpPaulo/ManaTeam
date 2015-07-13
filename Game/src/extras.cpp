@@ -3,6 +3,7 @@
 #include <ijengine/util/button.h>
 #include <core/font.h>
 #include <core/environment.h>
+//#include <smpeg/smpeg.h>
 
 #include <iostream>
 using namespace std;
@@ -80,3 +81,18 @@ Extras::on_message(Object *object, MessageID id, Parameters)
 
     return true;
 }
+/*
+SMPEG * inicializa_smpeg ("res/extras/celera.mpg", U
+SDL_Surface * tela);
+
+SMPEG *mpeg;
+
+int skip, sair;
+
+mpeg = NULL;
+
+skip = 0;
+sair = 0;
+
+SMPEG_play (mpeg);
+*/

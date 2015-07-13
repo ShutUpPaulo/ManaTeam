@@ -14,13 +14,14 @@
 #include "creditos.h"
 #include "extras.h"
 #include "pausa.h"
+ 
  #include <cstring>
 
 SevenKeys::SevenKeys()
     : Game("fone")
 {
     AudioManagerMusic * music2 = new AudioManagerMusic();
-    music2 -> play("res/sounds/musicaFinal.wav", -1);
+    music2 -> play("res/sounds/musicaMenu.wav", -1);
 }
 
 Level *

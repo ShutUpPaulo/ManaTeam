@@ -84,7 +84,7 @@ TitleScreen::on_message(Object *object, MessageID id, Parameters)
     }
 
     Button *button = dynamic_cast<Button *>(object);
-
+    Environment *env = Environment::get_instance();
     if (not button)
     {
         return false;
@@ -94,7 +94,10 @@ TitleScreen::on_message(Object *object, MessageID id, Parameters)
     {
         set_next("stage1");
     } else if (button->id() == "options")
+    {
+        env->sfx->play("res/sounds/navegacaomenu.wav", 1);
         set_next("options");
+    }
     else if(button->id() == "creditos")
         set_next("creditos");
     else if (button-> id() == "extras")
