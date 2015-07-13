@@ -1,8 +1,13 @@
-\documentclass[a4paper,11pt]{article}
+\documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage[pdftex]{graphicx}
 \usepackage{graphicx}       % front image
 \usepackage{hyperref}       % links and email
-\usepackage[brazil]{babel} % linebreaks for english words
+\usepackage{indentfirst}
+\usepackage{setspace}
+\usepackage{anysize}
+\usepackage{makeidx}
+\usepackage[brazil]{babel}
 \usepackage{eurosym}
 \usepackage{pbox}           % linebreaks in tables
 \usepackage{geometry}           
@@ -28,26 +33,25 @@
 }
 
 % opening
-\title{Plano de Negócio\\TerraCota}
-\author{Álvaro Fernando\\Desenvolvedor - Gerente}
+\title{Plano de Negócio\\Seven Keys}
+\author{Paulo Markes\\Game Designer - Gerente}
 
 \begin{document}
 \begin{titlepage}
     \centering
     \maketitle
     \thispagestyle{empty}   % discard page number
-    \includegraphics[width=10cm]{logo_inicial.jpg}
+    \includegraphics[width=10cm]{7keys.png}
     \vfill
     {\raggedright
-    NullPointer Corporation\\
-    https://github.com/nullpointercorporation\\
-    \href{mailto:nullpointercorporation@gmail.com}{nullpointercorporation@gmail.com}\\
+    ManaTeam Entertainment\\
+    \href{mailto:manateamentertainment@gmail.com}{manateamentertainment@gmail.com}\\
     }
 \end{titlepage}
 
 \begin{abstract}
-Este documento apresentará o plano de negócios para o desenvolvimento do jogo TerraCota, mostrando principalmente qual é o foco do desenvolvimento desse jogo, custos, público-alvo entre outros aspectos importantes para o desenvolvimento.
-
+Este documento visa apresentar o plano de negócio para o desenvolvimento do jogo Seven Keys, apresentando o foco do desenvolvimento desse jogo, os custos envolvidos em sua produção
+público-alvo entre outros aspectos importantes para o desenvolvimento.
 \end{abstract}
 
 \pagebreak
@@ -55,7 +59,9 @@ Este documento apresentará o plano de negócios para o desenvolvimento do jogo 
 \pagebreak
 
 \section{Triângulo de Prioridades}
-float
+
+O triângulo de prioridades representa as três prioridades principais do projeto. O projeto será focado no tempo, pois o custo total para realização do jogo será fixo e irrisório e o escopo irá oscilar em relação ao tempo.
+
 \begin{figure}[ht]
 \centering
 \includegraphics[width=5cm]{3_restricoes.png}
@@ -63,10 +69,11 @@ float
 \label{fig:restricoes}
 \end{figure}
 
-A figura acima apresenta o triângulo de prioridades com as três prioridades principais do projeto. O projeto estará focado no tempo e escopo, pois o custo total para realização do jogo será fixo e irrisório. \\
-Com relação ao tempo o projeto terá uma duração de 4 meses, ou seja, o desenvolvimento deverá correr rápido para que a equipe consiga entregar o jogo no prazo estipulado, porém, a qualidade não pode ser deixada de lado e o grupo buscará a melhor qualidade possível. \\
-Mesmo com o curto prazo de desenvolvimento o jogo deverá conter também muitas funcionalidades. Deverá conter ao menos 5 momentos jogáveis e completamente desenvolvidas para os usuários finais.
+Ainda sobre o tempo, o projeto terá uma duração de 4 meses, ou seja, o desenvolvimento deverá
+ser rápido o suficiente para que a equipe consiga finalizar o jogo dentro do prazo estipulado, sem
+deixar a qualidade de lado, buscando aprimoração sempre. \\
 
+No entanto, mesmo com curto prazo de tempo, o jogo conterá diversas funcionalidades, descritas no GDD e no documento de Visão.
 \section{Plataformas}
 
 As plataformas suportadas, inicialmente, serão Windows e Linux.
@@ -74,7 +81,8 @@ O Linux possui um grande suporte de bibliotecas e ferramentas de desenvolvimento
 
 
 \section{Público-alvo}
-Pessoas acima de 10 anos, com capacidade de ler, escrever e interpretar signos, e interesse por Puzzles/Enigmas, RPGs e jogos de exploração.
+Pessoas acima de 16 anos, que sejam capazes de compreender a ideia do jogo e não se sintam
+desconfortáveis por conta da história e dinâmica do jogo.
 
 \section{Estratégia de divulgação}
 
@@ -83,7 +91,7 @@ O jogo TerraCota será divulgado nas seguintes mídias:
   \item Redes sociais:
   \begin{itemize}
     \item Divulgação nas timelines dos desenvolvedores
-    \item Divulgação nos grupos de desenvolvimento de jogos independentes, exemplo Indie Developers Brasil, Boteco Gamer, GameDev-DF, etc.
+    \item Divulgação nos grupos de desenvolvimento de jogos independentes, exemplo Indie Developers Brasil, Boteco Gamer, GameDev-DF, BRING, etc.
   \end{itemize}
   \item Fóruns de jogos eletrônicos
   \item Steam Greenlight
@@ -98,14 +106,18 @@ Os recursos disponíveis para o desenvolvimento contam com uma equipe de sete pe
 \begin{tabular}{|l|l|l|l|l}
 \cline{1-4}
 \multicolumn{1}{|c|}{\textbf{Recursos}} & \multicolumn{1}{c|}{\textbf{Quantidade}} & \multicolumn{1}{c|}{\textbf{Valor Unitário}} & \multicolumn{1}{c|}{\textbf{Valor Total}} &  \\ \cline{1-4}
-Notebooks                               & 7                                        & R\$ 2.300,00                                  & R\$ 16.100,00                             &  \\ \cline{1-4}
+Notebooks                               & 7                                        & R\$ 2.500,00                                  & R\$ 17.500,00                             &  \\ \cline{1-4}
 Sublime Text 3                          & 3                                        & R\$ 212,10                                   & R\$ 636,30                                &  \\ \cline{1-4}
 Linux                                   & 3                                        & R\$ 0,00                                     & R\$ 0,00                                  &  \\ \cline{1-4}
 Windows 8                               & 4                                        & R\$ 359,00                                   & R\$ 1.436,00                              &  \\ \cline{1-4}
 *Adobe Ilustrator CC                    & 3                                        & R\$ 176,00                                   & R\$ 528,00                                &  \\ \cline{1-4}
 *Adobe Photoshop CC Fotografia          & 3                                        & R\$ 88,00                                    & R\$ 264,00                                &  \\ \cline{1-4}
+*Adobe After Effects CC &1 &R\$ 44,00 & R\$ 44,00
+& \\ \cline{1-4}
 Publicação na Steam Greenligth          & 1                                        & R\$ 304,12                                   & R\$ 304,12                                &  \\ \cline{1-4}
-\multicolumn{3}{|c|}{\textbf{Total}}                                                                                              & R\$ 19.267,30                             &  \\ \cline{1-4}
+Mesa Digital &4  & R\$300,00  & R\$ 1200,00
+& \\ \cline{1-4}
+\multicolumn{3}{|c|}{\textbf{Total}}                                                                                              & R\$ 21.912,42                             &  \\ \cline{1-4}
 \end{tabular}
 \caption {Recursos de Hardware e Software}
 \end{table}
@@ -125,40 +137,40 @@ Publicação na Steam Greenligth          & 1                                   
 \textbf{Recursos} & \textbf{Qtd} & \textbf{Valor/Hora} & \textbf{Horas} &
 \textbf{Total} \\
 \midrule
-Desenvolvedor & 3 & R\$ 21,51 & 1920 & R\$ 41.299,20 \\
+Desenvolvedor & 3 & R\$ 18,00 & 1920 & R\$ 103.680,00 \\
 \rowcolor[gray]{0.9}
-Designer Gráfico & 3 & R\$ 11,94 & 1920 & R\$ 2.2924,80 \\
-Músico & 1 & R\$ 8,35 & 1920 & R\$ 5.344,00\\
+Designer Gráfico & 3 & R\$ 13,00 & 1920 & R\$ 74.880,00 \\
+Músico & 1 & R\$ 13,00 & 600 & R\$ 7.800,00\\
 \midrule
 \rowcolor[gray]{0.7}
-\multicolumn{4}{r}{\textbf{Total}} & R\$ 69.568,00\\
+\multicolumn{4}{r}{\textbf{Total}} & R\$ 186.360,00\\
 \bottomrule
 \end{tabular}
 \caption {Recursos Humanos}
 \end{table}
 
-\textit{* Todos os valores foram calculados considerando-se 40 horas de trabalho semanais em 4 meses de trabalho.}
-\textit{Fonte de Pesquisa: \url{http://www.salariobr.com/}}
+\textit{* Os valores acima foram calculados considerando-se 40 horas de trabalho semanais em 4 meses de trabalho, com exceção do músico}
 \\
 
-Valor total do projeto: {\textbf{R\$ 88.835,30.}}
+Valor total do projeto: {\textbf{R\$ 208.272.42.}}
 
 \section{Lucro esperado}
 
-A equipe espera alcançar um lucros perto de 40\% em cima dos valores gastos para o desenvolvimento do jogo, para isso, é necessário se alcançar um valor em torno de R\$ 124.369,42 nas vendas, deixando assim todas as dívidas quitadas e mais R\$ 35.534,12 líquido.
+A equipe espera alcançar um lucros perto de 30\% em cima dos valores gastos para o desenvolvimento do jogo, para isso, é necessário se alcançar um valor em torno de R\$ 270.754,15 nas vendas, deixando assim todas as dívidas quitadas e mais R\$ 62.481.73 líquido.
 
 \section{Número estimado de cópias a serem vendidas}
 
-A seguir é apresentada uma tabela com determinados preços para o jogo e o número estimado de cópias que deveriam ser vendidas para se alcançar os lucros esperados, considerando também o custo do projeto. Os valores positivos são lucros além dos R\$ 124.369,42 (custo + lucro esperado). 
+A seguir é apresentada uma tabela com determinados preços para o jogo e o número estimado de cópias que deveriam ser vendidas para se alcançar os lucros esperados, considerando também o custo do projeto. Os valores positivos são lucros além dos R\$ 270.754,15 (custo + lucro esperado). 
 
 \begin{table}[h]
 \centering
 \begin{tabular}{|l|l|l|l|l}
 \cline{1-4}
-\multicolumn{1}{|c|}{\textbf{Valor do Jogo}} & \multicolumn{1}{c|}{\textbf{5k cópias vendidas}} & \multicolumn{1}{c|}{\textbf{10k cópias vendidas}} & \multicolumn{1}{c|}{\textbf{15k cópias vendidas}} &  \\ \cline{1-4}
-R\$ 10,00                                    & R\$ -74.369,42                                        & R\$ -24.000,00                                        & R\$ 25.630,58                                     &  \\ \cline{1-4}
-R\$ 15,00                                    & R\$ -49.369,42                                        & R\$ 25.630,58                                        & R\$ 100.630,58                                     &  \\ \cline{1-4}
-R\$ 20,00                                    & R\$ -24.369,42                                       & R\$ 75.630,58                                        & R\$ 175.630,58                                     &  \\ \cline{1-4}
+\multicolumn{1}{|c|}{\textbf{Valor do Jogo}} & \multicolumn{1}{c|}{\textbf{10k cópias vendidas}} & \multicolumn{1}{c|}{\textbf{15k cópias vendidas}} & \multicolumn{1}{c|}{\textbf{25k cópias vendidas}} &  \\ \cline{1-4}
+R\$ 10,00                                    & R\$ -170.754.15                                        & R\$ -120.754,15                                        & R\$ -20.754.15                                     &  \\ \cline{1-4}
+R\$ 15,00                                    & R\$ -170.754,15 &
+R\$ -45.754,15                                        & R\$ 104.245,85                                     &  \\ \cline{1-4}
+R\$ 20,00                                    & R\$ -70.754,15                                       & R\$ 29.245,85                                        & R\$ 229.245,85                                     &  \\ \cline{1-4}
 \end{tabular}
 \caption{Valores alcançados de acordo com o valor do jogo}
 \end{table}
@@ -166,6 +178,5 @@ R\$ 20,00                                    & R\$ -24.369,42                   
 \section{Projeção do número de cópias a serem vendidas para recuperar o
 	    investimento e para se obter o lucro esperado}
 
-Pode-se notar na tabela com os valores apresentados as opções possíveis para as vendas do jogo. Para quitar os gastos do projeto e se obter o lucro esperado com uma meta de vendas para 5 mil cópias, o jogo deverá ter um valor de R\$ 24,88. Com uma expectativa de 10 mil cópias vendidas já fica possível o valor de R\$ 12,44. E para um meta de 15 mil cópias, o valor seria R\$ 8,30.
-
+Pode-se notar na tabela com os valores apresentados as opções possíveis para as vendas do jogo. Para quitar os gastos do projeto e se obter o lucro esperado com uma meta de vendas para 15 mil cópias, o jogo deverá ter um valor de R\$ 18,00.
 \end{document}
