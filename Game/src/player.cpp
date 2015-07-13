@@ -29,7 +29,7 @@ public:
     Impl(Player *player, bool key)
         : m_sanity_loss(0), m_player(player), m_direction(Player::LEFT),
         m_moviment(make_pair(0.0, 0.0)), 
-        m_key(key), m_strength(0.0), m_life(100.0), m_sanity(100.0), m_stamina(100.0),
+        m_key(key), m_strength(0.0), m_health(100.0), m_sanity(100.0), m_stamina(100.0),
         m_pill(false), m_hweapon(false), m_weapon(nullptr), m_secondary(false), m_damage(50)
     {
     }
@@ -62,14 +62,14 @@ public:
         return m_strength;
     }
 
-    void set_life(double life)
+    void set_health(double health)
     {
-        m_life = life;
+        m_health = health;
     }
 
-    double life()
+    double health()
     {
-        return m_life;
+        return m_health;
     }
 
     void set_sanity(double sanity)
@@ -167,10 +167,10 @@ public:
     {
         return m_key;
     }
-    void show_life()
+    void show_health()
     {
         Environment *env = Environment::get_instance();
-        Rect healthbar {(double)env->canvas->w()/15, (double)env->canvas->h()/24, m_player->life()*2, 12};
+        Rect healthbar {(double)env->canvas->w()/15, (double)env->canvas->h()/24, m_player->health()*2, 12};
         env->canvas->fill(healthbar, Color::RED);
         Rect borda {(double)env->canvas->w()/15, (double)env->canvas->h()/24, 100*2, 12};
         env->canvas->draw(borda, Color::RED);
@@ -220,9 +220,9 @@ public:
         if(m_pill)
         {
             double recover = 35;
-            m_player->set_life(m_player->life() + recover);
-            if(m_player->life() > 100)
-                m_player->set_life(100);
+            m_player->set_health(m_player->health() + recover);
+            if(m_player->health() > 100)
+                m_player->set_health(100);
 
             cout << "Pegou uma pilula! Recuperou " << recover << " de vida." << endl;
             
@@ -318,7 +318,7 @@ private:
     pair<double, double> m_moviment;
     bool m_key;
     double m_strength;
-    double m_life;
+    double m_health;
     double m_sanity;
     double m_stamina;
     bool m_pill;
@@ -453,7 +453,7 @@ public:
     void draw()
     {
         m_animation->draw(m_player->x(), m_player->y());
-        m_player->show_life();
+        m_player->show_health();
         m_player->show_sanity();
         m_player->show_inventory();
         m_player->show_stamina();
@@ -461,7 +461,7 @@ public:
 
     void update(unsigned long elapsed)
     {
-        if(m_player->life() < 1)
+        if(m_player->health() < 1)
             m_player->you_died();
 
         if(m_player->stamina() < 100)
@@ -562,7 +562,7 @@ public:
     void draw()
     {
         m_animation->draw(m_player->x(), m_player->y());
-        m_player->show_life();
+        m_player->show_health();
         m_player->show_sanity();
         m_player->show_inventory();
         m_player->show_stamina();
@@ -669,7 +669,7 @@ public:
     {
         double speed = m_speed;
 
-        if(m_player->life() < 1)
+        if(m_player->health() < 1)
             m_player->you_died();
 
         if(m_player->stamina() < 100)
@@ -911,7 +911,7 @@ public:
     void draw()
     {
         m_animation->draw(m_player->x(), m_player->y());
-        m_player->show_life();
+        m_player->show_health();
         m_player->show_sanity();
         m_player->show_inventory();
         m_player->show_stamina();
@@ -919,7 +919,7 @@ public:
 
     void update(unsigned long elapsed)
     {
-        if(m_player->life() < 1)
+        if(m_player->health() < 1)
             m_player->you_died();
 
         if(m_player->stamina() < 100)
@@ -1035,9 +1035,9 @@ Player::set_strength(double strength)
 }
 
 void
-Player::set_life(double life)
+Player::set_health(double health)
 {
-    m_impl->set_life(life);
+    m_impl->set_health(health);
 }
 
 void
@@ -1059,9 +1059,9 @@ Player::strength()
 }
 
 double
-Player::life()
+Player::health()
 {
-    return m_impl->life();
+    return m_impl->health();
 }
 
 double
@@ -1100,9 +1100,9 @@ Player::has_key()
 }
 
 void
-Player::show_life()
+Player::show_health()
 {
-     m_impl->show_life();
+     m_impl->show_health();
 }
 void
 Player::show_sanity()

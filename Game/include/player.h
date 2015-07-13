@@ -43,13 +43,13 @@ public:
 
     void set_current(string room, int x, int y);
 
-    double life();
+    double health();
     double sanity();
     double strength();
     double stamina();
     double damage();
 
-    void set_life(double life = 100.0);
+    void set_health(double health = 100.0);
     void set_sanity(double sanity = 100.0);
     void set_strength(double strength = 0.0);
     void set_stamina(double stamina = 100.0);
@@ -70,7 +70,7 @@ public:
     void you_died();
     void hit();
 
-    void show_life();
+    void show_health();
     void show_sanity();
     void show_inventory();
     void show_stamina();

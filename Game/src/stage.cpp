@@ -39,11 +39,11 @@ Stage::Stage(ObjectID id)
     m_map = new Map(quantidade_de_salas,m_num_id);
     add_child(m_map);
 
-    double life = 100.0;
+    double health = 100.0;
 
     m_player = new Player(this, "player");
     m_player->set_strength(100.0);
-    m_player->set_life(life);
+    m_player->set_health(health);
 
     m_player->add_observer(this);
     m_player->set_key(false);
@@ -179,11 +179,11 @@ Stage::update_self(unsigned long)
                         }
                         if ((c2.w() != 0 and c2.h() != 0) && (c.w() != 0 and c.h() != 0))
                             {
-                                if(m_player->life() > 0)
+                                if(m_player->health() > 0)
                                 {
-                                    m_player->set_life(m_player->life() - guarda->damage());
-                                    if(m_player->life() < 0)
-                                        m_player->set_life(0);
+                                    m_player->set_health(m_player->health() - guarda->damage());
+                                    if(m_player->health() < 0)
+                                        m_player->set_health(0);
                                 }
                             }
                     }
@@ -207,11 +207,11 @@ Stage::update_self(unsigned long)
             //retirar vida do player
             if (c.w() != 0 and c.h() != 0)
             {
-                if(m_player->life() > 0)
+                if(m_player->health() > 0)
                 {
-                    m_player->set_life(m_player->life() - ghost->damage());
-                    if(m_player->life() < 0)
-                        m_player->set_life(0);
+                    m_player->set_health(m_player->health() - ghost->damage());
+                    if(m_player->health() < 0)
+                        m_player->set_health(0);
                 }    
             }
         }
@@ -259,7 +259,7 @@ Stage::on_message(Object *, MessageID id, Parameters p)
     {
         m_player->set_key(false);
         char new_stage[256];
-        sprintf(new_stage, "trans%d", m_num_id);
+        sprintf(new_stage, "death%d", m_num_id);
         cout << "Voce morreu, parca. Re";
         m_player->notify(Player::hitExitDoorID, new_stage);
         return true;

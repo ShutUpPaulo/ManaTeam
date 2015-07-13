@@ -13,7 +13,7 @@ using namespace std;
 
 Guard::Guard(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, string t, int dir)
 
-    : Object(parent, id, x, y), m_type(t), m_damage(0.7), m_life(100), m_animation (new Animation("res/sprites/guarda1_running.png",
+    : Object(parent, id, x, y), m_type(t), m_damage(0.7), m_health(100), m_animation (new Animation("res/sprites/guarda1_running.png",
     	0, 0, 70, 70, 8, 120, true)), m_direction((Direction) dir), m_last(0)
 {
     this->set_mass(mass);
@@ -234,9 +234,9 @@ Guard::change_animation(string path)
 }
 
 double
-Guard::life()
+Guard::health()
 {
-    return m_life;
+    return m_health;
 }
 string 
 Guard::type()
@@ -253,8 +253,8 @@ Guard::set_type(string t)
 void
 Guard::receive_dmg(double dmg)
 {
-    m_life = m_life - dmg;
-    if(m_life < 0)
-        m_life = 0;
-    //cout << "Guarda apanhou " << dmg << " de dano, vida atual: " << m_life << endl;
+    m_health = m_health - dmg;
+    if(m_health < 0)
+        m_health = 0;
+    //cout << "Guarda apanhou " << dmg << " de dano, vida atual: " << m_health << endl;
 }

@@ -664,7 +664,7 @@ Room::update_self(unsigned long)
         if(npc->id() == "guard")
         {
             Guard * guarda = (Guard*) npc;
-            if (guarda->life() < 1)
+            if (guarda->health() < 1)
             {
 
                 remove_child(npc);

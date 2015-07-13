@@ -33,7 +33,7 @@ public:
     string type();
     void set_type(string t);
 
-    double life();
+    double health();
     double damage();
     void receive_dmg(double dmg);
     string m_old_type;
@@ -44,7 +44,7 @@ private:
     int player_posx;
     int player_posy;
     double m_damage;
-    double m_life;
+    double m_health;
 
     void draw_self();
     void update_self(unsigned long elapsed);
