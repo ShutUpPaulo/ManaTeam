@@ -22,6 +22,8 @@ class Room: public Object
 public:
 	Room(Object *parent, ObjectID id, string type = "None", Room *left = nullptr, Room *top = nullptr, Room *right = nullptr, Room *bottom = nullptr, int stage_id = 1);
 
+	~Room();
+	
 	Room *r_left;
 	Room *r_right;
 	Room *r_top;
@@ -34,6 +36,8 @@ public:
 
 	void check_entry();
 	string room_type();
+
+	static ActionID guardDeathID;
 
 	list <Object *> items;
 

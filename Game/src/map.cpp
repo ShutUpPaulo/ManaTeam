@@ -172,7 +172,7 @@ void Map::GenerateMap(int quantidade_salas, int stage_id)
 
 	Room *room = new Room(this, "sala 0", "None", nullptr, nullptr, nullptr, nullptr, stage_id);
     room_list.push_back(room);
-    current_room = room;
+    set_current(room);
     last_room = room;
 
 	matriz[x][y] = true;
@@ -209,13 +209,17 @@ Map::room()
 void
 Map::set_current(Room *nova)
 {
+    if(current_room != NULL)
+    {
+        remove_observer(current_room);
+        remove_child(current_room);
+        current_room->remove_observer(this);
+    }
+    
 	current_room = nova;
-}
-
-void Map::draw_self()
-{
-    if (current_room)
-        current_room->draw();
+    add_child(current_room);
+    add_observer(current_room);
+    current_room->add_observer(this);
 }
 
 const list<Object *>&
@@ -224,8 +228,27 @@ Map::items()
     return current_room->get_items();
 }
 
-void
-Map::update_self(unsigned long elapsed)
+bool
+Map::on_message(Object *, MessageID id, Parameters p)
 {
-    current_room->update(elapsed);
+    if(id == Room::guardDeathID)
+    {
+        cout << "aqui entou" << endl;
+        notify(id,p);
+        return true;
+    }
+
+    return false;
 }
+
+// void Map::draw_self()
+// {
+//     if (current_room)
+//         current_room->draw();
+// }
+
+// void
+// Map::update_self(unsigned long elapsed)
+// {
+//     current_room->update(elapsed);
+// }

@@ -38,7 +38,8 @@ private:
 	Room * last_room;
     bool **matriz;
 	void CreateRoom(Room *, int*, int, int, int, int);
-	void draw_self();
-    void update_self(unsigned long);
+	bool on_message(Object *object, MessageID id, Parameters p);
+	// void draw_self();
+ 	//void update_self(unsigned long);
 };
 #endif

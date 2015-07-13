@@ -11,6 +11,8 @@
 
 #include "room.h"
 
+ActionID Room::guardDeathID { "guardDeathID()" };
+
 static int randint(int a, int b)
 {
     int N = b - a + 1;
@@ -58,6 +60,12 @@ Room::Room(Object *parent, ObjectID id, string type, Room *left, Room *top, Room
     {
         add_final_door();
     }
+
+    add_observer(this);
+}
+
+Room::~Room()
+{
 }
 
 string Room::room_type()
@@ -670,17 +678,8 @@ Room::update_self(unsigned long)
                 remove_child(npc);
                 place(ghost, npc->x(), npc->y());
                 add_child(ghost);
+                notify(guardDeathID, "guarda");
             }
         }
     }
 }
-
-// List returnObjects = new ArrayList();
-// for (int i = 0; i < allObjects.size(); i++) {
-//   returnObjects.clear();
-//   quad.retrieve(returnObjects, objects.get(i));
- 
-//   for (int x = 0; x < returnObjects.size(); x++) {
-//     // Run collision detection algorithm between objects
-//   }
-// }

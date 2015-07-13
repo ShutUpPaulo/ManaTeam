@@ -33,12 +33,13 @@ Stage::Stage(ObjectID id, int lives, double * sanity)
     m_sanity = sanity;
 
     m_num_id = atoi(aux);
-    int quantidade_de_salas = (3 + m_num_id + (m_num_id - 1) * 2) *(1 + (1 - *m_sanity/100)*0.7);
+    int quantidade_de_salas = (3 + m_num_id + (m_num_id - 1) * 2) *(1 + (1 - *m_sanity/100)*0.55);
 
     cout << "Iniciado Stage "<< m_num_id << ", " << quantidade_de_salas << " salas criadas." << endl;
 
     m_map = new Map(quantidade_de_salas,m_num_id);
     add_child(m_map);
+    m_map->add_observer(this);
 
     double health = 100.0;
 
@@ -60,6 +61,7 @@ Stage::Stage(ObjectID id, int lives, double * sanity)
 
     add_observer(m_player);
     add_observer(m_map);
+
 }
 
 void
@@ -215,6 +217,8 @@ Stage::update_self(unsigned long)
                     m_player->set_health(m_player->health() - ghost->damage());
                     if(m_player->health() < 0)
                         m_player->set_health(0);
+
+                    m_player->set_sanity(m_player->sanity() - ghost->damage()/2);
                 }    
             }
         }
@@ -241,13 +245,13 @@ Stage::on_message(Object *, MessageID id, Parameters p)
     if (id == Player::changeRoomID)
     {
         if(p == "left")
-            m_map->current_room = m_map->current_room->r_left;
+            m_map->set_current(m_map->current_room->r_left);
         else if(p == "top")
-            m_map->current_room = m_map->current_room->r_top;
+            m_map->set_current(m_map->current_room->r_top);
         else if(p == "right")
-            m_map->current_room = m_map->current_room->r_right;
+            m_map->set_current(m_map->current_room->r_right);
         else if(p == "bottom")
-            m_map->current_room = m_map->current_room->r_bottom;
+            m_map->set_current(m_map->current_room->r_bottom);
 
         return true;
     }
@@ -417,6 +421,11 @@ Stage::on_message(Object *, MessageID id, Parameters p)
                 }
             }
         }
+    }
+    else if(id == Room::guardDeathID)
+    {
+        cout << "entrou" << endl;
+        m_player->set_sanity(m_player->sanity() - 30);
     }
     return false;
 }
