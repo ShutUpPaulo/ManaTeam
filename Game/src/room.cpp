@@ -666,9 +666,8 @@ Room::update_self(unsigned long)
             Guard * guarda = (Guard*) npc;
             if (guarda->health() < 1)
             {
-
+                Ghost *ghost = new Ghost(this, "ghost", 0, 0, 9999, true, guarda->m_old_type, randint(0,3));
                 remove_child(npc);
-                Ghost *ghost = new Ghost(this, "ghost", 0, 0, 9999, true, "normal", randint(0,3));
                 place(ghost, npc->x(), npc->y());
                 add_child(ghost);
             }

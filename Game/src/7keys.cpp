@@ -15,7 +15,7 @@
 #include "options.h"
 #include "creditos.h"
 #include "extras.h"
-#include "pausa.h"
+#include "pause.h"
 
 #include <cstring>
 

@@ -1,4 +1,4 @@
-#include "pausa.h"
+#include "pause.h"
 
 #include <ijengine/util/button.h>
 #include <core/font.h>
@@ -27,8 +27,8 @@ Pausa::Pausa()
     backMenu->align_to(this, Object::RIGHT, Object::NONE);
     backMenu->set_y(backGame->y() + backGame->h()+20);
 
-    Button *exit = new Button(this, "exit", "res/interface/menuExtras/historia.png",
-        "res/interface/menuExtras/Shistoria.png");
+    Button *exit = new Button(this, "exit", "res/interface/menuExtras/sair.png",
+        "res/interface/menuExtras/Ssair.png");
     exit->align_to(this, Object::RIGHT, Object::NONE);
     exit->set_y(backGame->y() + backGame->h()+20);
 
@@ -74,7 +74,7 @@ Pausa::on_message(Object *object, MessageID id, Parameters)
     }
     if (button->id() == "backGame")
     {
-        set_next("stage");
+        return false;
     } else if (button->id() == "backMenu")
     {
         set_next("title");
