@@ -11,8 +11,8 @@
 using namespace std;
 
 Boss::Boss(Object *parent, ObjectID id, double x, double y, int mass, bool walkable, int dir)
-    : Object(parent, id, x, y), m_damage(0.2), m_animation (new Animation("res/sprites/ghost_guarda1_running.png",
-    	0, 0, 70, 70, 8, 60, true)), m_direction((Direction) dir), m_last(0)
+    : Object(parent, id, x, y), m_damage(0.9), m_animation (new Animation("res/sprites/boss_running.png",
+    	0, 0, 90, 90, 6, 120, true)), m_direction((Direction) dir), m_last(0)
 {
     this->set_mass(mass);
     this->set_w(70);
@@ -53,7 +53,7 @@ Boss::draw_self()
 void
 Boss::walk()
 {
-    double speed = 0.9;
+    double speed = 1.3;
     if(player_posx < this->x())
         set_x(x() - speed);
     else
@@ -77,21 +77,6 @@ Boss::walk()
 void
 Boss::update_direction(unsigned long elapsed)
 {
-    if(elapsed - m_last > 5000)
-    {
-        int random = rand()%100;
-
-        if(random < 25)
-            set_direction(Boss::LEFT);
-        else if(random < 50)
-            set_direction(Boss::UP);
-        else if(random < 75)
-            set_direction(Boss::RIGHT);
-        else
-            set_direction(Boss::DOWN);
-
-        m_last = elapsed;
-    }
     m_animation->set_row(this->direction());
 }
 

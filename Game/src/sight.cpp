@@ -17,7 +17,10 @@ Sight::~Sight()
 void
 Sight::draw_self()
 {
-	
+	// Environment *env = Environment::get_instance();
+	// Rect rect {x(),y(),w(),h()};
+	// env->canvas->draw(rect, Color::WHITE);
+
 }
 
 void

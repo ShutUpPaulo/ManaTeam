@@ -675,9 +675,18 @@ Room::update_self(unsigned long)
             if (guarda->health() < 1)
             {
                 Ghost *ghost = new Ghost(this, "ghost", 0, 0, 9999, true, guarda->m_old_type, randint(0,3));
+                string path;
+                if(guarda->m_old_type != "hard")
+                    path = "res/sprites/death_guard1.png";
+                else
+                    path = "res/sprites/death_guard2.png";
+                Item *body = new Item(this, "body", path, 0, 0, 9999, true);
+                place(body, npc->x(), npc->y());
                 remove_child(npc);
+                add_child(body);
                 place(ghost, npc->x(), npc->y());
                 add_child(ghost);
+
                 notify(guardDeathID, "guarda");
             }
         }

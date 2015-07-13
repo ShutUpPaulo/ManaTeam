@@ -273,7 +273,7 @@ Map::update_self(unsigned long elapsed)
         if(last_summon == -1)
             last_summon = elapsed;
 
-        if((elapsed - last_summon > 3000) && m_boss->summoned() == false )
+        if((elapsed - last_summon > 1000) && m_boss->summoned() == false )
         {
             add_child(m_boss);
             m_boss->set_summoned(true);

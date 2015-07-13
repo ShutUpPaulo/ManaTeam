@@ -293,22 +293,22 @@ public:
 
         if(direction() == Player::RIGHT)
         {
-            Sight *visao = new Sight(m_player, "visao", m_player->x()+40, m_player->y(), 100, 40);
+            Sight *visao = new Sight(m_player, "visao", m_player->x()+40, m_player->y() + m_player->h()/4, 100, 40);
             m_player->add_child(visao);
         }
         else if(direction() == Player::LEFT)
         {
-            Sight *visao = new Sight(m_player, "visao", m_player->x() - 200, m_player->y(), 100, 40);
+            Sight *visao = new Sight(m_player, "visao", m_player->x() - 70, m_player->y() + m_player->h()/4, 100, 40);
             m_player->add_child(visao);
         }
         else if(direction() == Player::UP)
         {
-            Sight *visao = new Sight(m_player, "visao", m_player->x(), m_player->y() - 200, 100, 40);
+            Sight *visao = new Sight(m_player, "visao", m_player->x() + m_player->w()/4, m_player->y() - 70, 40, 100);
             m_player->add_child(visao);
         }
         else if(direction() == Player::DOWN)
         {
-            Sight *visao = new Sight(m_player, "visao", m_player->x(), m_player->y() + 40, 100, 40);
+            Sight *visao = new Sight(m_player, "visao", m_player->x()+ m_player->w()/4, m_player->y() + 40, 40, 100);
             m_player->add_child(visao);
         }
     }
