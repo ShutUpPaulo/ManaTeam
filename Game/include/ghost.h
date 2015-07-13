@@ -24,6 +24,7 @@ public:
     void update_vision();
     void walk();
     void update_direction(unsigned long elapsed);
+    void change_animation(string path);
 
     double damage();
 

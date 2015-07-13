@@ -25,6 +25,7 @@ SevenKeys::SevenKeys()
     AudioManagerMusic * music2 = new AudioManagerMusic();
     music2 -> play("res/sounds/musicaMenu.wav", -1);
     lives = 5;
+    sanity = 100;
 }
 
 Level *
@@ -126,7 +127,7 @@ SevenKeys::load_level(const string& id)
     }
     else if (strstr(id.c_str(), "stage"))
     {
-        return new Stage(id, lives);
+        return new Stage(id, lives, &sanity);
     }
     else if (id == "creditos")
     {

@@ -20,6 +20,7 @@ Guard::Guard(Object *parent, ObjectID id, double x, double y, int mass, bool wal
     this->set_w(70);
     this->set_h(70);
     this->set_walkable(walkable);
+    this->set_old_type(t);
     update_vision();
 
     if(m_type == "hard")
@@ -243,11 +244,21 @@ Guard::type()
 {
     return m_type;
 }
+string
+Guard::old_type()
+{
+    return m_old_type;
+}
 
 void
 Guard::set_type(string t)
 {
     m_type = t;
+}
+void
+Guard::set_old_type(string t)
+{
+    m_old_type = t;
 }
 
 void

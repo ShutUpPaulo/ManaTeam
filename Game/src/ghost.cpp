@@ -16,9 +16,8 @@ Ghost::Ghost(Object *parent, ObjectID id, double x, double y, int mass, bool wal
 {
 
     if(t == "hard")
-        m_animation.reset(new Animation("res/sprites/ghost_guarda3_running.png", 0, 0, 70, 70, 8, 120, true));
+       change_animation("res/sprites/ghost_guarda3_running.png");
 
-    cout << id << endl;
     this->set_mass(mass);
     this->set_w(70);
     this->set_h(70);
@@ -126,4 +125,10 @@ Ghost::update_self(unsigned long elapsed)
     update_direction(elapsed);
     m_animation->update(elapsed);
     walk();
+}
+
+void
+Ghost::change_animation(string path)
+{
+    m_animation.reset(new Animation(path, 0, 0, 70, 70, 8, 120, true));
 }

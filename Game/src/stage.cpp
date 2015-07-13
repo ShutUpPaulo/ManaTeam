@@ -20,7 +20,7 @@
 
 ActionID Stage::colisionID = "colisionID()";
 
-Stage::Stage(ObjectID id, int lives)
+Stage::Stage(ObjectID id, int lives, double * sanity)
     : Level(id)
 {
     char aux[10];
@@ -30,9 +30,10 @@ Stage::Stage(ObjectID id, int lives)
     {
         aux[i] = temp[i+5];
     }
+    m_sanity = sanity;
 
     m_num_id = atoi(aux);
-    int quantidade_de_salas = 3 + m_num_id + (m_num_id - 1) * 2;
+    int quantidade_de_salas = (3 + m_num_id + (m_num_id - 1) * 2) *(1 + (1 - *m_sanity/100)*0.7);
 
     cout << "Iniciado Stage "<< m_num_id << ", " << quantidade_de_salas << " salas criadas." << endl;
 
@@ -45,6 +46,7 @@ Stage::Stage(ObjectID id, int lives)
     m_player->set_strength(100.0);
     m_player->set_health(health);
     m_player->set_life(lives);
+    m_player->set_sanity(*sanity);
 
     m_player->add_observer(this);
     m_player->set_key(false);
@@ -231,6 +233,7 @@ Stage::on_message(Object *, MessageID id, Parameters p)
 {
     if (id == Player::hitExitDoorID)
     {
+        *m_sanity = m_player->sanity();
         set_next(p);
         finish();
         return true;
@@ -263,7 +266,11 @@ Stage::on_message(Object *, MessageID id, Parameters p)
         cout << "Voce morreu, parca. Re";
         m_player->die();
         if(m_player->life() > 0)
+        {
             sprintf(new_stage, "death%d", m_num_id);
+            m_player->set_sanity(m_player->sanity()-20);
+            *m_sanity = m_player->sanity();
+        }
         else
             sprintf(new_stage, "gameover");
         m_player->notify(Player::hitExitDoorID, new_stage);

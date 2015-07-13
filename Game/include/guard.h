@@ -32,7 +32,9 @@ public:
     void change_animation(string path);
     
     string type();
+    string old_type();
     void set_type(string t);
+    void set_old_type(string t);
 
     double health();
     double damage();

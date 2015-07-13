@@ -20,7 +20,7 @@ class Map;
 class Stage : public Level
 {
 public:
-    Stage(ObjectID id, int lives);
+    Stage(ObjectID id, int lives, double * sanity);
 
     static ActionID colisionID;
 
@@ -30,6 +30,7 @@ private:
     int m_num_id;
     void draw_self();
     void update_self(unsigned long);
+    double *m_sanity;
 
     bool on_message(Object *object, MessageID id, Parameters p);
 };
