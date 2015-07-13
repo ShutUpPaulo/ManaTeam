@@ -24,6 +24,7 @@ SevenKeys::SevenKeys()
 {
     AudioManagerMusic * music2 = new AudioManagerMusic();
     music2 -> play("res/sounds/musicaMenu.wav", -1);
+    lives = 5;
 }
 
 Level *
@@ -100,10 +101,6 @@ SevenKeys::load_level(const string& id)
         Level *lvl = new Level(id, id);
         lvl->set_dimensions(w, h);
 
-        /*string *str; //mudando uma variavel constante
-        str = (string*)(&id);
-        *str = "stage1";*/
-
         char novo[256];
         sprintf(novo, "%s",id.c_str());
         novo[0] = 's';
@@ -112,15 +109,24 @@ SevenKeys::load_level(const string& id)
         novo[3] = 'g';
         novo[4] = 'e';
 
-        env->canvas->draw(id, w/2, h/2 ,Color::RED);
-
-        cout << novo << endl;
+        lives -= 1;
 
         return new FrontEnd(id, novo, "res/images/fone.png");
     }
+    else if(id == "gameover")
+    {
+        Environment *env = Environment::get_instance();
+
+        double w = env->canvas->w();
+        double h = env->canvas->h();
+
+        Level *lvl = new Level(id, id);
+        lvl->set_dimensions(w, h);
+        return new FrontEnd(id, "title", "res/images/fone.png");
+    }
     else if (strstr(id.c_str(), "stage"))
     {
-        return new Stage(id);
+        return new Stage(id, lives);
     }
     else if (id == "creditos")
     {

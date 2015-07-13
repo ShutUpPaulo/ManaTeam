@@ -30,7 +30,8 @@ public:
         : m_sanity_loss(0), m_player(player), m_direction(Player::LEFT),
         m_moviment(make_pair(0.0, 0.0)), 
         m_key(key), m_strength(0.0), m_health(100.0), m_sanity(100.0), m_stamina(100.0),
-        m_pill(false), m_hweapon(false), m_weapon(nullptr), m_secondary(false), m_damage(50)
+        m_pill(false), m_hweapon(false), m_weapon(nullptr), m_secondary(false), m_damage(50),
+        m_life(5)
     {
     }
 
@@ -288,29 +289,43 @@ public:
             {
                 m_player->remove_child(filho);
             }
-            }
-
-            if(direction() == Player::RIGHT)
-            {
-                Sight *visao = new Sight(m_player, "visao", m_player->x()+40, m_player->y(), 100, 40);
-                m_player->add_child(visao);
-            }
-            else if(direction() == Player::LEFT)
-            {
-                Sight *visao = new Sight(m_player, "visao", m_player->x() - 200, m_player->y(), 100, 40);
-                m_player->add_child(visao);
-            }
-            else if(direction() == Player::UP)
-            {
-                Sight *visao = new Sight(m_player, "visao", m_player->x(), m_player->y() - 200, 100, 40);
-                m_player->add_child(visao);
-            }
-            else if(direction() == Player::DOWN)
-            {
-                Sight *visao = new Sight(m_player, "visao", m_player->x(), m_player->y() + 40, 100, 40);
-                m_player->add_child(visao);
-            }
         }
+
+        if(direction() == Player::RIGHT)
+        {
+            Sight *visao = new Sight(m_player, "visao", m_player->x()+40, m_player->y(), 100, 40);
+            m_player->add_child(visao);
+        }
+        else if(direction() == Player::LEFT)
+        {
+            Sight *visao = new Sight(m_player, "visao", m_player->x() - 200, m_player->y(), 100, 40);
+            m_player->add_child(visao);
+        }
+        else if(direction() == Player::UP)
+        {
+            Sight *visao = new Sight(m_player, "visao", m_player->x(), m_player->y() - 200, 100, 40);
+            m_player->add_child(visao);
+        }
+        else if(direction() == Player::DOWN)
+        {
+            Sight *visao = new Sight(m_player, "visao", m_player->x(), m_player->y() + 40, 100, 40);
+            m_player->add_child(visao);
+        }
+    }
+
+    int life()
+    {
+        return m_life;
+    }
+    void set_life(int life)
+    {
+        m_life = life;
+    }
+    void die()
+    {
+        set_life(life() - 1);
+    }
+
 
 private:
     Player *m_player;
@@ -326,6 +341,7 @@ private:
     Weapon* m_weapon;
     bool m_secondary;
     double m_damage;
+    int m_life;
 };
 
 class Idle : public SpriteState
@@ -1170,4 +1186,19 @@ void
 Player::hit()
 {
     m_impl->hit();
+}
+int
+Player::life()
+{
+    return m_impl->life();
+}
+void
+Player::set_life(int life)
+{
+    m_impl->set_life(life);
+}
+void
+Player::die()
+{
+    m_impl->die();
 }

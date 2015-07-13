@@ -18,6 +18,7 @@ public:
 
 private:
     Level * load_level(const string& id);
+    int lives;
 };
 
 #endif

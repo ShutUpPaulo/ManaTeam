@@ -20,7 +20,7 @@
 
 ActionID Stage::colisionID = "colisionID()";
 
-Stage::Stage(ObjectID id)
+Stage::Stage(ObjectID id, int lives)
     : Level(id)
 {
     char aux[10];
@@ -44,6 +44,7 @@ Stage::Stage(ObjectID id)
     m_player = new Player(this, "player");
     m_player->set_strength(100.0);
     m_player->set_health(health);
+    m_player->set_life(lives);
 
     m_player->add_observer(this);
     m_player->set_key(false);
@@ -259,8 +260,12 @@ Stage::on_message(Object *, MessageID id, Parameters p)
     {
         m_player->set_key(false);
         char new_stage[256];
-        sprintf(new_stage, "death%d", m_num_id);
         cout << "Voce morreu, parca. Re";
+        m_player->die();
+        if(m_player->life() > 0)
+            sprintf(new_stage, "death%d", m_num_id);
+        else
+            sprintf(new_stage, "gameover");
         m_player->notify(Player::hitExitDoorID, new_stage);
         return true;
     }

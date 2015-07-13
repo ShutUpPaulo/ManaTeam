@@ -20,7 +20,7 @@ class Map;
 class Stage : public Level
 {
 public:
-    Stage(ObjectID id);
+    Stage(ObjectID id, int lives);
 
     static ActionID colisionID;
 

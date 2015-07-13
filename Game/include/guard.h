@@ -11,7 +11,7 @@ class Guard : public Object
 {
 public:
 
-	typedef enum { NONE, IDLE, RUNNING } State;
+    typedef enum { NONE, IDLE, RUNNING } State;
     typedef enum { MOVED, STOPPED } Event;
     typedef enum { LEFT = 0, UP = 1, RIGHT = 2, DOWN = 3 } Direction;
 
@@ -20,6 +20,7 @@ public:
 
     static ActionID removeGuardID;
     static ActionID walkID;
+    
 
     Direction direction();
     void get_playerx(int pos_x);
