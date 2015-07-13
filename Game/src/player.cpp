@@ -10,7 +10,7 @@
 #include "core/level.h"
 #include "core/environment.h"
 #include "core/keyboardevent.h"
-#include "pause.h"
+//#include "pause.h"
 #include <string>
 
 ActionID Player::hitExitDoorID { "hitExitDoorID()" };

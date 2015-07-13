@@ -16,10 +16,10 @@ Creditos::Creditos()
 
     set_dimensions(w, h);
     
-    Button *back = new Button(this, "back", "res/interface/menuExtras/voltar.png",
-        "res/interface/menuExtras/Svoltar.png");
-    back->align_to(this, Object::RIGHT, Object::NONE);
-    back->set_y(0);
+    Button *back = new Button(this, "back", "res/interface/menuCreditos/voltar.png",
+        "res/interface/menuCreditos/Svoltar.png");
+    back->align_to(this, Object::RIGHT, Object::RIGHT);
+    back->set_y(520);
 
     back->add_observer(this);
     add_child(back);
@@ -35,7 +35,7 @@ Creditos::draw_self()
     Environment *env = Environment::get_instance();
     env->canvas->clear(Color::WHITE);
 
-    shared_ptr<Texture> image = env->resources_manager->get_texture("res/interface/menuExtras/menuExtras.png");
+    shared_ptr<Texture> image = env->resources_manager->get_texture("res/interface/menuCreditos/telaCreditos.png");
     env->canvas->draw(image.get(), 1, 0);
 }
 

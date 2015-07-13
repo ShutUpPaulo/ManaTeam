@@ -1,15 +1,15 @@
-#ifndef PAUSA_H
-#define PAUSA_H
+#ifndef PAUSE_H
+#define PAUSE_H
 
 #include <core/level.h>
 
 class Image;
 
-class Pausa : public Level
+class Pause : public Level
 {
 public:
-    Pausa();
-    virtual ~Pausa();
+    Pause();
+    virtual ~Pause();
 
     bool on_message(Object *sender, MessageID id, Parameters parameters);
 

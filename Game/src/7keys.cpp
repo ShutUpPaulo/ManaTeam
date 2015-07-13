@@ -15,7 +15,6 @@
 #include "options.h"
 #include "creditos.h"
 #include "extras.h"
-#include "pause.h"
 
 #include <cstring>
 
@@ -85,12 +84,13 @@ SevenKeys::load_level(const string& id)
 
         cout << novo << endl;
 
-        return new FrontEnd(id, novo, "res/images/fone.png");
+        return new FrontEnd(id, novo, "res/interface/transicao/gameOver.png");
     }
     
     else if(strstr(id.c_str(), "death"))
     {
         Environment *env = Environment::get_instance();
+        env->sfx->play("res/sounds/pregameover.wav",1);
         shared_ptr <Font> font = env->resources_manager->get_font("res/fonts/TakaoExGothic.ttf");
         env->canvas->set_font(font);
 
@@ -112,18 +112,18 @@ SevenKeys::load_level(const string& id)
 
         lives -= 1;
 
-        return new FrontEnd(id, novo, "res/images/fone.png");
+        return new FrontEnd(id, novo, "res/interface/transicao/gameOver.png");
     }
     else if(id == "gameover")
     {
         Environment *env = Environment::get_instance();
-
+        env->sfx->play("res/sounds/gameOver.wav",1);
         double w = env->canvas->w();
         double h = env->canvas->h();
 
         Level *lvl = new Level(id, id);
         lvl->set_dimensions(w, h);
-        return new FrontEnd(id, "title", "res/images/fone.png");
+        return new FrontEnd(id, "title", "res/interface/transicao/gameOver.png");
     }
     else if (strstr(id.c_str(), "stage"))
     {

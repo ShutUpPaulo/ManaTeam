@@ -7,8 +7,8 @@
 #include <iostream>
 using namespace std;
 
-Pausa::Pausa()
-    : Level("pausa")
+Pause::Pause()
+    : Level("pause")
 {
     Environment *env = Environment::get_instance();
 
@@ -42,12 +42,12 @@ Pausa::Pausa()
 
 }
 
-Pausa::~Pausa()
+Pause::~Pause()
 {
 }
 
 void
-Pausa::draw_self()
+Pause::draw_self()
 {
     Environment *env = Environment::get_instance();
     env->canvas->clear(Color::WHITE);
@@ -57,7 +57,7 @@ Pausa::draw_self()
 }
 
 bool
-Pausa::on_message(Object *object, MessageID id, Parameters)
+Pause::on_message(Object *object, MessageID id, Parameters)
 {
     Environment *env = Environment::get_instance();
 
