@@ -12,7 +12,7 @@
 \usepackage{multirow} 
 \usepackage{hyperref}
 \makeindex
-
+\usepackage{background}
 \newcommand{\longtableendfoot}{Continuará na próxima página}
 
 \geometry{
@@ -22,6 +22,13 @@ left = 30mm,
 top = 30mm,
 right = 20mm,
 bottom = 20mm
+}
+\backgroundsetup{
+	scale=1,
+	angle=0,
+	opacity=.4,  %% adjust
+	contents={\includegraphics[width=\paperwidth,height=\paperheight]
+	{FundoApresentacao.png}}
 }
 
 \begin{document}
@@ -53,19 +60,58 @@ Inicialmente a proposta de jogo é fundamentada no desenvolvimento para computad
 O público alvo desse jogo serão todas aquelas que se agradam de jogos onde a tensão seja constante e seja necessário avaliar suas ações, pois cada escolha afeta diretamente no desenvolvimento do jogo. No entanto, como a proposta do jogo envolve elementos como fantasmas, sanatório entre outros, é interessante que o público alvo desse jogo tenha uma idade mínima de 16 anos, para maior compreensão da história e objetivos do jogo.
 
 \section{Controles e Interface do Usuário}
-O jogador poderá usar como forma de controle para o jogo o teclado do computador ou ainda controles para computadores, mais conhecidos como joysticks. As funções de cada botão no jogo serão discutidas mais a frente. Basicamente o jogador poderá se locomover em todas as direções, e possuirá de 4 a 6 botões de ação, de acordo com os itens que o mesmo possuir. Segue abaixo exemplos de como seriam as possíveis teclas de comando no teclado e no joystick.
+O jogador poderá usar como forma de controle para o jogo o teclado do computador. A tabela presente nessa seção apresenta as devidas funcionalidades presentes no jogo.
 
-\begin{figure}[ht]
-    \centering
-    \caption{Controle via teclado}
-    \includegraphics[keepaspectratio=true,scale=0.4]{controles.png}
-\end{figure}
+\begin{longtable}{|c|p{10cm}|}
+\caption{Controles do jogo}
+\onehalfspacing
+\\
+\hline
+\multicolumn{2}{|c|}{Lista de comandos do jogo}
+\\
+\hline
+\includegraphics[scale=0.3]{images/kW.png} 
+\includegraphics[scale=0.3]{images/kA.png}
+\includegraphics[scale=0.3]{images/kS.png}
+\includegraphics[scale=0.3]{images/kD.png}
+& Movimentar o personagem na tela
+\\
+\hline
+\includegraphics[scale=0.3]{images/kL.png}
+ & Correr (na direção selecionada)
+\\
+\hline
+\includegraphics[scale=0.3]{images/kP.png}
+& Passar de fase (cheat) 
+\\
+\hline
+\includegraphics[scale=0.3]{images/kC.png}
+& Agachar e andar agachado (pressionando algum botão direcional)
+\\
+\hline
+\includegraphics[scale=0.3]{images/kH.png}
+& Ataque com arma secundária
+\\
+\hline
+\includegraphics[scale=0.3]{images/kJ.png}
+& Ataque principal (No menu: selecionar opção)
+\\
+\hline
+\includegraphics[scale=0.3]{images/kK.png}
+& Interagir com itens (No menu: negar opção)
+\\
+\hline
+\includegraphics[scale=0.3]{images/kQ.png}
+& Usar item 
+\\
+\hline
+\includegraphics[scale=0.3]{images/kE.png}
+& Abre a porta especial (ao possuir a chave) 
+\\
+\hline
+\end{longtable}
 
-\begin{figure}[ht]
-    \centering
-    \caption{Controle via joystick}
-    \includegraphics[keepaspectratio=true,scale=0.7]{joy360.png}
-\end{figure}
+
 
 \section{Contato da Equipe}
 Para entrar em contato com a equipe Mana Team, por favor, envie um e-mail para: manateam.entertainment@gmail.com e responderemos tão logo pudermos.
