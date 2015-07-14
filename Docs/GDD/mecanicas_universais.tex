@@ -10,10 +10,10 @@ Os itens serão gerados de forma aleatória nas salas, logo, ocasionalmente, o j
 \section{Itens coletáveis}
 Alguns itens serão coletáveis pelo personagem, para coletá-los é só seguir os comandos descritos na seção \ref{ctrl} (Controles). Os itens serão os itens de saúde descritos na seção \ref{edmond}, a pílula e o kit médico, no caso.
 
-Além desses itens, o personagem poderá coletar armas que estão descritos no tópico \ref{armas} e papéis que estarão espalhados pelo chão das fases. Esses papéis poderão conter detalhes de suas experiências anteriores e durante o seu aprisionamento.
+Além desses itens, o personagem poderá coletar armas que estão descritos no tópico \ref{armas} que causam diferentes danos aos inimigos.
 
 \subsection{\label{colecionaveis}{Itens colecionáveis}}
-Os papéis que estão espalhados por todas as fases podem conter trechos da história de Edomond e ao ser encontrado, o personagem visualiza ele na tela e então ele é liberado na seção de extras. 
+Não haverão itens colecionáveis no jogo.
 
 \section{Inimigos}
 \subsection{Guardas}
@@ -22,23 +22,23 @@ Os guardas, inimigos mais frequentes do jogo, estarão presentes no jogo desde a
 
 Os guardas estarão munidos de uma lanterna, para investigar as salas em busca de fugitivos. Uma vez que o policial avistar o personagem principal, ele emitirá um grito de ordem e, se o personagem não abater o policial em até dois segundos, o jogo congelará e uma animação mostrando mais policiais chegando para aprisionar o personagem terá início. A tela apaga e, se o personagem ainda tiver alguma vida, a partida é reiniciada e uma vida é descontada do personagem. Caso o personagem tenha perdido a última vida, a tela de \textit{Game Over} aparece.
 
-\subsubsection*{Guarda medroso}
-
-O guarda do tipo "medroso" é o guarda mais fácil de se esquivar, pois ele fica parado onde aparecer e apenas gira ao redor do próprio eixo, sem coragem de desbravar o cenário atrás dos fugitivos. No entanto, se ele avistar o personagem, ele alerta os demais para juntos pegarem um mero prisioneiro.
-
 \subsubsection*{Guarda acomodado}
 
 O guarda acomodado finge que está trabalhando, andando de um lado para o outro, mas sempre dentro de um eixo pré-determinado (Y ou X). Faz o mesmo que o anterior ao encontrar o personagem.
+\begin{figure}[h]
+    \centering
+    \caption{Imagem do guarda acomodado \textit{in game}}
+     \includegraphics[keepaspectratio=true,scale=4]{images/guarda2.png}
+\end{figure}
 
 \subsubsection*{Guarda pertubado}
 
 Completamente assustado com a atual situação, esse guarda anda em todas as direções, completamente sem rumo, em busca de algum fugitivo perdido pelas salas. Além disso, ele anda mais rápido também.
-
-\subsection{Loucos}
-
-Os loucos são.... bem.... loucos. Seres completamente aleatórios que irão te atacar sem te avistarem. São agressivos e barulhentos, o que também pode ser um problema. 
-
-Diferente do policial que ao encontrar o personagem tira uma vida inteira, o louco, ao atacá-lo, tira um percentual da vida. A cada golpe o louco remove 25\% da vida do personagem. Podem estar em qualquer lugar da sala, inclusive escondidos ou disfarçados de itens.
+\begin{figure}[h]
+    \centering
+    \caption{Imagem do guarda pertubado \textit{in game}}
+     \includegraphics[keepaspectratio=true,scale=4]{images/guarda3.png}
+\end{figure}
 
 \subsection{Fantasmas}
 Os fantasmas são divididos em dois grupos, os fantasmas comuns e os especiais, conforme descrito na seção \ref{characters}. Os fantasmas comuns surgirão sempre que o jogador abater um guarda durante o jogo. 
@@ -48,6 +48,20 @@ O fantasma surgirá então na posição que o guarda se encontrava antes de ser 
 Ao permanecer próximo ao jogador, o fantasma reduz a vida do personagem em 10\% a cada contato e 15\% da barra de sanidade.
 
 A medida que a barra de sanidade for reduzida, a velocidade do fantasma é incrementada, o que pode aumentar o número de contatos com o player, reduzindo ainda mais a vida e a sanidade do mesmo, forçando o player a fugir daquela sala o mais rápido possível.
+
+\begin{figure}[h]
+    \centering
+    \caption{Imagem do fantasma do guarda \textit{in game}}
+     \includegraphics[keepaspectratio=true,scale=2]{images/ghostGuarda.png}
+\end{figure}
+
+\subsection{O boss do game}
+O boss do game, o fantasma fuzilado, aparece na fase 5, última fase do jogo antes das fases bônus. Assim que o player pega a chave da quinta sala, um grito é ecoado na sala e ele surge. Ele é mais rápido que os demais fantasmas, causa mais dano que os demais fantasmas e atravessa as salas além de também ser invencível. Ao avistá-lo, o jogador deve usar todas as habilidades e experiências adquiridas até o momento para fugir do fantasma o mais rápido possível rumo à próxima fase.
+\begin{figure}[h]
+    \centering
+    \caption{Imagem do Boss \textit{in game}}
+     \includegraphics[keepaspectratio=true,scale=6]{images/bossf4.png}
+\end{figure}
 
 \section{Progresso do Jogo}
 O progresso do jogo é contínuo e as fases podem ser mais rápidas ou demoradas de acordo com o fator randico dos itens.
