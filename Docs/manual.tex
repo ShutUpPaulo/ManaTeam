@@ -157,4 +157,23 @@ O jogador poderá usar como forma de controle para o jogo o teclado do computado
 \hline
 \end{longtable}
 
+\section{Instalação}
+
+    Como o jogo ainda não possui instalador, o usuário deverá baixar o repositório do jogo \textit{Seven Keys} e compilar o mesmo, atualmente apenas para o sistema operacional linux.
+    \subsection{Repositório}
+        O repositório do jogo pode ser encontrado em: \textbf{https://github.com/ShutUpPaulo/ManaTeam}
+    \subsection {Libs}
+        Para tornar a compilção do jogo possível, o usuário deverá instalar as libraries da engine \textit{SDL2} e da engine \textit{IJE}.
+
+        \subsubsection{SDL2}
+            A seguir estão os comandos necessários para instalar as libraries da engine SDL2 no linux: sudo apt-get install libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev libsdl2-ttf-dev
+
+        \subsubsection{IJE}
+            Para installar a engine IJE, primeiro é necessário baixá-la em seu repositório em \textbf{https://github.com/edsomjr/IJE/tree/7keys}, e, pelo terminal, acessar o a pasta em que foi baixada e rodar os comandos: \textit{make -j8}, depois \textit{sudo make install}.
+
+        \subsubsection{Compilando o jogo Seven Keys}
+            Após instalada as duas engines, basta ir para a pasta ~/Manateam/Game/ e rodar o comando: \textit {make -j8}.
+            O executavel binário estará na pasta \textit{~Manateam/Game/bin/}.
+
+
 \end{document}
